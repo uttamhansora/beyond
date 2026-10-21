@@ -157,7 +157,7 @@ app.set('views', templatePath);
 hbs.registerHelper('dateFormat', require('handlebars-dateformat'));
 
 hbs.registerHelper('url', function(block) {
-    return "http://localhost:5000/"; //just return global variable value
+    return "https://beyond-27r2.onrender.com/"; //just return global variable value
   });
  hbs.registerHelper('if_eq', function(a, b, opts) {
     if(a == b) // Or === depending on your needs
