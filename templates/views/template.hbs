@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #49BDB6;
+            padding: 40px;
+        }
+
+        .certificatebox {
+            background-color: #206583;
+            padding: 20px;
+            border-radius: 20px;
+        }
+
+        .certificatebox h2 {
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            font-size: 42px;
+        }
+
+        .certify {
+            color: #206583;
+            font-weight: bold;
+            margin-top: 50px;
+            font-size: 25px;
+            text-align: center;
+        }
+
+        .username {
+            color: white;
+            font-weight: bold;
+            margin-top: 50px;
+            font-size: 22px;
+            text-align: center;
+        }
+
+        .certificatecomplate p:nth-child(1) {
+            color: #206583;
+            font-size: 18px;
+            margin-right: 40px;
+        }
+
+        .certificatecomplate p:nth-child(2) {
+            color: white;
+            font-size: 18px;
+        }
+
+        .certificatecomplate {
+            display: flex;
+            align-items: center;
+            margin-top: 50px;
+            justify-content: center;
+        }
+        .companylogo{
+            background-color: white;
+            padding: 40px;
+            border-radius: 20px;
+
+        }
+        .logotext{
+            color: #206583;
+            font-size: 25px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .imagelogo{
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div class="certificatebox">
+            <h2>Certificate Of Completion</h2>
+        </div>
+        <p class="certify">This Is to certify that</p>
+        <p class="username">{{username}}</p>
+        <div class="certificatecomplate">
+            <p>SucceessFully Complated</p>
+            <p>{{course}}</p>
+        </div>
+        <div class="companylogo">
+            <div class="imagelogo">
+            <img src="public/files/logo.16f08e0f5fc082902c24.webp" width="125">
+            </div>
+            <p class="logotext">Inaudit Intervertion</p>
+        </div>
+    </section>
+</body>
+
+</html>

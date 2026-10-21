@@ -1,0 +1,199 @@
+{{>adminhead}}
+
+<body>
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+      {{>adminsidebar}}
+      <!-- / Menu -->
+
+      <!-- Layout container -->
+      <div class="layout-page">
+        <!-- Navbar -->
+        <!-- / Navbar -->
+
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="py-3 mb-4">
+              <span class="text-muted fw-light">Dashboard/</span>
+              Create Competency Mapping
+            </h4>
+            <div class="row">
+              <div class="col-xl">
+                <div class="card mb-4">
+                  <div class="card-body">
+                    <form action="/service4store" method="post" enctype="multipart/form-data">
+                      {{#if team._id}}
+                      <input type="hidden" name="id" value="{{team._id}}">
+                      {{/if}}
+                      <div class="mb-3">
+        <label class="form-label" for="section_1_image">Background Image</label>
+        <input type="file" name="bg_image" class="form-control" id="bg_image" />
+        {{#if team.bg_image}}
+        <a href="{{team.bg_image}}" target="_blank" class="openimage">View Image</a>
+        {{/if}}
+    </div>
+     <div class="mb-3">
+                        <label class="form-label"
+                          for="practice_section_1_image">Broucher PDF</label>
+                        <input type="file" name="br_pdf"
+                          class="form-control">
+                        {{#if team.br_pdf}}
+                        <a href="javascript:void(0)"
+                          image-path="{{team.br_pdf}}"
+                          class="openimage">View Image</a>
+                        {{/if}}
+                      </div>
+                      <!-- Basic Fields -->
+                      <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input type="text" name="name" class="form-control" value="{{team.name}}" placeholder="Name" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Main Title</label>
+                        <input type="text" name="main_title" class="form-control" value="{{team.main_title}}" placeholder="Main Title" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Section 1 Title</label>
+                        <input type="text" name="section_1_title" class="form-control" value="{{team.section_1_title}}" placeholder="Section 1 Title" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Section 1 Description</label>
+                        <textarea name="section_1_description" class="form-control" placeholder="Section 1 Description">{{team.section_1_description}}</textarea>
+                      </div>
+
+                      
+                      <!-- Mapping Fields -->
+                      <div class="mb-3">
+                        <label class="form-label">Mapping Title</label>
+                        <input type="text" name="mapping_title" class="form-control" value="{{team.mapping_title}}" placeholder="Mapping Title" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Mapping Description</label>
+                        <textarea name="mapping_description" class="form-control edit1" placeholder="Mapping Description">{{team.mapping_description}}</textarea>
+                      </div>
+
+                      {{#each map as |n|}}
+                      <div class="mb-3">
+                        <label class="form-label">Mapping Use {{n}}</label>
+                        <input type="text" name="mapping_use_{{n}}" class="form-control" value="{{getDynamicValues ../team 'mapping_use' n }}" placeholder="Mapping Use {{n}}" />
+                      </div>
+                      {{/each}}
+
+                      <!-- Methodology Fields -->
+                      <div class="mb-3">
+                        <label class="form-label">Methodology Title</label>
+                        <input type="text" name="methodology_title" class="form-control" value="{{team.methodology_title}}" placeholder="Methodology Title" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Methodology Description</label>
+                        <textarea name="methodology_description" class="form-control" placeholder="Methodology Description">{{team.methodology_description}}</textarea>
+                      </div>
+
+                      <!-- Difference Fields -->
+                      <div class="mb-3">
+                        <label class="form-label">Difference Title</label>
+                        <input type="text" name="diffrence_title" class="form-control" value="{{team.diffrence_title}}" placeholder="Difference Title" />
+                      </div>
+
+                      {{#each diff as |n|}}
+                      <div class="mb-3">
+                        <label class="form-label">Difference Image {{n}}</label>
+                        <input type="file" name="diffrence_image_{{n}}" class="form-control" />
+                        {{#if team.[`diffrence_image_${n}`]}}
+                          <a href="/{{team.[`diffrence_image_${n}`]}}" target="_blank">View Current Image</a>
+                        {{/if}}
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Difference Title {{n}}</label>
+                        <input type="text" name="diffrence_title_{{n}}" class="form-control" value="{{getDynamicValues ../team 'diffrence_title' n }}" placeholder="Difference Title {{n}}" />
+                      </div>
+                      {{/each}}
+
+                      <!-- Mapping Section Fields -->
+                      <div class="mb-3">
+                        <label class="form-label">Mapping Section Title</label>
+                        <input type="text" name="mapping_section_title" class="form-control" value="{{team.mapping_section_title}}" placeholder="Mapping Section Title" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Mapping Section Description</label>
+                        <textarea name="mapping_section_description" class="form-control" placeholder="Mapping Section Description">{{team.mapping_section_description}}</textarea>
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Mapping Section Image</label>
+                        <input type="file" name="mapping_section_image" class="form-control" />
+                        {{#if team.mapping_section_image}}
+                          <a href="/{{team.mapping_section_image}}" target="_blank">View Current Image</a>
+                        {{/if}}
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label">Select Clients</label>
+                        <select id="select2-dropdown" class="form-control" name="clients[]" style="width: 100%;" multiple>
+                          {{#each client}}
+                          
+  <option value="{{this._id}}" data-image="{{url}}{{this.image}}" {{#if (contains this._id ../team.clients)}}selected{{/if}}>{{this.name}}</option>
+                          {{/each}}
+</select>
+                      </div>
+<div class="mb-3">
+                        <label class="form-label">Select Case Study</label>
+                        <select id="select2-dropdowncs" class="form-control" name="service_casestudy[]" style="width: 100%;" multiple>
+                          {{#each casestudy}}
+                          
+  <option value="{{this._id}}" data-image="{{url}}{{this.image}}" {{#if (contains this._id ../team.service_casestudy)}}selected{{/if}}>{{this.name}}</option>
+                          {{/each}}
+</select>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {{>adminfooter}}
+          <script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              ClassicEditor
+                .create(document.querySelector('#editor'), {
+                  autoGrow: false, // Disable auto grow
+                  // Your other CKEditor configuration options...
+                })
+                .then(editor => {
+                  editor.ui.view.editable.element.style.height = '400px';
+                  console.log(editor);
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+
+                ClassicEditor
+                .create(document.querySelector('.edit1'), {
+                  autoGrow: false, // Disable auto grow
+                  // Your other CKEditor configuration options...
+                })
+                .then(editor => {
+                  editor.ui.view.editable.element.style.height = '400px';
+                  console.log(editor);
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+            });
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

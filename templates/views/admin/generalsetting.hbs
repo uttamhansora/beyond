@@ -1,0 +1,41 @@
+{{>adminhead}}
+
+<body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <!-- Menu -->
+
+            {{>adminsidebar}}
+            <!-- / Menu -->
+
+            <!-- Layout container -->
+            <div class="layout-page">
+                <!-- Navbar -->
+
+                <!-- / Navbar -->
+
+                <!-- Content wrapper -->
+                <div class="content-wrapper">
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <h4 class="py-3 mb-4"><span class="text-muted fw-light">Dashboard /</span> General Setting</h4>
+                        <div class="card">
+                            {{!-- <h5 class="card-header">Ajax Sourced Server-side</h5> --}}
+                            <form action="generalsettingstore" method="post">
+                            <div class="card-datatable text-nowrap">
+                                <div class="row p-2">
+                                    <div class="col-sm-6">
+                                        <label>USD Price</label>
+                                        <input type="number" name="usd_price" value="{{team.usd_price}}" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row p-2">
+                                    <div class="col-sm-6">
+                                        <button type="submit" class="btn btn-primary">Save Settings</button>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                    {{>adminfooter}}

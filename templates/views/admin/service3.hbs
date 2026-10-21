@@ -1,0 +1,224 @@
+{{>adminhead}}
+
+<body>
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+
+      {{>adminsidebar}}
+      <!-- / Menu -->
+
+      <!-- Layout container -->
+      <div class="layout-page">
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="py-3 mb-4">
+              <span class="text-muted fw-light">Dashboard/</span> Competency Based Interviewing
+            </h4>
+            <div class="row">
+              <div class="col-xl">
+                <div class="card mb-4">
+                  <div class="card-body">
+                    <form action="/service3store" method="post" enctype="multipart/form-data">
+                      {{#if team._id}}
+                      <input type="hidden" name="id" value="{{team._id}}">
+                      {{/if}}
+<div class="mb-3">
+        <label class="form-label" for="section_1_image">Background Image</label>
+        <input type="file" name="bg_image" class="form-control" id="bg_image" />
+        {{#if team.bg_image}}
+        <a href="{{team.bg_image}}" target="_blank" class="openimage">View Image</a>
+        {{/if}}
+    </div>
+     <div class="mb-3">
+                        <label class="form-label"
+                          for="practice_section_1_image">Broucher PDF</label>
+                        <input type="file" name="br_pdf"
+                          class="form-control">
+                        {{#if team.br_pdf}}
+                        <a href="javascript:void(0)"
+                          image-path="{{team.br_pdf}}"
+                          class="openimage">View Image</a>
+                        {{/if}}
+                      </div>
+                      <!-- Basic Info -->
+                      <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input type="text" name="name" class="form-control" value="{{team.name}}" placeholder="Name">
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Main Title</label>
+                        <input type="text" name="main_title" class="form-control" value="{{team.main_title}}" placeholder="Main Title">
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" name="description" placeholder="Description">{{team.description}}</textarea>
+                      </div>
+
+                      <!-- Section 1 -->
+                      <div class="mb-3">
+                        <label class="form-label">Section 1 Percentage</label>
+                        <input type="text" name="sec_1_percentage" class="form-control" value="{{team.sec_1_percentage}}" placeholder="Section 1 Percentage">
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Section 1 Description</label>
+                        <textarea class="form-control" name="sec_1_description" placeholder="Section 1 Description">{{team.sec_1_description}}</textarea>
+                      </div>
+
+                      <!-- Section 2 -->
+                      <div class="mb-3">
+                        <label class="form-label">Section 2 Percentage</label>
+                        <input type="text" name="sec_2_percentage" class="form-control" value="{{team.sec_2_percentage}}" placeholder="Section 2 Percentage">
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Section 2 Description</label>
+                        <textarea class="form-control" name="sec_2_description" placeholder="Section 2 Description">{{team.sec_2_description}}</textarea>
+                      </div>
+
+                      <!-- Interview Info -->
+                      <div class="mb-3">
+                        <label class="form-label">Interview Title</label>
+                        <input type="text" name="interview_title" class="form-control" value="{{team.interview_title}}" placeholder="Interview Title">
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Interview Description</label>
+                        <textarea class="form-control" name="interview_description" placeholder="Interview Description">{{team.interview_description}}</textarea>
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Interview Title 1</label>
+                        <input type="text" name="interview_1_title" class="form-control" value="{{team.interview_1_title}}" placeholder="Interview Title 1">
+                      </div>
+                      <div class="mb-3">
+  <label class="form-label">Interview Description 1</label>
+  <textarea name="interview_1_description" class="form-control" rows="4" placeholder="Interview Description 1">{{team.interview_1_description}}</textarea>
+</div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Interview Title 2</label>
+                        <input type="text" name="interview_2_title" class="form-control" value="{{team.interview_2_title}}" placeholder="Interview Title 2">
+                      </div>
+                      <div class="mb-3">
+  <label class="form-label">Interview Description 2</label>
+  <textarea name="interview_2_description" class="form-control" rows="4" placeholder="Interview Description 2">{{team.interview_2_description}}</textarea>
+</div>
+
+
+                      <div class="mb-3">
+                        <label class="form-label">Interview Title 3</label>
+                        <input type="text" name="interview_3_title" class="form-control" value="{{team.interview_3_title}}" placeholder="Interview Title 3">
+                      </div>
+                      <div class="mb-3">
+  <label class="form-label">Interview Description 3</label>
+  <textarea name="interview_3_description" class="form-control" rows="4" placeholder="Interview Description 3">{{team.interview_3_description}}</textarea>
+</div>
+
+                      <!-- Edge Info -->
+                      <div class="mb-3">
+                        <label class="form-label">Edge Title</label>
+                        <input type="text" name="edge_title" class="form-control" value="{{team.edge_title}}" placeholder="Edge Title">
+                      </div>
+
+                      {{#each edge as |n|}}
+                        <div class="mb-3">
+                          <label class="form-label">Edge {{n}} Title</label>
+                          <input type="text" name="edge_{{n}}_title" class="form-control" value="{{getDynamicValue ../team 'edge' n 'title'}}" placeholder="Edge {{n}} Title">
+                        </div>
+
+                        <div class="mb-3">
+                          <label class="form-label">Edge {{n}} Image</label>
+                          <input type="file" name="edge_{{n}}_image" class="form-control">
+                          {{#if team.[concat 'edge_' n '_image']}}
+                            <a href="/{{team.[concat 'edge_' n '_image']}}" target="_blank">View Current Image</a>
+                          {{/if}}
+                        </div>
+                      {{/each}}
+
+                      <!-- Proficiency Section -->
+                      <div class="mb-3">
+                        <label class="form-label">Proficiency Section Title</label>
+                        <input type="text" name="profiency_section_title" class="form-control" value="{{team.profiency_section_title}}" placeholder="Proficiency Section Title">
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Proficiency Description</label>
+                        <textarea class="form-control edit1" name="profiency_description" placeholder="Proficiency Description">{{team.profiency_description}}</textarea>
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Proficiency Image</label>
+                        <input type="file" name="profiency_image" class="form-control">
+                        {{#if team.profiency_image}}
+                          <a href="/{{team.profiency_image}}" target="_blank">View Current Image</a>
+                        {{/if}}
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label">Select Clients</label>
+                        <select id="select2-dropdown" class="form-control" name="clients[]" style="width: 100%;" multiple>
+                          {{#each client}}
+                          
+  <option value="{{this._id}}" data-image="{{url}}{{this.image}}" {{#if (contains this._id ../team.clients)}}selected{{/if}}>{{this.name}}</option>
+                          {{/each}}
+</select>
+                      </div>
+
+                       <div class="mb-3">
+                        <label class="form-label">Select Testimonials</label>
+                        <select id="select2-dropdowns" class="form-control" name="testimonials[]" style="width: 100%;" multiple>
+                          {{#each testimonial}}
+                          
+  <option value="{{this._id}}" data-image="{{url}}{{this.image}}" {{#if (contains this._id ../team.testimonials)}}selected{{/if}}>{{this.name}}</option>
+                          {{/each}}
+</select>
+                      </div>
+<div class="mb-3">
+                        <label class="form-label">Select Case Study</label>
+                        <select id="select2-dropdowncs" class="form-control" name="service_casestudy[]" style="width: 100%;" multiple>
+                          {{#each casestudy}}
+                          
+  <option value="{{this._id}}" data-image="{{url}}{{this.image}}" {{#if (contains this._id ../team.service_casestudy)}}selected{{/if}}>{{this.name}}</option>
+                          {{/each}}
+</select>
+                      </div>
+                      <!-- Submit Button -->
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {{>adminfooter}}
+          <script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              ClassicEditor
+                .create(document.querySelector('#editor'))
+                .then(editor => {
+                  editor.ui.view.editable.element.style.height = '400px';
+                  console.log(editor);
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+
+                ClassicEditor
+                .create(document.querySelector('.edit1'))
+                .then(editor => {
+                  editor.ui.view.editable.element.style.height = '400px';
+                  console.log(editor);
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+            });
+          </script>
+</body>

@@ -1,0 +1,182 @@
+{{>adminhead}}
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.1/css/buttons.dataTables.min.css">
+<body>
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      {{>adminsidebar}}
+      <div class="layout-page">
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="py-3 mb-4"><span class="text-muted fw-light">Dashboard /</span> Career Forms</h4>
+
+            <!-- Filters -->
+            <div class="row mb-4">
+              <div class="col-md-3">
+                <label for="status-filter" class="form-label">Status Filter</label>
+                <select id="status-filter" class="form-select">
+                  <option value="">All Status</option>
+                  <option value="Not Set">Not Set</option>
+                  <option value="Considered">Considered</option>
+                  <option value="Rejected">Rejected</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label for="start-date" class="form-label">Start Date</label>
+                <input type="date" id="start-date" class="form-control">
+              </div>
+              <div class="col-md-3">
+                <label for="end-date" class="form-label">End Date</label>
+                <input type="date" id="end-date" class="form-control">
+              </div>
+              <div class="col-md-3 d-flex align-items-end">
+                <button id="apply-filters" class="btn btn-primary w-100">Apply Filters</button>
+              </div>
+            </div>
+
+            <!-- Career Form Table -->
+            <div class="card">
+              <div class="card-datatable text-nowrap" style="padding:1rem">
+                <table id="contact" class="coupons table responsive" data-url="contactdata">
+                  <thead>
+                    <tr>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Number</th>
+                      <th>Email</th>
+                      <th>Apply Date</th>
+                      <th>Message</th>
+                      <th>Status</th>
+                      <th>CV</th>
+                      
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          {{>adminfooter}}
+
+          <!-- DataTables Scripts -->
+          <script src="https://cdn.datatables.net/buttons/2.1.1/js/dataTables.buttons.min.js"></script>
+          <script src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.flash.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+          <script src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.html5.min.js"></script>
+          <script src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.print.min.js"></script>
+
+          <script>
+            $(document).ready(function () {
+              // Initialize DataTable
+              const table = $('#contact').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": function (data, callback, settings) {
+                  const statusFilter = $('#status-filter').val();
+                  const startDate = $('#start-date').val();
+                  const endDate = $('#end-date').val();
+
+                  $.ajax({
+                    url: '/careerforms',
+                    type: 'GET',
+                    data: {
+                      status: statusFilter,
+                      start_date: startDate,
+                      end_date: endDate,
+                      draw: data.draw,
+                      start: data.start,
+                      length: data.length
+                    },
+                    success: function (response) {
+                      callback({
+                        draw: data.draw,
+                        recordsTotal: response.recordsTotal,
+                        recordsFiltered: response.recordsFiltered,
+                        data: response.data
+                      });
+                    }
+                  });
+                },
+                "columns": [
+                  { "data": "f_name" },
+                  { "data": "l_name" },
+                  { "data": "number" },
+                  { "data": "email" },
+                  {
+  "data": "apply_date",
+  "render": function(data) {
+    if (!data) return '';
+    const date = new Date(data);
+    return date.toLocaleDateString(); // You can customize the format
+  }
+},
+                  { "data": "message" },
+                  
+                 {
+  "data": "status",
+  "render": function (data) {
+    if (data === 'Rejected') {
+      return '<span class="badge bg-danger">Rejected</span>';
+    } else if (data === 'Considered') {
+      return '<span class="badge bg-success">Considered</span>';
+    } else {
+      return '<span class="badge bg-secondary">Not Set</span>';
+    }
+  }
+},{
+                    "data": "cv",
+                    "render": function (data, type, row) {
+                      return data ? `<a href="/${data}" class="btn btn-primary" download>Download CV</a>` : '';
+                    }
+                  },
+                  {
+                    "data": "status",
+                    "render": function (data, type, row) {
+                      if (data === 'Not Set') {
+                        return `
+                          <button class="btn btn-warning set-status" data-id="${row._id}" data-status="Considered">Set as Considered</button>
+                          <button class="btn btn-danger set-status" data-id="${row._id}" data-status="Rejected">Set as Rejected</button>
+                        `;
+                      } else {
+                        return '';
+                      }
+                    }
+                  }
+                ],
+                "dom": 'Bfrtip',
+                "buttons": ['csv', 'excel', 'pdf']
+              });
+
+              // Apply Filters
+              $('#apply-filters').click(function () {
+                table.ajax.reload();
+              });
+
+              // Update Status
+              $('#contact').on('click', '.set-status', function () {
+                const formId = $(this).data('id');
+                const status = $(this).data('status');
+
+                $.ajax({
+                  url: '/update-status',
+                  type: 'POST',
+                  data: { id: formId, status: status },
+                  success: function (response) {
+                    if (response.success) {
+                      alert('Status updated successfully!');
+                      table.ajax.reload();
+                    } else {
+                      alert('Error updating status.');
+                    }
+                  }
+                });
+              });
+            });
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

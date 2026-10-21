@@ -1,0 +1,645 @@
+{{> adminhead}}
+
+<body>
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+      {{> adminsidebar}}
+      <!-- / Menu -->
+
+      <!-- Layout container -->
+      <div class="layout-page">
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="py-3 mb-4">
+              <span class="text-muted fw-light">Dashboard/</span>
+              Create Feedback Center
+            </h4>
+            <div class="row">
+              <div class="col-xl">
+                <div class="card mb-4">
+                  <div class="card-body">
+                    <form action="/service6store" method="post"
+                      enctype="multipart/form-data">
+                      {{#if team._id}}
+                      <input type="hidden" name="id" value="{{team._id}}">
+                      {{/if}}
+<div class="mb-3">
+        <label class="form-label" for="section_1_image">Background Image</label>
+        <input type="file" name="bg_image" class="form-control" id="bg_image" />
+        {{#if team.bg_image}}
+        <a href="{{team.bg_image}}" target="_blank" class="openimage">View Image</a>
+        {{/if}}
+    </div>
+                      <!-- Name Field -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="basic-default-fullname">Name</label>
+                        <input type="text" name="name" class="form-control"
+                          value="{{team.name}}" id="basic-default-fullname"
+                          placeholder="Enter Name" oninput="generateSlug()" />
+                      </div>
+
+                      <!-- Main Title Field -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="basic-default-main-title">Main Title</label>
+                        <input type="text" name="main_title"
+                          value="{{team.main_title}}" class="form-control"
+                          id="basic-default-main-title"
+                          placeholder="Enter Main Title" />
+                      </div>
+ <div class="mb-3">
+                        <label class="form-label"
+                          for="practice_section_1_image">Broucher PDF</label>
+                        <input type="file" name="br_pdf"
+                          class="form-control">
+                        {{#if team.br_pdf}}
+                        <a href="javascript:void(0)"
+                          image-path="{{team.br_pdf}}"
+                          class="openimage">View Image</a>
+                        {{/if}}
+                      </div>
+                      <!-- Description Field -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="basic-default-description">Description</label>
+                        <textarea name="description" class="form-control"
+                          id="basic-default-description"
+                          placeholder="Enter Description">{{team.description}}</textarea>
+                      </div>
+
+                      <!-- Slug Field (auto-generated) -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="basic-default-slug">Slug</label>
+                        <input type="text" name="slug" class="form-control"
+                          value="{{team.slug}}" id="basic-default-slug"
+                          readonly />
+                      </div>
+
+                      <!-- Icon Fields -->
+                      <div class="mb-3">
+                        <label class="form-label" for="icon_title">Icon
+                          Title</label>
+                        <input type="text" name="icon_title"
+                          class="form-control" value="{{team.icon_title}}"
+                          id="icon_title" placeholder="Enter Icon Title" />
+                      </div>
+
+                      <!-- Icon 1 Fields -->
+                      <div class="mb-3">
+                        <label class="form-label" for="icon_1_title">Icon 1
+                          Title</label>
+                        <input type="text" name="icon_1_title"
+                          class="form-control" value="{{team.icon_1_title}}"
+                          id="icon_1_title" placeholder="Enter Icon 1 Title" />
+                      </div>
+                      <div class="mb-3">
+  <label class="form-label" for="icon_1_image">Icon 1 Image</label>
+  <input type="file" name="icon_1_image" class="form-control" id="icon_1_image" />
+</div>
+                      <div class="mb-3">
+                        <label class="form-label" for="icon_1_description">Icon
+                          1 Description</label>
+                        <textarea name="icon_1_description" class="form-control"
+                          id="icon_1_description"
+                          placeholder="Enter Icon 1 Description">{{team.icon_1_description}}</textarea>
+                      </div>
+
+                      <!-- Icon 2 Fields -->
+                      <div class="mb-3">
+                        <label class="form-label" for="icon_2_title">Icon 2
+                          Title</label>
+                        <input type="text" name="icon_2_title"
+                          class="form-control" value="{{team.icon_2_title}}"
+                          id="icon_2_title" placeholder="Enter Icon 2 Title" />
+                      </div>
+                     <div class="mb-3">
+  <label class="form-label" for="icon_2_image">Icon 2 Image</label>
+  <input type="file" name="icon_2_image" class="form-control" id="icon_2_image" />
+</div>
+                      <div class="mb-3">
+                        <label class="form-label" for="icon_2_description">Icon
+                          2 Description</label>
+                        <textarea name="icon_2_description" class="form-control"
+                          id="icon_2_description"
+                          placeholder="Enter Icon 2 Description">{{team.icon_2_description}}</textarea>
+                      </div>
+
+                      <!-- Icon 3 Fields -->
+                      <div class="mb-3">
+                        <label class="form-label" for="icon_3_title">Icon 3
+                          Title</label>
+                        <input type="text" name="icon_3_title"
+                          class="form-control" value="{{team.icon_3_title}}"
+                          id="icon_3_title" placeholder="Enter Icon 3 Title" />
+                      </div>
+                     <div class="mb-3">
+  <label class="form-label" for="icon_3_image">Icon 3 Image</label>
+  <input type="file" name="icon_3_image" class="form-control" id="icon_3_image" />
+</div>
+                      <div class="mb-3">
+                        <label class="form-label" for="icon_3_description">Icon
+                          3 Description</label>
+                        <textarea name="icon_3_description" class="form-control"
+                          id="icon_3_description"
+                          placeholder="Enter Icon 3 Description">{{team.icon_3_description}}</textarea>
+                      </div>
+
+                      <div class="mb-3">
+  <label class="form-label" for="icon_4_title">Icon 4 Title</label>
+  <input type="text" name="icon_4_title" class="form-control" value="{{team.icon_4_title}}" id="icon_4_title" placeholder="Enter Icon 4 Title" />
+</div>
+
+<!-- Icon 4 Image Upload Field -->
+<div class="mb-3">
+  <label class="form-label" for="icon_4_image">Icon 4 Image</label>
+  <input type="file" name="icon_4_image" class="form-control" id="icon_4_image" />
+</div>
+
+<!-- Icon 4 Description Field -->
+<div class="mb-3">
+  <label class="form-label" for="icon_4_description">Icon 4 Description</label>
+  <textarea name="icon_4_description" class="form-control" id="icon_4_description" placeholder="Enter Icon 4 Description">{{team.icon_4_description}}</textarea>
+</div>
+
+                      <!-- Overview Fields -->
+                      <div class="mb-3">
+                        <label class="form-label" for="overview_title">Overview
+                          Title</label>
+                        <input type="text" name="overview_title"
+                          class="form-control" value="{{team.overview_title}}"
+                          id="overview_title"
+                          placeholder="Enter Overview Title" />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label" for="overview_image">Overview
+                          Image</label>
+                        <input type="file" name="overview_image"
+                          class="form-control"
+                          id="overview_image"
+                          placeholder="Enter Overview Image URL" />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="overview_description">Overview
+                          Description</label>
+                        <textarea name="overview_description"
+                          class="form-control" id="overview_description"
+                          placeholder="Enter Overview Description">{{team.overview_description}}</textarea>
+                      </div>
+
+                      <!-- Component Fields -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="component_title">Component Title</label>
+                        <input type="text" name="component_title"
+                          class="form-control" value="{{team.component_title}}"
+                          id="component_title"
+                          placeholder="Enter Component Title" />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="component_description">Component
+                          Description</label>
+                        <textarea name="component_description"
+                          class="form-control" id="component_description"
+                          placeholder="Enter Component Description">{{team.component_description}}</textarea>
+                      </div>
+
+                      <!-- Component 1 Fields -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="component_1_title">Component 1 Title</label>
+                        <input type="text" name="component_1_title"
+                          class="form-control"
+                          value="{{team.component_1_title}}"
+                          id="component_1_title"
+                          placeholder="Enter Component 1 Title" />
+                      </div>
+                      <div class="mb-3">
+  <label class="form-label" for="component_1_image">Component 1 Image</label>
+  <input type="file" name="component_1_image" class="form-control" id="component_1_image" />
+</div>
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="component_1_description">Component 1
+                          Description</label>
+                        <textarea name="component_1_description"
+                          class="form-control" id="component_1_description"
+                          placeholder="Enter Component 1 Description">{{team.component_1_description}}</textarea>
+                      </div>
+
+                      <!-- Component 2 Fields -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="component_2_title">Component 2 Title</label>
+                        <input type="text" name="component_2_title"
+                          class="form-control"
+                          value="{{team.component_2_title}}"
+                          id="component_2_title"
+                          placeholder="Enter Component 2 Title" />
+                      </div>
+                      <div class="mb-3">
+  <label class="form-label" for="component_2_image">Component 2 Image</label>
+  <input type="file" name="component_2_image" class="form-control" id="component_2_image" />
+</div>
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="component_2_description">Component 2
+                          Description</label>
+                        <textarea name="component_2_description"
+                          class="form-control" id="component_2_description"
+                          placeholder="Enter Component 2 Description">{{team.component_2_description}}</textarea>
+                      </div>
+
+                      <!-- Component 3 Fields -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="component_3_title">Component 3 Title</label>
+                        <input type="text" name="component_3_title"
+                          class="form-control"
+                          value="{{team.component_3_title}}"
+                          id="component_3_title"
+                          placeholder="Enter Component 3 Title" />
+                      </div>
+                     <div class="mb-3">
+  <label class="form-label" for="component_3_image">Component 3 Image</label>
+  <input type="file" name="component_3_image" class="form-control" id="component_3_image" />
+</div>
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="component_3_description">Component 3
+                          Description</label>
+                        <textarea name="component_3_description"
+                          class="form-control" id="component_3_description"
+                          placeholder="Enter Component 3 Description">{{team.component_3_description}}</textarea>
+                      </div>
+
+                      <!-- Component 4 Fields -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="component_4_title">Component 4 Title</label>
+                        <input type="text" name="component_4_title"
+                          class="form-control"
+                          value="{{team.component_4_title}}"
+                          id="component_4_title"
+                          placeholder="Enter Component 4 Title" />
+                      </div>
+                     <div class="mb-3">
+  <label class="form-label" for="component_4_image">Component 4 Image</label>
+  <input type="file" name="component_4_image" class="form-control" id="component_4_image" />
+</div>
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="component_4_description">Component 4
+                          Description</label>
+                        <textarea name="component_4_description"
+                          class="form-control" id="component_4_description"
+                          placeholder="Enter Component 4 Description">{{team.component_4_description}}</textarea>
+                      </div>
+
+                      <!-- Feedback Title Field -->
+                      <div class="mb-3">
+                        <label class="form-label" for="feedback_title">Feedback
+                          Title</label>
+                        <input type="text" name="feedback_title"
+                          class="form-control" value="{{team.feedback_title}}"
+                          id="feedback_title"
+                          placeholder="Enter Feedback Title" />
+                      </div>
+
+                      <!-- Overall Title Field -->
+                      <div class="mb-3">
+                        <label class="form-label" for="overall_title">Overall
+                          Title</label>
+                        <input type="text" name="overall_title"
+                          class="form-control" value="{{team.overall_title}}"
+                          id="overall_title"
+                          placeholder="Enter Overall Title" />
+                      </div>
+
+                      <!-- Sales Personal Title Field -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="sales_personal_title">Sales Personal
+                          Title</label>
+                        <input type="text" name="sales_personal_title"
+                          class="form-control"
+                          value="{{team.sales_personal_title}}"
+                          id="sales_personal_title"
+                          placeholder="Enter Sales Personal Title" />
+                      </div>
+
+                      <!-- Service Personal Title Field -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="service_personal_title">Service Personal
+                          Title</label>
+                        <input type="text" name="service_personal_title"
+                          class="form-control"
+                          value="{{team.service_personal_title}}"
+                          id="service_personal_title"
+                          placeholder="Enter Service Personal Title" />
+                      </div>
+
+                      <!-- Overall Best Program Title and Percentage Fields -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="overall_best_program_title">Overall Best Program
+                          Title</label>
+                        <input type="text" name="overall_best_program_title"
+                          class="form-control"
+                          value="{{team.overall_best_program_title}}"
+                          id="overall_best_program_title"
+                          placeholder="Enter Overall Best Program Title" />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="overall_best_program_percentage">Overall Best
+                          Program Percentage</label>
+                        <input type="text"
+                          name="overall_best_program_percentage"
+                          class="form-control"
+                          value="{{team.overall_best_program_percentage}}"
+                          id="overall_best_program_percentage"
+                          placeholder="Enter Overall Best Program Percentage" />
+                      </div>
+
+                      <!-- Overall Outstanding Title and Percentage Fields -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="overall_outstanding_title">Overall Outstanding
+                          Title</label>
+                        <input type="text" name="overall_outstanding_title"
+                          class="form-control"
+                          value="{{team.overall_outstanding_title}}"
+                          id="overall_outstanding_title"
+                          placeholder="Enter Overall Outstanding Title" />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="overall_outstanding_percentage">Overall
+                          Outstanding Percentage</label>
+                        <input type="text" name="overall_outstanding_percentage"
+                          class="form-control"
+                          value="{{team.overall_outstanding_percentage}}"
+                          id="overall_outstanding_percentage"
+                          placeholder="Enter Overall Outstanding Percentage" />
+                      </div>
+
+                      <!-- Overall Very Good Title and Percentage Fields -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="overall_very_good_title">Overall Very Good
+                          Title</label>
+                        <input type="text" name="overall_very_good_title"
+                          class="form-control"
+                          value="{{team.overall_very_good_title}}"
+                          id="overall_very_good_title"
+                          placeholder="Enter Overall Very Good Title" />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="overall_very_good_percentage">Overall Very Good
+                          Percentage</label>
+                        <input type="text" name="overall_very_good_percentage"
+                          class="form-control"
+                          value="{{team.overall_very_good_percentage}}"
+                          id="overall_very_good_percentage"
+                          placeholder="Enter Overall Very Good Percentage" />
+                      </div>
+
+                      <!-- Overall Good Title and Percentage Fields -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="overall_good_title">Overall Good Title</label>
+                        <input type="text" name="overall_good_title"
+                          class="form-control"
+                          value="{{team.overall_good_title}}"
+                          id="overall_good_title"
+                          placeholder="Enter Overall Good Title" />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="overall_good_percentage">Overall Good
+                          Percentage</label>
+                        <input type="text" name="overall_good_percentage"
+                          class="form-control"
+                          value="{{team.overall_good_percentage}}"
+                          id="overall_good_percentage"
+                          placeholder="Enter Overall Good Percentage" />
+                      </div>
+
+                      <!-- Sales Best Program Title and Percentage Fields -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="sales_best_program_title">Sales Best Program
+                          Title</label>
+                        <input type="text" name="sales_best_program_title"
+                          class="form-control"
+                          value="{{team.sales_best_program_title}}"
+                          id="sales_best_program_title"
+                          placeholder="Enter Sales Best Program Title" />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="sales_best_program_percentage">Sales Best Program
+                          Percentage</label>
+                        <input type="text" name="sales_best_program_percentage"
+                          class="form-control"
+                          value="{{team.sales_best_program_percentage}}"
+                          id="sales_best_program_percentage"
+                          placeholder="Enter Sales Best Program Percentage" />
+                      </div>
+
+                      <!-- Sales Outstanding Title and Percentage Fields -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="sales_outstanding_title">Sales Outstanding
+                          Title</label>
+                        <input type="text" name="sales_outstanding_title"
+                          class="form-control"
+                          value="{{team.sales_outstanding_title}}"
+                          id="sales_outstanding_title"
+                          placeholder="Enter Sales Outstanding Title" />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="sales_outstanding_percentage">Sales Outstanding
+                          Percentage</label>
+                        <input type="text" name="sales_outstanding_percentage"
+                          class="form-control"
+                          value="{{team.sales_outstanding_percentage}}"
+                          id="sales_outstanding_percentage"
+                          placeholder="Enter Sales Outstanding Percentage" />
+                      </div>
+
+                      <!-- Sales Very Good Title and Percentage Fields -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="sales_very_good_title">Sales Very Good
+                          Title</label>
+                        <input type="text" name="sales_very_good_title"
+                          class="form-control"
+                          value="{{team.sales_very_good_title}}"
+                          id="sales_very_good_title"
+                          placeholder="Enter Sales Very Good Title" />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="sales_very_good_percentage">Sales Very Good
+                          Percentage</label>
+                        <input type="text" name="sales_very_good_percentage"
+                          class="form-control"
+                          value="{{team.sales_very_good_percentage}}"
+                          id="sales_very_good_percentage"
+                          placeholder="Enter Sales Very Good Percentage" />
+                      </div>
+
+                      <!-- Sales Good Title and Percentage Fields -->
+                      <div class="mb-3">
+                        <label class="form-label" for="sales_good_title">Sales
+                          Good Title</label>
+                        <input type="text" name="sales_good_title"
+                          class="form-control" value="{{team.sales_good_title}}"
+                          id="sales_good_title"
+                          placeholder="Enter Sales Good Title" />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="sales_good_percentage">Sales Good
+                          Percentage</label>
+                        <input type="text" name="sales_good_percentage"
+                          class="form-control"
+                          value="{{team.sales_good_percentage}}"
+                          id="sales_good_percentage"
+                          placeholder="Enter Sales Good Percentage" />
+                      </div>
+
+                      <!-- Service Best Program Title and Percentage Fields -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="service_best_program_title">Service Best Program
+                          Title</label>
+                        <input type="text" name="service_best_program_title"
+                          class="form-control"
+                          value="{{team.service_best_program_title}}"
+                          id="service_best_program_title"
+                          placeholder="Enter Service Best Program Title" />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="service_best_program_percentage">Service Best
+                          Program Percentage</label>
+                        <input type="text"
+                          name="service_best_program_percentage"
+                          class="form-control"
+                          value="{{team.service_best_program_percentage}}"
+                          id="service_best_program_percentage"
+                          placeholder="Enter Service Best Program Percentage" />
+                      </div>
+
+                      <!-- Service Outstanding Title and Percentage Fields -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="service_outstanding_title">Service Outstanding
+                          Title</label>
+                        <input type="text" name="service_outstanding_title"
+                          class="form-control"
+                          value="{{team.service_outstanding_title}}"
+                          id="service_outstanding_title"
+                          placeholder="Enter Service Outstanding Title" />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="service_outstanding_percentage">Service
+                          Outstanding Percentage</label>
+                        <input type="text" name="service_outstanding_percentage"
+                          class="form-control"
+                          value="{{team.service_outstanding_percentage}}"
+                          id="service_outstanding_percentage"
+                          placeholder="Enter Service Outstanding Percentage" />
+                      </div>
+
+                      <!-- Service Good Title and Percentage Fields -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="service_good_title">Service Good Title</label>
+                        <input type="text" name="service_good_title"
+                          class="form-control"
+                          value="{{team.service_good_title}}"
+                          id="service_good_title"
+                          placeholder="Enter Service Good Title" />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="service_good_percentage">Service Good
+                          Percentage</label>
+                        <input type="text" name="service_good_percentage"
+                          class="form-control"
+                          value="{{team.service_good_percentage}}"
+                          id="service_good_percentage"
+                          placeholder="Enter Service Good Percentage" />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label">Select Clients</label>
+                        <select id="select2-dropdown" class="form-control" name="clients[]" style="width: 100%;" multiple>
+                          {{#each client}}
+                          
+  <option value="{{this._id}}" data-image="{{url}}{{this.image}}" {{#if (contains this._id ../team.clients)}}selected{{/if}}>{{this.name}}</option>
+                          {{/each}}
+</select>
+                      </div>
+                       <div class="mb-3">
+                        <label class="form-label">Select Testimonials</label>
+                        <select id="select2-dropdowns" class="form-control" name="testimonials[]" style="width: 100%;" multiple>
+                          {{#each testimonial}}
+                          
+  <option value="{{this._id}}" data-image="{{url}}{{this.image}}" {{#if (contains this._id ../team.testimonials)}}selected{{/if}}>{{this.name}}</option>
+                          {{/each}}
+</select>
+                      </div>
+<div class="mb-3">
+                        <label class="form-label">Select Case Study</label>
+                        <select id="select2-dropdowncs" class="form-control" name="service_casestudy[]" style="width: 100%;" multiple>
+                          {{#each casestudy}}
+                          
+  <option value="{{this._id}}" data-image="{{url}}{{this.image}}" {{#if (contains this._id ../team.service_casestudy)}}selected{{/if}}>{{this.name}}</option>
+                          {{/each}}
+</select>
+                      </div>
+                      <!-- Repeat for Component 3 and Component 4 accordingly -->
+
+                      <!-- Submit Button -->
+                      <button type="submit"
+                        class="btn btn-primary">Save</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {{> adminfooter}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript for auto-generating the slug -->
+  <script>
+    function generateSlug() {
+      var name = document.querySelector('input[name="name"]').value;
+      var slugField = document.querySelector('input[name="slug"]');
+      
+      // Generate slug by converting name to lowercase and replacing spaces with hyphens
+      var slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+      
+      // Set the generated slug in the slug field
+      slugField.value = slug;
+    }
+  </script>
+</body>

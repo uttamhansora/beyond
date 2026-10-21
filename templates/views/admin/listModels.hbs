@@ -1,0 +1,68 @@
+{{>adminhead}}
+
+<body>
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+      {{>adminsidebar}}
+      <!-- / Menu -->
+
+      <!-- Layout container -->
+      <div class="layout-page">
+        <!-- Navbar -->
+
+        <!-- / Navbar -->
+
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="py-3 mb-4"><span class="text-muted fw-light">Dashboard /</span> List of Created Models</h4>
+            <button type="button" class="btn btn-primary waves-effect waves-light mb-2"
+              onclick="redirectToUrl('{{url}}')">Create New Model</button>
+            <!-- Ajax Sourced Server-side -->
+            <div class="card">
+              {{!-- <h5 class="card-header">List of Created Models</h5> --}}
+
+              <div class="card-datatable text-nowrap">
+                <table class="table responsive" id="models-table">
+                  <thead>
+                    <tr>
+                      <th>Model Name</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#if models}}
+                      {{#each models}}
+                        <tr>
+                          <td>{{this.modelName}}</td>
+                          <td>
+                            <a href="/dynamic/{{this.modelName}}/add" class="btn btn-sm btn-primary">Add {{this.modelName}}</a> |
+                            <a href="/dynamic/{{this.modelName}}" class="btn btn-sm btn-secondary">View {{this.modelName}}</a>
+                          </td>
+                        </tr>
+                      {{/each}}
+                    {{else}}
+                      <tr>
+                        <td colspan="2">No models found.</td>
+                      </tr>
+                    {{/if}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          {{>adminfooter}}
+
+          <script>
+            function redirectToUrl(url) {
+              window.location.href = url + 'createmodel';
+            }
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

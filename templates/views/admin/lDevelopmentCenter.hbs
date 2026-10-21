@@ -1,0 +1,56 @@
+{{> adminhead}}
+
+<body>
+  <div class="layout-wrapper">
+    {{> adminsidebar}}
+    <div class="layout-page">
+      <div class="content-wrapper">
+        <div class="container-xxl flex-grow-1 container-p-y">
+          <h4 class="py-3 mb-4"><span class="text-muted fw-light">Dashboard /</span> LeaderShip Development Center</h4>
+          <button type="button" class="btn btn-primary" onclick="redirectToUrl('{{url}}ldevelopmentCenternew')">Add Entry</button>
+          <div class="card">
+            <div class="card-datatable text-nowrap">
+              <table class="table responsive" id="lDevelopmentCenter-table">
+                <thead>
+                  <tr>
+                    <th>Heading</th>
+                    <th>Title</th>
+                    <th>Image Title</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each entries}}
+                    <tr>
+                      <td>{{this.heading}}</td>
+                      <td>{{this.title}}</td>
+                      <td>{{this.image_title}}</td>
+                      <td>
+                        <button class="btn btn-sm btn-primary" onclick="editEntry('{{this._id}}')">Edit</button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteEntry('{{this._id}}')">Delete</button>
+                      </td>
+                    </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        {{> adminfooter}}
+      </div>
+    </div>
+  </div>
+  <script>
+    function redirectToUrl(url) {
+      window.location.href = url;
+    }
+    function editEntry(id) {
+      window.location.href = '/ldevelopmentCenternew/' + id;
+    }
+    function deleteEntry(id) {
+      if (confirm('Are you sure you want to delete this entry?')) {
+        window.location.href = '/lDevelopmentCenter/delete/' + id;
+      }
+    }
+  </script>
+</body>

@@ -1,0 +1,265 @@
+{{> adminhead}}
+<link rel="stylesheet" href="../../assets/vendor/libs/node-waves/node-waves.css" />
+<link rel="stylesheet" href="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+<link rel="stylesheet" href="../../assets/vendor/libs/typeahead-js/typeahead.css" />
+<link rel="stylesheet" href="../../assets/vendor/libs/bs-stepper/bs-stepper.css" />
+<link rel="stylesheet" href="../../assets/vendor/libs/bootstrap-select/bootstrap-select.css" />
+<link rel="stylesheet" href="../../assets/vendor/libs/select2/select2.css" />
+<link rel="stylesheet" href="../../assets/vendor/libs/@form-validation/form-validation.css" />
+
+<body>
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            {{> adminsidebar}}
+            <div class="layout-page">
+                <div class="content-wrapper">
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <h4 class="py-3 mb-4"><span class="text-muted fw-light">Dashboard /</span> Contact Page Settings
+                        </h4>
+                        <div class="card" style="">
+                            <div class="card-body">
+                                <form id="couponForm"  method="POST" action="/storecontactpage"
+                                    >
+                                    <input type="hidden" name="id" value="68c2c196c12a069c611f87fb">
+                                   
+                             <div class="row g-3">
+  <!-- Convertion Title -->
+  <div class="col-md-6">
+    <label class="form-label" for="convertion_title">Convertion Title</label>
+    <input type="text" name="convertion_title" id="convertion_title"
+           class="form-control"
+           placeholder="Enter Convertion Title"
+           value="{{about.convertion_title}}">
+  </div>
+
+  <!-- Address Title -->
+  <div class="col-md-6">
+    <label class="form-label" for="address_title">Address Title</label>
+    <input type="text" name="address_title" id="address_title"
+           class="form-control"
+           placeholder="Enter Address Title"
+           value="{{about.address_title}}">
+  </div>
+
+  <!-- Address -->
+  <div class="col-md-6">
+    <label class="form-label" for="address">Address</label>
+    <textarea name="address" id="address" class="form-control editor2"
+              placeholder="Enter Address">{{about.address}}</textarea>
+  </div>
+
+  <!-- Contact -->
+  <div class="col-md-6">
+    <label class="form-label" for="contact">Contact</label>
+    <input type="text" name="contact" id="contact"
+           class="form-control"
+           placeholder="Enter Contact Number"
+           value="{{about.contact}}">
+  </div>
+
+  <!-- Board -->
+  <div class="col-md-6">
+    <label class="form-label" for="board">Board</label>
+    <input type="text" name="board" id="board"
+           class="form-control"
+           placeholder="Enter Board Info"
+           value="{{about.board}}">
+  </div>
+
+  <!-- Email -->
+  <div class="col-md-6">
+    <label class="form-label" for="email">Email</label>
+    <input type="email" name="email" id="email"
+           class="form-control"
+           placeholder="Enter Email"
+           value="{{about.email}}">
+  </div>
+
+  <!-- Description -->
+  <div class="col-md-12">
+    <label class="form-label" for="description">Description</label>
+    <textarea name="description" id="description" class="form-control"
+              placeholder="Enter Description">{{about.description}}</textarea>
+  </div>
+
+  <!-- YouTube Link -->
+  <div class="col-md-6">
+    <label class="form-label" for="youtube_link">YouTube Link</label>
+    <input type="text" name="youtube_link" id="youtube_link"
+           class="form-control"
+           placeholder="Enter YouTube Link"
+           value="{{about.youtube_link}}">
+  </div>
+
+  <!-- LinkedIn Link -->
+  <div class="col-md-6">
+    <label class="form-label" for="linkedin_link">LinkedIn Link</label>
+    <input type="text" name="linkedin_link" id="linkedin_link"
+           class="form-control"
+           placeholder="Enter LinkedIn Link"
+           value="{{about.linkedin_link}}">
+  </div>
+</div>
+
+
+
+                                    <div class="mt-3">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <a href="/dashboard" class="btn btn-danger">Cancel</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+    {{> adminfooter}}
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            ClassicEditor
+                .create(document.querySelector('.editor1'), {
+                    autoGrow: false, // Disable auto grow
+                    // Your other CKEditor configuration options...
+                })
+                .then(editor => {
+                    editor.ui.view.editable.element.style.height = '400px';
+                    console.log(editor);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            ClassicEditor
+                .create(document.querySelector('.editor2'), {
+                    autoGrow: false, // Disable auto grow
+                    // Your other CKEditor configuration options...
+                })
+                .then(editor => {
+                    editor.ui.view.editable.element.style.height = '400px';
+                    console.log(editor);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            ClassicEditor
+                .create(document.querySelector('.editor3'), {
+                    autoGrow: false, // Disable auto grow
+                    // Your other CKEditor configuration options...
+                })
+                .then(editor => {
+                    editor.ui.view.editable.element.style.height = '400px';
+                    console.log(editor);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+    </script>
+    <script>
+        $('#refresh').click(function () {
+            $.ajax({
+                url: '/testimonial',
+                method: 'GET',
+                success: function (data) {
+                    var select = $('#testimonials');
+                    select.empty();
+                    select.append('<option label=" "></option>');
+                    $.each(data, function (index, category) {
+                        select.append('<option value="' + category._id + '">' + category.t_name + '</option>');
+                    });
+                }
+            });
+        });
+
+        $('#createCategory').click(function () {
+            $('#categoryModal').modal('show');
+        });
+
+        $('#saveJourneyButton').click(function () {
+            // Create a new FormData object to store form data
+            var t_name = $("#t_name").val()
+            var t_description = $("#t_description").val()
+
+            // Make an AJAX request to the server
+            $.ajax({
+                url: '/testimonial/create', // Update with your server route
+                method: 'POST',
+                data: { t_description: t_description, t_name: t_name },
+
+                success: function (response) {
+                    console.log('Testimonial created successfully:', response);
+                    $('#categoryModal').modal('hide'); // Close modal after success
+                    $('#refresh').click(); // Trigger a refresh of UI elements
+                    // Optionally update or refresh UI elements as needed
+                },
+                error: function (err) {
+                    console.error('Error creating testimonial:', err);
+                    // Handle error responses from the server
+                }
+            });
+        });
+        $(".delete-btn").click(function () {
+            var filename = $(this).data('filename');
+            var fieldname = $(this).data('fieldname');
+            var modelname = 'Home';
+            $.ajax({
+                url: "/deleteimage",
+                method: "POST",
+                data: { filename: filename, fieldname: fieldname, modelname: modelname },
+                success: function (res) {
+                    location.reload();
+                }
+            })
+        })
+    </script>
+    <script src="../../assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="../../assets/vendor/libs/popper/popper.js"></script>
+    <script src="../../assets/vendor/js/bootstrap.js"></script>
+    <script src="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="../../assets/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="../../assets/vendor/libs/bs-stepper/bs-stepper.js"></script>
+    <script src="../../assets/vendor/libs/bootstrap-select/bootstrap-select.js"></script>
+    <script src="../../assets/vendor/libs/select2/select2.js"></script>
+    <script src="../../assets/vendor/libs/@form-validation/form-validation.js"></script>
+    <script src="../../assets/js/main.js"></script>
+
+
+
+</body>
+
+</html>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const valuesContainer = document.getElementById("values-container");
+        const addValueBtn = document.getElementById("add-value");
+
+        addValueBtn.addEventListener("click", function () {
+            const newInputDiv = document.createElement("div");
+            newInputDiv.classList.add("value-input", "d-flex", "mt-2");
+            newInputDiv.innerHTML = `
+                <input type="text" name="values[]" class="form-control" placeholder="Enter Value" />
+                <button type="button" class="btn btn-danger remove-value ms-2">Remove</button>
+            `;
+            valuesContainer.appendChild(newInputDiv);
+        });
+
+        valuesContainer.addEventListener("click", function (e) {
+            if (e.target.classList.contains("remove-value")) {
+                e.target.parentElement.remove();
+            }
+        });
+    });
+</script>

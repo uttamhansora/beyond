@@ -1,0 +1,204 @@
+
+            <!-- Footer -->
+          
+         
+            <footer class="content-footer footer bg-footer-theme">
+              <div class="container-xxl">
+                <div
+                  class="footer-container d-flex align-items-center justify-content-between py-2 flex-md-row flex-column">
+                  <div>
+                    ©
+                    <script>
+                      document.write(new Date().getFullYear());
+                    </script>
+                    , made with ❤️ by
+                    <a href="https://supagrow.in" target="_blank" class="footer-link text-primary fw-medium"
+                      >Supagrow</a
+                    >
+                  </div>
+                  <div class="d-none d-lg-inline-block">
+                    
+                  </div>
+                </div>
+              </div>
+            </footer>
+            <!-- / Footer -->
+
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+      </div>
+
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
+
+      <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+      <div class="drag-target"></div>
+    </div>
+    <!-- / Layout wrapper -->
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Image</h5>
+
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close">
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <img src="" class="imageappend" width="100%">
+      </div>
+
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div aria-live="polite" aria-atomic="true" style="position: relative; z-index: 2000;">
+    <div id="toastContainer" style="position: fixed; top: 10px; right: 10px;"></div>
+</div>
+    <script src="../../assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="../../assets/vendor/libs/popper/popper.js"></script>
+    <script src="../../assets/vendor/js/bootstrap.js"></script>
+    <script src="../../assets/vendor/libs/node-waves/node-waves.js"></script>
+    <script src="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="../../assets/vendor/libs/hammer/hammer.js"></script>
+    <script src="../../assets/vendor/libs/i18n/i18n.js"></script>
+    <script src="../../assets/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="../../assets/vendor/js/menu.js"></script>
+
+    <!-- endbuild -->
+<script src="../../assets/vendor/libs/bootstrap-select/bootstrap-select.js"></script>
+    <script src="../../assets/vendor/libs/select2/select2.js"></script>
+    <!-- Vendors JS -->
+    <script src="../../assets/vendor/libs/apex-charts/apexcharts.js"></script>
+    <script src="../../assets/vendor/libs/swiper/swiper.js"></script>
+    <script src="../../assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+
+    <!-- Main JS -->
+    <script src="../../assets/js/main.js"></script>
+
+    <!-- Page JS -->
+    <script src="../../assets/js/dashboards-analytics.js"></script>
+     <!-- Vendors JS -->
+    <script src="../../assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+    <!-- Flat Picker -->
+    <script src="../../assets/vendor/libs/moment/moment.js"></script>
+    <script src="../../assets/vendor/libs/flatpickr/flatpickr.js"></script>
+
+    <!-- Main JS -->
+    <script src="../../assets/js/form-layouts.js"></script>
+
+    <!-- Page JS -->
+    <script src="../../assets/js/tables-datatables-advanced.js"></script>
+  </body>
+</html>
+<script>
+function showToast(message, type = 'success') {
+        const toastHTML = `
+            <div class="toast align-items-center text-bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        `;
+
+        // Append the toast to the container
+        document.getElementById('toastContainer').insertAdjacentHTML('beforeend', toastHTML);
+
+        // Initialize and show toast
+        const toastEl = document.querySelector('#toastContainer .toast:last-child');
+        const toast = new bootstrap.Toast(toastEl);
+        toast.show();
+
+        // Remove the toast after it's hidden
+        toastEl.addEventListener('hidden.bs.toast', function () {
+            toastEl.remove();
+        });
+    }
+     const message = '{{message}}'; // Assuming the message is passed from the backend
+
+    // If a message exists, trigger the toast
+    if (message) {
+        showToast(message, 'success');
+    }
+$(document).ready(function() {
+  
+ $(".openimage").click(function(){
+    var image=$(this).attr('image-path');
+    $(".imageappend").attr('src',     image)
+  const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+modal.show();
+})
+});
+</script>
+ <script>
+       $(document).ready(function () {
+    $('#select2-dropdown').select2({
+      placeholder:"Select Clients",
+        multiple: true, // Enable multiple selection
+        closeOnSelect: false, // Keep dropdown open while selecting
+        templateResult: formatOption, // Customize dropdown options
+        templateSelection: formatSelection // Customize selected items
+    });
+     $('#select2-dropdowns').select2({
+      placeholder:"Select Testimonials",
+        multiple: true, // Enable multiple selection
+        closeOnSelect: false, // Keep dropdown open while selecting
+        templateResult: formatOption, // Customize dropdown options
+        templateSelection: formatSelection // Customize selected items
+    });
+     $('#select2-dropdowncs').select2({
+      placeholder:"Select Case Study",
+        multiple: true, // Enable multiple selection
+        closeOnSelect: false, // Keep dropdown open while selecting
+        templateResult: formatOption, // Customize dropdown options
+        templateSelection: formatSelection // Customize selected items
+    });
+
+    // Function to format dropdown options
+    function formatOption(option) {
+        if (!option.id) return option.text; // Default text for placeholder
+        var imageUrl = $(option.element).data('image');
+        return $(
+            `<div style="display: flex; align-items: center;">
+                <img src="${imageUrl}" style="width: 20px; height: 20px; margin-right: 10px;background-color:black" />
+                ${option.text}
+            </div>`
+        );
+    }
+
+    // Function to format the selected items
+    function formatSelection(option) {
+        if (!option.id) return option.text;
+        var imageUrl = $(option.element).data('image');
+        return $(
+            `<div style="display: flex; align-items: center;">
+                <img src="${imageUrl}" style="width: 20px; height: 20px; margin-right: 10px;background-color:black" />
+                ${option.text}
+            </div>`
+        );
+    }
+});
+    </script>

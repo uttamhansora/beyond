@@ -1,0 +1,842 @@
+{{> adminhead}}
+<link rel="stylesheet" href="../../assets/vendor/libs/node-waves/node-waves.css" />
+<link rel="stylesheet" href="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+<link rel="stylesheet" href="../../assets/vendor/libs/typeahead-js/typeahead.css" />
+<link rel="stylesheet" href="../../assets/vendor/libs/bs-stepper/bs-stepper.css" />
+<link rel="stylesheet" href="../../assets/vendor/libs/bootstrap-select/bootstrap-select.css" />
+<link rel="stylesheet" href="../../assets/vendor/libs/select2/select2.css" />
+<link rel="stylesheet" href="../../assets/vendor/libs/@form-validation/form-validation.css" />
+
+<body>
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            {{> adminsidebar}}
+            <div class="layout-page">
+                <div class="content-wrapper">
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <h4 class="py-3 mb-4"><span class="text-muted fw-light">Dashboard /</span> Create Service</h4>
+                        <div class="card">
+                            <div class="card-body">
+                                <form id="homeForm" method="POST" action="/storeservice" enctype="multipart/form-data">
+                                {{#if service._id}}
+                                <input type="hidden" name="id" value="{{service._id}}">
+                                {{/if}}
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="slide_1">Name</label>
+                                            <input type="text" name="name" id="name" class="form-control" value="{{service.name}}"/>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="sec_5_title">Title</label>
+                                            <input type="text" name="title" id="title" class="form-control"
+                                                value="{{service.title}}" />
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div style="display: flex;justify-content: space-between;">
+                                                <div><label class="form-label" for="audiences">Audience</label></div>
+                                                <div>
+                                                    <a href="javascript:void(0)" id="refreshAudience"><svg
+                                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                            stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-refresh">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                                                            <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+                                                        </svg></a>
+                                                    <a id="createAudience" href="javascript:void(0)"><svg
+                                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                            stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-circle-plus">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+                                                            <path d="M9 12h6" />
+                                                            <path d="M12 9v6" />
+                                                        </svg></a>
+                                                </div>
+                                            </div>
+                                            <select class="select2" id="audiences" name="audiences[]"
+                                                multiple="multiple">
+                                                <option label=" "></option>
+                                                {{#each audiences}}
+                                                <option value="{{this._id}}" {{isSelected this._id ../service.audiences}}>{{this.name}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div style="display: flex;justify-content: space-between;">
+                                                <div><label class="form-label" for="benefits">Benefit</label></div>
+                                                <div>
+                                                    <a href="javascript:void(0)" id="refreshBenefit"><svg
+                                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                            stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-refresh">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                                                            <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+                                                        </svg></a>
+                                                    <a id="createBenefit" href="javascript:void(0)"><svg
+                                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                            stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-circle-plus">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+                                                            <path d="M9 12h6" />
+                                                            <path d="M12 9v6" />
+                                                        </svg></a>
+                                                </div>
+                                            </div>
+                                            <select class="select2" id="benefits" name="benefits[]" multiple="multiple">
+                                                <option label=" "></option>
+                                                {{#each benefits}}
+                                                <option value="{{this._id}}" {{isSelected this._id ../service.benefits}}>{{this.name}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div style="display: flex;justify-content: space-between;">
+                                                <div><label class="form-label" for="faqs">FAQ</label></div>
+                                                <div>
+                                                    <a href="javascript:void(0)" id="refreshFaq"><svg
+                                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                            stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-refresh">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                                                            <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+                                                        </svg></a>
+                                                    <a id="createFaq" href="javascript:void(0)"><svg
+                                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                            stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-circle-plus">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+                                                            <path d="M9 12h6" />
+                                                            <path d="M12 9v6" />
+                                                        </svg></a>
+                                                </div>
+                                            </div>
+                                            <select class="select2" id="faqs" name="faqs[]" multiple="multiple">
+                                                <option label=" "></option>
+                                                {{#each faqs}}
+                                                <option value="{{this._id}}" {{isSelected this._id ../service.faqs}}> {{this.name}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div style="display: flex; justify-content: space-between;">
+                                                <div><label class="form-label" for="offerings">Offering</label></div>
+                                                <div>
+                                                    <a href="javascript:void(0)" id="refreshOffering">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                            stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-refresh">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                                                            <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+                                                        </svg>
+                                                    </a>
+                                                    <a id="createOffering" href="javascript:void(0)">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                            stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-circle-plus">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+                                                            <path d="M9 12h6" />
+                                                            <path d="M12 9v6" />
+                                                        </svg>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <select class="select2" id="offerings" name="offerings[]"
+                                                multiple="multiple">
+                                                <option label=" "></option>
+                                                {{#each offerings}}
+                                                <option value="{{this._id}}" {{isSelected this._id ../service.offerings}}>{{this.main_title}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div style="display: flex;justify-content: space-between;">
+                                                <div><label class="form-label" for="testimonials">Testimonial</label>
+                                                </div>
+                                                <div>
+                                                    <a href="javascript:void(0)" id="refreshTestimonial"><svg
+                                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                            stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-refresh">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                                                            <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+                                                        </svg></a>
+                                                    <a id="createTestimonial" href="javascript:void(0)"><svg
+                                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                            stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-circle-plus">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+                                                            <path d="M9 12h6" />
+                                                            <path d="M12 9v6" />
+                                                        </svg></a>
+                                                </div>
+                                            </div>
+                                            <select class="select2" id="testimonials" name="testimonials[]"
+                                                multiple="multiple">
+                                                <option label=" "></option>
+                                                {{#each testimonials}}
+                                                <option value="{{this._id}}" {{isSelected this._id ../service.testimonials}}>{{this.name}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div style="display: flex; justify-content: space-between;">
+                                                <div>
+                                                    <label class="form-label" for="processes">Process</label>
+                                                </div>
+                                                <div>
+                                                    <a href="javascript:void(0)" id="refreshProcess"><svg
+                                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                            stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-refresh">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                                                            <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+                                                        </svg></a>
+                                                    <a id="createProcess" href="javascript:void(0)"><svg
+                                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                            stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-circle-plus">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+                                                            <path d="M9 12h6" />
+                                                            <path d="M12 9v6" />
+                                                        </svg></a>
+                                                </div>
+                                            </div>
+                                            <select class="select2" id="processes" name="processes[]"
+                                                multiple="multiple">
+                                                <option label=" "></option>
+                                                {{#each processes}}
+                                                <option value="{{this._id}}" {{isSelected this._id ../service.processes}}>{{this.name}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+
+
+
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="sec_9_description_1">Description</label>
+                                            <textarea name="description" id="description"
+                                                class="form-control editor1">{{service.description}}</textarea>
+                                        </div>
+
+                                    </div>
+                                    <div class="mt-3">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {{!-- Start Model Code --}}
+
+    <div class="modal fade" id="audienceModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Audience</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="audience_name">Name:</label>
+                            <input type="text" class="form-control" id="audience_name">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="audience_image">Image:</label>
+                            <input type="file" class="form-control" id="audience_image">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="audience_description_1">Description:</label>
+                            <textarea class="form-control" id="audience_description_1"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="saveAudienceButton" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="benefitModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Benefit</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="benefit_name">Name:</label>
+                            <input type="text" class="form-control" id="benefit_name">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="benefit_description">Description:</label>
+                            <textarea class="form-control" id="benefit_description"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="benefit_image">Image:</label>
+                            <input type="file" class="form-control" id="benefit_image">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="saveBenefitButton" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="faqModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create FAQ</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="faq_name">Name:</label>
+                            <input type="text" class="form-control" id="faq_name">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="faq_description">Description:</label>
+                            <textarea class="form-control" id="faq_description"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="saveFaqButton" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="offeringModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Offering</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="offering_main_title">Main Title:</label>
+                            <input type="text" class="form-control" id="offering_main_title">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="offering_title_1">Title 1:</label>
+                            <input type="text" class="form-control" id="offering_title_1">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="offering_description_1">Description 1:</label>
+                            <textarea class="form-control" id="offering_description_1"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="offering_title_2">Title 2:</label>
+                            <input type="text" class="form-control" id="offering_title_2">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="offering_description_2">Description 2:</label>
+                            <textarea class="form-control" id="offering_description_2"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="saveOffering" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="testimonialModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Testimonial</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="testimonial_name">Name:</label>
+                            <input type="text" class="form-control" id="testimonial_name">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="testimonial_image">Image:</label>
+                            <input type="file" class="form-control" id="testimonial_image">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="testimonial_description_1">Description:</label>
+                            <textarea class="form-control" id="testimonial_description_1"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="testimonial_position">Position:</label>
+                            <input type="text" class="form-control" id="testimonial_position">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="saveTestimonialButton" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="processModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Process</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="processForm" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="processName" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="processName" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="processDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="processDescription" name="description" rows="3"
+                                required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="processImage" class="form-label">Image</label>
+                            <input type="file" class="form-control" id="processImage" name="image" accept="image/*">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" id="saveProcessButton" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {{!-- End Model Code --}}
+    {{> adminfooter}}
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            ClassicEditor
+                .create(document.querySelector('.editor1'), {
+                    autoGrow: false, // Disable auto grow
+                    // Your other CKEditor configuration options...
+                })
+                .then(editor => {
+                    editor.ui.view.editable.element.style.height = '400px';
+                    console.log(editor);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            ClassicEditor
+                .create(document.querySelector('.editor2'), {
+                    autoGrow: false, // Disable auto grow
+                    // Your other CKEditor configuration options...
+                })
+                .then(editor => {
+                    editor.ui.view.editable.element.style.height = '400px';
+                    console.log(editor);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            ClassicEditor
+                .create(document.querySelector('.editor3'), {
+                    autoGrow: false, // Disable auto grow
+                    // Your other CKEditor configuration options...
+                })
+                .then(editor => {
+                    editor.ui.view.editable.element.style.height = '400px';
+                    console.log(editor);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+    </script>
+    <script>
+        $('#refreshAudience').click(function () {
+            $.ajax({
+                url: '/audience',
+                method: 'GET',
+                success: function (data) {
+                    var select = $('#audiences');
+                    select.empty();
+                    select.append('<option label=" "></option>');
+                    $.each(data, function (index, audience) {
+                        select.append('<option value="' + audience._id + '">' + audience.name + '</option>');
+                    });
+                }
+            });
+        });
+
+        $('#createAudience').click(function () {
+            $('#audienceModal').modal('show');
+        });
+
+        $('#saveAudienceButton').click(function () {
+            var name = $("#audience_name").val();
+            var description_1 = $("#audience_description_1").val();
+            var image = $("#audience_image")[0].files[0];
+
+            var formData = new FormData();
+            formData.append('name', name);
+            formData.append('description_1', description_1);
+            formData.append('image', image);
+
+            $.ajax({
+                url: '/audience/create',
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log('Audience created successfully:', response);
+                    $('#audienceModal').modal('hide');
+                    $('#refreshAudience').click();
+                },
+                error: function (err) {
+                    console.error('Error creating audience:', err);
+                }
+            });
+        });
+        $('#refreshBenefit').click(function () {
+            $.ajax({
+                url: '/benefit',
+                method: 'GET',
+                success: function (data) {
+                    var select = $('#benefits');
+                    select.empty();
+                    select.append('<option label=" "></option>');
+                    $.each(data, function (index, benefit) {
+                        select.append('<option value="' + benefit._id + '">' + benefit.name + '</option>');
+                    });
+                }
+            });
+        });
+
+        $('#createBenefit').click(function () {
+            $('#benefitModal').modal('show');
+        });
+
+        $('#saveBenefitButton').click(function () {
+            var name = $("#benefit_name").val();
+            var description = $("#benefit_description").val();
+            var image = $("#benefit_image")[0].files[0];
+
+            var formData = new FormData();
+            formData.append('name', name);
+            formData.append('description', description);
+            formData.append('image', image);
+
+            $.ajax({
+                url: '/benefit/create',
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log('Benefit created successfully:', response);
+                    $('#benefitModal').modal('hide');
+                    $('#refreshBenefit').click();
+                },
+                error: function (err) {
+                    console.error('Error creating benefit:', err);
+                }
+            });
+        });
+        $('#refreshFaq').click(function () {
+            $.ajax({
+                url: '/faq',
+                method: 'GET',
+                success: function (data) {
+                    var select = $('#faqs');
+                    select.empty();
+                    select.append('<option label=" "></option>');
+                    $.each(data, function (index, faq) {
+                        select.append('<option value="' + faq._id + '">' + faq.name + '</option>');
+                    });
+                }
+            });
+        });
+
+        $('#createFaq').click(function () {
+            $('#faqModal').modal('show');
+        });
+
+        $('#saveFaqButton').click(function () {
+            var name = $("#faq_name").val();
+            var description = $("#faq_description").val();
+
+            $.ajax({
+                url: '/faq/create',
+                method: 'POST',
+                data: { name: name, description: description },
+                success: function (response) {
+                    console.log('FAQ created successfully:', response);
+                    $('#faqModal').modal('hide');
+                    $('#refreshFaq').click();
+                },
+                error: function (err) {
+                    console.error('Error creating FAQ:', err);
+                }
+            });
+        });
+        $('#refreshProcess').click(function () {
+            $.ajax({
+                url: '/process', // Update URL endpoint for processes
+                method: 'GET',
+                success: function (data) {
+                    var select = $('#processes');
+                    select.empty();
+                    select.append('<option label=" "></option>');
+                    $.each(data, function (index, process) {
+                        select.append('<option value="' + process._id + '">' + process.name + '</option>');
+                    });
+                },
+                error: function (err) {
+                    console.error('Error refreshing processes:', err);
+                }
+            });
+        });
+
+        // Create Process Modal
+        $('#createProcess').click(function () {
+            $('#processModal').modal('show');
+        });
+
+        // Handle Process Creation Form Submission
+        $('#saveProcessButton').click(function () {
+            var name = $("#processName").val();
+            var description = $("#processDescription").val();
+            var image = $("#processImage")[0].files[0]; // Get the selected file
+
+            // Create FormData object
+            var formData = new FormData();
+            formData.append('name', name);
+            formData.append('description', description);
+            formData.append('image', image);
+
+            $.ajax({
+                url: '/process/create', // Update URL endpoint for creating processes
+                method: 'POST',
+                data: formData,
+                processData: false,  // Prevent jQuery from processing the data
+                contentType: false,  // Prevent jQuery from setting contentType
+                success: function (response) {
+                    console.log('Process created successfully:', response);
+                    $('#processModal').modal('hide'); // Hide the modal after success
+                    $('#refreshProcess').click(); // Trigger refresh function
+                },
+                error: function (err) {
+                    console.error('Error creating process:', err);
+                }
+            });
+        });
+        $('#refreshOffering').click(function () {
+            $.ajax({
+                url: '/offering', // Update URL endpoint for offerings
+                method: 'GET',
+                success: function (data) {
+                    var select = $('#offerings');
+                    select.empty();
+                    select.append('<option label=" "></option>');
+                    $.each(data, function (index, offering) {
+                        select.append('<option value="' + offering._id + '">' + offering.main_title + '</option>');
+                    });
+                },
+                error: function (err) {
+                    console.error('Error refreshing offerings:', err);
+                }
+            });
+        });
+
+        // Create Offering Modal
+        $('#createOffering').click(function () {
+            $('#offeringModal').modal('show');
+        });
+
+        // Save Offering
+        $('#saveOffering').click(function () {
+            var main_title = $("#offering_main_title").val();
+            var title_1 = $("#offering_title_1").val();
+            var description_1 = $("#offering_description_1").val();
+            var title_2 = $("#offering_title_2").val();
+            var description_2 = $("#offering_description_2").val();
+
+            $.ajax({
+                url: '/offering/create', // Update URL endpoint for creating offerings
+                method: 'POST',
+                data: {
+                    main_title: main_title,
+                    title_1: title_1,
+                    description_1: description_1,
+                    title_2: title_2,
+                    description_2: description_2
+                },
+                success: function (response) {
+                    console.log('Offering created successfully:', response);
+                    $('#offeringModal').modal('hide');
+                    $('#refreshOffering').click();
+                },
+                error: function (err) {
+                    console.error('Error creating offering:', err);
+                }
+            });
+        });
+        $('#refreshTestimonial').click(function () {
+            $.ajax({
+                url: '/testimonial',
+                method: 'GET',
+                success: function (data) {
+                    var select = $('#testimonials');
+                    select.empty();
+                    select.append('<option label=" "></option>');
+                    $.each(data, function (index, testimonial) {
+                        select.append('<option value="' + testimonial._id + '">' + testimonial.name + '</option>');
+                    });
+                }
+            });
+        });
+
+        $('#createTestimonial').click(function () {
+            $('#testimonialModal').modal('show');
+        });
+
+        $('#saveTestimonialButton').click(function () {
+            var name = $("#testimonial_name").val();
+            var description_1 = $("#testimonial_description_1").val();
+            var image = $("#testimonial_image")[0].files[0];
+            var position = $("#testimonial_position").val();
+
+            var formData = new FormData();
+            formData.append('name', name);
+            formData.append('description_1', description_1);
+            formData.append('image', image);
+            formData.append('position', position);
+
+            $.ajax({
+                url: '/testimonial/create',
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log('Testimonial created successfully:', response);
+                    $('#testimonialModal').modal('hide');
+                    $('#refreshTestimonial').click();
+                },
+                error: function (err) {
+                    console.error('Error creating testimonial:', err);
+                }
+            });
+        });
+
+    </script>
+    <script src="../../assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="../../assets/vendor/libs/popper/popper.js"></script>
+    <script src="../../assets/vendor/js/bootstrap.js"></script>
+    <script src="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="../../assets/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="../../assets/vendor/libs/bs-stepper/bs-stepper.js"></script>
+    <script src="../../assets/vendor/libs/bootstrap-select/bootstrap-select.js"></script>
+    <script src="../../assets/vendor/libs/select2/select2.js"></script>
+    <script src="../../assets/vendor/libs/@form-validation/form-validation.js"></script>
+    <script src="../../assets/js/main.js"></script>
+
+
+</body>
+
+</html>

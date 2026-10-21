@@ -1,0 +1,52 @@
+{{>adminhead}}
+
+<body>
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      {{>adminsidebar}}
+      <div class="layout-page">
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="py-3 mb-4"><span class="text-muted fw-light">Dashboard /</span> Contact Forms</h4>
+            <!-- Add Coupon Button -->
+            
+            <!-- Coupon Table -->
+            <div class="card">
+              <div class="card-datatable text-nowrap">
+                <table id="contact" class="coupons table responsive" data-url="contactdata">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Phone</th>
+                      <th>Company</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+          </div>
+          {{>adminfooter}}
+          
+          <script>
+  
+
+$(document).ready(function() {
+    $('#contact').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": $('#contact').data('url'),
+            "type": "GET"
+        },
+        "columns": [
+            { "data": "name" },
+            { "data": "email" },
+            { "data": "phone" },
+            { "data": "company" }
+        ]
+    });
+});
+
+ 
+</script>

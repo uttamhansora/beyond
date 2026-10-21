@@ -1,0 +1,125 @@
+{{> adminhead}}
+
+<body>
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+      {{> adminsidebar}}
+      <!-- / Menu -->
+
+      <!-- Layout container -->
+      <div class="layout-page">
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="py-3 mb-4">
+              <span class="text-muted fw-light">Dashboard/</span>
+              Career Page Settings
+            </h4>
+            <div class="row">
+              <div class="col-xl">
+                <div class="card mb-4">
+                  <div class="card-body">
+                    <form action="/careerpagestore" method="post">
+                      {{#if about._id}}
+                      <input type="hidden" name="id" value="{{about._id}}">
+                      {{/if}}
+<!-- Consultant Section -->
+  <!-- Career Page Section -->
+    <div class="mb-3">
+        <label class="form-label" for="career_page_title">Career Page Title</label>
+        <input type="text" name="career_page_title" class="form-control" id="career_page_title" placeholder="Career Page Title" value="{{about.career_page_title}}" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="career_page_description">Career Page Description</label>
+        <textarea name="career_page_description" class="form-control" id="career_page_description" placeholder="Career Page Description">{{about.career_page_description}}</textarea>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="career_page_section_title">Career Page Section Title</label>
+        <input type="text" name="career_page_section_title" class="form-control" id="career_page_section_title" placeholder="Career Page Section Title" value="{{about.career_page_section_title}}" />
+    </div>
+<div class="mb-3">
+    <label class="form-label" for="consultant_title">Consultant Title</label>
+    <input type="text" name="consultant_title" class="form-control" id="consultant_title" placeholder="Consultant Title" value="{{about.consultant_title}}" />
+</div>
+<div class="mb-3">
+    <label class="form-label" for="consultant_description">Consultant Description</label>
+    <textarea name="consultant_description" class="form-control" id="consultant_description" placeholder="Consultant Description">{{about.consultant_description}}</textarea>
+</div>
+
+<!-- Competencies Section -->
+<div class="mb-3">
+    <label class="form-label" for="competencies_title">Competencies Title</label>
+    <input type="text" name="competencies_title" class="form-control" id="competencies_title" placeholder="Competencies Title" value="{{about.competencies_title}}" />
+</div>
+<div class="mb-3">
+    <label class="form-label" for="competencies_description">Competencies Description</label>
+    <textarea name="competencies_description" class="form-control" id="competencies_description" placeholder="Competencies Description">{{about.competencies_description}}</textarea>
+</div>
+
+<!-- Process Section -->
+<div class="mb-3">
+    <label class="form-label" for="process_title">Process Title</label>
+    <input type="text" name="process_title" class="form-control" id="process_title" placeholder="Process Title" value="{{about.process_title}}" />
+</div>
+<div class="mb-3">
+    <label class="form-label" for="process_description">Process Description</label>
+    <textarea name="process_description" class="form-control" id="process_description" placeholder="Process Description">{{about.process_description}}</textarea>
+</div>
+ <div class="mb-3">
+                        <label class="form-label" for="basic-default-fullname">Application Title</label>
+                        <input type="text" name="application_title" class="form-control" value="{{about.application_title}}" id="basic-default-fullname"
+                          placeholder="Application Title" />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label" for="basic-default-message">Application Description</label>
+                        <textarea id="editor2" class="form-control" name="application_description" placeholder="Content">{{about.application_description}}</textarea>
+                      </div>
+
+                      <!-- Submit Button -->
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                      <a href="/dashboard" class="btn btn-danger">Cancel</a>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {{> adminfooter}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript for auto-generating the slug -->
+  <script>
+    function generateSlug() {
+      var name = document.querySelector('input[name="name"]').value;
+      var slugField = document.querySelector('input[name="slug"]');
+      
+      // Generate slug by converting name to lowercase and replacing spaces with hyphens
+      var slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+      
+      // Set the generated slug in the slug field
+      slugField.value = slug;
+    }
+  </script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              ClassicEditor
+                .create(document.querySelector('#editor2'), {
+                  autoGrow: false, // Disable auto grow
+                  // Your other CKEditor configuration options...
+                })
+                .then(editor => {
+                  editor.ui.view.editable.element.style.height = '400px';
+                  console.log(editor);
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+            });
+          </script>
+</body>

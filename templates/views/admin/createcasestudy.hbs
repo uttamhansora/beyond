@@ -1,0 +1,101 @@
+{{>adminhead}}
+
+<body>
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+
+      {{>adminsidebar}}
+      <!-- / Menu -->
+
+      <!-- Layout container -->
+      <div class="layout-page">
+        <!-- Navbar -->
+
+        <!-- / Navbar -->
+
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="py-3 mb-4">
+              <span class="text-muted fw-light">Dashboard/</span>
+              Create Case Study
+            </h4>
+            <div class="row">
+              <div class="col-xl">
+                <div class="card mb-4">
+                  <div class="card-body">
+                    <form action="/storecasestudy" method="post" enctype="multipart/form-data">
+                    {{#if team._id}}
+                    <input type="hidden" name="id" value="{{team._id}}">
+                    {{/if}}
+                   
+                      <div class="mb-3">
+                        <label class="form-label" for="basic-default-fullname">Case Study Name</label>
+                        <input type="text" name="name" class="form-control" value="{{team.name}}" id="basic-default-fullname"
+                          placeholder="Case Study Name" />
+                      </div>
+                        <div class="mb-3">
+    <label class="form-label" for="basic-default-fullname">Select Category</label>
+    <select class="select2 form-control" id="category_id" name="category_id">
+                                          <option label=" "></option>
+                                          {{#each category}}
+                                          <option value="{{this._id}}" {{#if_eq this._id ../team.category_id}}selected
+                                             {{/if_eq}}>{{this.name}}</option>
+                                          {{/each}}
+                                       </select>
+  </div>
+                        
+                      
+                      <div class="mb-3">
+                        <label class="form-label" for="basic-default-company">Author</label>
+                        <input type="text" name="author" value="{{team.author}}" class="form-control" id="basic-default-company"
+                          placeholder="Author" />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label" for="basic-default-company">Image</label>
+                        <input type="file" name="image" class="form-control">
+                         {{#if team.image}}
+                                                            <a href="javascript:void(0)" image-path="{{team.image}}"
+                                                                class="openimage ">View
+                                                                Image</a>
+                                                            {{/if}}
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label" for="basic-default-company">Youtube Link</label>
+                        <input type="text" name="youtube_link" value="{{team.youtube_link}}" class="form-control" id="basic-default-company"
+                          placeholder="Youtube Link" />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label" for="basic-default-message">Content</label>
+                        <textarea id="editor" class="form-control" name="content" placeholder="Content">{{team.content}}</textarea>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                      <a href="/dashboard" class="btn btn-danger">Cancel</a>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {{>adminfooter}}
+          <script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              ClassicEditor
+                .create(document.querySelector('#editor'), {
+                  autoGrow: false, // Disable auto grow
+                  // Your other CKEditor configuration options...
+                })
+                .then(editor => {
+                  editor.ui.view.editable.element.style.height = '400px';
+                  console.log(editor);
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+            });
+          </script>

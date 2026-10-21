@@ -1,0 +1,379 @@
+{{>adminhead}}
+
+<body>
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+
+      {{>adminsidebar}}
+      <!-- / Menu -->
+
+      <!-- Layout container -->
+      <div class="layout-page">
+        <!-- Navbar -->
+
+        <!-- / Navbar -->
+
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="py-3 mb-4">
+              <span class="text-muted fw-light">Dashboard/</span>
+              Create Team
+            </h4>
+            <div class="row">
+              <div class="col-xl">
+                <div class="card mb-4">
+                  <div class="card-body">
+                    <form action="/storeteam" method="post" enctype="multipart/form-data">
+                      {{#if team._id}}
+                      <input type="hidden" name="id" value="{{team._id}}">
+                      {{/if}}
+                      
+                      <!-- First Name -->
+                      <div class="mb-3">
+                        <label class="form-label" for="f_name">First Name</label>
+                        <input type="text" name="f_name" class="form-control" value="{{team.f_name}}" id="f_name"
+                          placeholder="First Name" required />
+                      </div>
+
+                      <!-- Last Name -->
+                      <div class="mb-3">
+                        <label class="form-label" for="l_name">Last Name</label>
+                        <input type="text" name="l_name" class="form-control" value="{{team.l_name}}" id="l_name"
+                          placeholder="Last Name" required />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label" for="l_name">Position</label>
+                        <input type="text" name="position" class="form-control" value="{{team.position}}" id="position"
+                          placeholder="Position" required />
+                      </div>
+ <div class="mb-3">
+                        <label class="form-label" for="bio">Short Bio</label>
+                        <textarea id="short_bio" class="form-control" name="short_bio" placeholder="bio">{{team.short_bio}}</textarea>
+                      </div>
+                      <!-- Bio -->
+                      <div class="mb-3">
+                        <label class="form-label" for="bio">Bio</label>
+                        <textarea id="bio" class="form-control" name="bio" placeholder="Bio">{{team.bio}}</textarea>
+                      </div>
+                      
+
+                      <!-- Image -->
+                      <div class="mb-3">
+                        <label class="form-label" for="image">Image</label>
+                        <input type="file" name="image" class="form-control">
+                        {{#if team.image}}
+                        <a href="javascript:void(0)" image-path="{{team.image}}" class="openimage">View Image</a>
+                        {{/if}}
+                      </div>
+<div class="col-12">
+                                                            <label class="form-label">Works</label>
+                                                            <div id="s-container">
+                                                                {{#each team.work}}
+                                                                <div class="row s-item mb-2">
+                                                                    <input type="hidden" name="s_ids[]"
+                                                                        value="{{this.id}}" />
+                                                                    <div class="col-md-3">
+                                                                        <input type="text" name="s_title[]"
+                                                                            class="form-control"
+                                                                            placeholder="Work Title"
+                                                                            value="{{this.s_title}}" />
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input type="text" name="s_link[]"
+                                                                            class="form-control"
+                                                                            placeholder="Links"
+                                                                            value="{{this.s_link}}" />
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input type="text" name="s_company_name[]"
+                                                                            class="form-control"
+                                                                            placeholder="Company Name"
+                                                                            value="{{this.s_company_name}}" />
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input type="text" name="s_company_date[]"
+                                                                            class="form-control"
+                                                                            placeholder="Company Date"
+                                                                            value="{{this.s_company_date}}" />
+                                                                    </div>
+                                                                   
+                                                                    <div class="col-md-1">
+                                                                        <button type="button"
+                                                                            class="btn btn-danger remove-s">X</button>
+                                                                    </div>
+                                                                </div>
+                                                                {{/each}}
+                                                            </div>
+                                                            <button type="button" id="add-s"
+                                                                class="btn btn-primary mt-2">Add More</button>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <label class="form-label">Education</label>
+                                                            <div id="e-container">
+                                                                {{#each team.education}}
+                                                                <div class="row e-item mb-2">
+                                                                    <input type="hidden" name="e_ids[]"
+                                                                        value="{{this.id}}" />
+                                                                    <div class="col-md-3">
+                                                                        <input type="text" name="e_collage[]"
+                                                                            class="form-control"
+                                                                            placeholder="Collage"
+                                                                            value="{{this.e_collage}}" />
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input type="text" name="e_degree[]"
+                                                                            class="form-control"
+                                                                            placeholder="Degree"
+                                                                            value="{{this.e_degree}}" />
+                                                                    </div>
+                                                                   
+                                                                   
+                                                                    <div class="col-md-1">
+                                                                        <button type="button"
+                                                                            class="btn btn-danger remove-s">X</button>
+                                                                    </div>
+                                                                </div>
+                                                                {{/each}}
+                                                            </div>
+                                                            <button type="button" id="add-e"
+                                                                class="btn btn-primary mt-2">Add More</button>
+                                                        </div>
+                                                        
+                      <!-- Link Section -->
+                      <div class="mb-3">
+                        <label for="links" class="form-label"><strong>Links</strong></label>
+                        <div id="linkSection">
+                          {{#each team.link}}
+                          <div class="link-group">
+                            <input type="text" class="form-control mb-2" name="link_name[]" value="{{this.link_name}}" placeholder="Link Name" required/>
+                            <input type="text" class="form-control mb-2" name="link[]" value="{{this.link}}" placeholder="Link URL" required/>
+                            <button type="button" class="btn btn-danger remove-link">Delete</button>
+                          </div>
+                          {{/each}}
+                        </div>
+                        <button type="button" id="addLink" class="btn btn-primary mt-2">Add More</button>
+                      </div>
+<div class="col-md-6">
+    <label class="form-label" for="expertise">Expertise</label>
+    <div id="expertise_fields">
+        <!-- Existing fields will be dynamically added here -->
+        {{#each team.expertise}}
+        <div class="input-group mb-2 description-field">
+            <input type="text" name="expertise[]" class="form-control" value="{{this}}">
+            <button type="button" class="btn btn-danger remove-btnss">Remove</button>
+        </div>
+        {{/each}}
+    </div>
+    <button type="button" id="add_expertise" class="btn btn-primary">Add Expertise</button>
+</div>
+<div class="col-md-6">
+    <label class="form-label" for="hobby">Hobby</label>
+    <div id="hobby_fields">
+        <!-- Existing fields will be dynamically added here -->
+        {{#each team.hobby}}
+        <div class="input-group mb-2 description-field">
+            <input type="text" name="hobby[]" class="form-control" value="{{this}}">
+            <button type="button" class="btn btn-danger remove-btns">Remove</button>
+        </div>
+        {{/each}}
+    </div>
+    <button type="button" id="add_hobby" class="btn btn-primary">Add Hobby</button>
+</div>
+                      <button type="submit" class="btn btn-primary mt-2">Submit</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {{>adminfooter}}
+          <script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              // Initialize CKEditor for bio field if needed
+              ClassicEditor.create(document.querySelector('#bio'))
+                .then(editor => {
+                  console.log(editor);
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+
+              // Dynamic add more for links
+              $('#addLink').click(function() {
+                const linkHtml = `
+                  <div class="link-group">
+                    <input type="text" class="form-control mb-2" name="link_name[]" placeholder="Link Name" required/>
+                    <input type="text" class="form-control mb-2" name="link[]" placeholder="Link URL" required/>
+                    <button type="button" class="btn btn-danger remove-link">Delete</button>
+                  </div>`;
+                $('#linkSection').append(linkHtml);
+              });
+
+              // Remove link section
+              $(document).on('click', '.remove-link', function() {
+                $(this).closest('.link-group').remove();
+              });
+            });
+          </script>
+          <script>
+            let stepIndex7 = {{#if about.work}}{{about.work}}{{else}}0{{/if}};
+
+            document.getElementById('add-s').addEventListener('click', function () {
+                const container = document.getElementById('s-container');
+                const id = Date.now().toString();
+                const html = `
+            <div class="row s-item mb-2">
+            <input type="hidden" name="s_ids[]" value="${id}" />
+                <div class="col-md-3">
+                    <input type="text" name="s_title[]" class="form-control" placeholder="section Title" />
+                </div>
+                 <div class="col-md-3">
+                                                                        <input type="text" name="s_link[]"
+                                                                            class="form-control"
+                                                                            placeholder="Links" />
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input type="text" name="s_company_name[]"
+                                                                            class="form-control"
+                                                                            placeholder="Company Name"/>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input type="text" name="s_company_date[]"
+                                                                            class="form-control"
+                                                                            placeholder="Company Date"/>
+                                                                    </div>
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-danger remove-s">X</button>
+                </div>
+            </div>
+        `;
+                container.insertAdjacentHTML('beforeend', html);
+                stepIndex++;
+            });
+
+            document.addEventListener('click', function (e) {
+                if (e.target.classList.contains('remove-s')) {
+                    e.target.closest('.s-item').remove();
+                }
+            });
+        </script>
+        <script>
+            let stepIndex8 = {{#if about.education}}{{about.education}}{{else}}0{{/if}};
+
+            document.getElementById('add-e').addEventListener('click', function () {
+                const container = document.getElementById('e-container');
+                const id = Date.now().toString();
+                const html = `
+            <div class="row e-item mb-2">
+            <input type="hidden" name="e_ids[]" value="${id}" />
+                <div class="col-md-3">
+                    <input type="text" name="e_collage[]" class="form-control" placeholder="Collage" />
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="e_degree[]" class="form-control" placeholder="Degree" />
+                </div>
+                
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-danger remove-e">X</button>
+                </div>
+            </div>
+        `;
+                container.insertAdjacentHTML('beforeend', html);
+                stepIndex8++;
+            });
+
+            document.addEventListener('click', function (e) {
+                if (e.target.classList.contains('remove-e')) {
+                    e.target.closest('.e-item').remove();
+                }
+            });
+        </script>
+        <script>
+document.addEventListener('DOMContentLoaded', function () {
+    // ================== Expertise ==================
+    const expertiseContainer = document.getElementById('expertise_fields');
+    const addExpertiseBtn = document.getElementById('add_expertise');
+
+    addExpertiseBtn.addEventListener('click', function () {
+        const inputGroup = document.createElement('div');
+        inputGroup.classList.add('input-group', 'mb-2', 'description-field');
+
+        // Input field
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.name = 'expertise[]';
+        input.classList.add('form-control');
+        input.placeholder = 'Enter Expertise';
+
+        // Remove button
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.classList.add('btn', 'btn-danger', 'remove-btnss');
+        removeBtn.textContent = 'Remove';
+        removeBtn.addEventListener('click', function () {
+            expertiseContainer.removeChild(inputGroup);
+        });
+
+        inputGroup.appendChild(input);
+        inputGroup.appendChild(removeBtn);
+        expertiseContainer.appendChild(inputGroup);
+    });
+
+    // Attach remove events to existing fields (server-rendered ones)
+    document.querySelectorAll('.remove-btnss').forEach(btn => {
+        btn.addEventListener('click', function () {
+            this.parentElement.remove();
+        });
+    });
+
+    // ================== Hobby ==================
+    const hobbyContainer = document.getElementById('hobby_fields');
+    const addHobbyBtn = document.getElementById('add_hobby');
+
+    addHobbyBtn.addEventListener('click', function () {
+        const inputGroup = document.createElement('div');
+        inputGroup.classList.add('input-group', 'mb-2', 'description-field');
+
+        // Input field
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.name = 'hobby[]';
+        input.classList.add('form-control');
+        input.placeholder = 'Enter Hobby';
+
+        // Remove button
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.classList.add('btn', 'btn-danger', 'remove-btns');
+        removeBtn.textContent = 'Remove';
+        removeBtn.addEventListener('click', function () {
+            hobbyContainer.removeChild(inputGroup);
+        });
+
+        inputGroup.appendChild(input);
+        inputGroup.appendChild(removeBtn);
+        hobbyContainer.appendChild(inputGroup);
+    });
+
+    // Attach remove events to existing fields (server-rendered ones)
+    document.querySelectorAll('.remove-btns').forEach(btn => {
+        btn.addEventListener('click', function () {
+            this.parentElement.remove();
+        });
+    });
+});
+</script>
+
+        </div>
+        <!-- / Content wrapper -->
+      </div>
+      <!-- / Layout container -->
+    </div>
+  </div>
+</body>

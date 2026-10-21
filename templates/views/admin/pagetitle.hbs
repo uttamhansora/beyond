@@ -1,0 +1,172 @@
+{{> adminhead}}
+
+<body>
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+      {{> adminsidebar}}
+      <!-- / Menu -->
+
+      <!-- Layout container -->
+      <div class="layout-page">
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="py-3 mb-4">
+              <span class="text-muted fw-light">Dashboard/</span>
+              Page Title Settings
+            </h4>
+            <div class="row">
+              <div class="col-xl">
+                <div class="card mb-4">
+                  <div class="card-body">
+                    <form action="/pagetitlestore" method="post" enctype="multipart/form-data">
+                      {{#if about._id}}
+                      <input type="hidden" name="id" value="{{about._id}}">
+                      {{/if}}
+
+                      <!-- Team Page Section -->
+    <div class="mb-3">
+        <label class="form-label" for="team_page_title">Team Page Title</label>
+        <input type="text" name="team_page_title" class="form-control" id="team_page_title" placeholder="Team Page Title" value="{{about.team_page_title}}" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="team_page_description">Team Page Description</label>
+        <textarea name="team_page_description" class="form-control" id="team_page_description" placeholder="Team Page Description">{{about.team_page_description}}</textarea>
+    </div>
+
+    <!-- Download Page Section -->
+    <div class="mb-3">
+        <label class="form-label" for="download_page_title">Download Page Title</label>
+        <input type="text" name="download_page_title" class="form-control" id="download_page_title" placeholder="Download Page Title" value="{{about.download_page_title}}" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="download_page_description">Download Page Description</label>
+        <textarea name="download_page_description" class="form-control" id="download_page_description" placeholder="Download Page Description">{{about.download_page_description}}</textarea>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="download_page_section_title">Download Page Section Title</label>
+        <input type="text" name="download_page_section_title" class="form-control" id="download_page_section_title" placeholder="Download Page Section Title" value="{{about.download_page_section_title}}" />
+    </div>
+
+    <!-- Testimonial Page Section -->
+    <div class="mb-3">
+        <label class="form-label" for="testimonial_page_title">Testimonial Page Title</label>
+        <input type="text" name="testimonial_page_title" class="form-control" id="testimonial_page_title" placeholder="Testimonial Page Title" value="{{about.testimonial_page_title}}" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="testimonial_page_description">Testimonial Page Description</label>
+        <textarea name="testimonial_page_description" class="form-control" id="testimonial_page_description" placeholder="Testimonial Page Description">{{about.testimonial_page_description}}</textarea>
+    </div>
+<div class="mb-3">
+    <label class="form-label" for="client_page_title">Client Page Title</label>
+    <input type="text" name="client_page_title" class="form-control" id="client_page_title" placeholder="Client Page Title" value="{{about.client_page_title}}" />
+</div>
+<div class="mb-3">
+    <label class="form-label" for="client_page_description">Client Page Description</label>
+    <textarea name="client_page_description" class="form-control" id="client_page_description" placeholder="Client Page Description">{{about.client_page_description}}</textarea>
+</div>
+<div class="mb-3">
+    <label class="form-label" for="client_main_title">Client Main Title</label>
+    <input type="text" name="client_main_title" class="form-control" id="client_main_title" placeholder="Client Main Title" value="{{about.client_main_title}}" />
+</div>
+  <div class="mb-3">
+  <label class="form-label" for="about_image">About Image</label>
+  <input type="file" name="about_image" class="form-control">
+  {{#if about.about_image}}
+    <a href="javascript:void(0)" 
+       image-path="{{about.about_image}}" 
+       class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label" for="team_image">Team Image</label>
+  <input type="file" name="team_image" class="form-control">
+  {{#if about.team_image}}
+    <a href="javascript:void(0)" 
+       image-path="{{about.team_image}}" 
+       class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label" for="downloads_image">Downloads Image</label>
+  <input type="file" name="downloads_image" class="form-control">
+  {{#if about.downloads_image}}
+    <a href="javascript:void(0)" 
+       image-path="{{about.downloads_image}}" 
+       class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label" for="testimonials_image">Testimonials Image</label>
+  <input type="file" name="testimonials_image" class="form-control">
+  {{#if about.testimonials_image}}
+    <a href="javascript:void(0)" 
+       image-path="{{about.testimonials_image}}" 
+       class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label" for="clients_image">Clients Image</label>
+  <input type="file" name="clients_image" class="form-control">
+  {{#if about.clients_image}}
+    <a href="javascript:void(0)" 
+       image-path="{{about.clients_image}}" 
+       class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label" for="careers_image">Careers Image</label>
+  <input type="file" name="careers_image" class="form-control">
+  {{#if about.careers_image}}
+    <a href="javascript:void(0)" 
+       image-path="{{about.careers_image}}" 
+       class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label" for="casestudy_image">Case Study Image</label>
+  <input type="file" name="casestudy_image" class="form-control">
+  {{#if about.casestudy_image}}
+    <a href="javascript:void(0)" 
+       image-path="{{about.casestudy_image}}" 
+       class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+
+                      <!-- Submit Button -->
+                      <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {{> adminfooter}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript for auto-generating the slug -->
+  <script>
+    function generateSlug() {
+      var name = document.querySelector('input[name="name"]').value;
+      var slugField = document.querySelector('input[name="slug"]');
+      
+      // Generate slug by converting name to lowercase and replacing spaces with hyphens
+      var slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+      
+      // Set the generated slug in the slug field
+      slugField.value = slug;
+    }
+  </script>
+</body>

@@ -1,0 +1,59 @@
+{{>adminhead}}
+
+<body>
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      {{>adminsidebar}}
+      <div class="layout-page">
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="py-3 mb-4"><span class="text-muted fw-light">Dashboard /</span> Application Pages</h4>
+            {{#if message}}
+            <div class="alert alert-success">{{message}}</div>
+            {{/if}}
+            <a href="/createapplicationservicepage" class="btn btn-primary waves-effect waves-light mb-2">Add Application Page</a>
+            <div class="card">
+              <div class="card-datatable text-nowrap">
+                <table class="table" id="application-service-table">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Slug</th>
+                      <th>Category</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+          </div>
+          {{>adminfooter}}
+          <script>
+            $(document).ready(function () {
+              $('#application-service-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: { url: '/applicationservicepages', type: 'GET' },
+                columns: [
+                  { data: 'title' },
+                  { data: 'slug' },
+                  { data: 'category' },
+                  { data: 'status' },
+                  {
+                    data: '_id',
+                    render: function (data) {
+                      return '<a class="btn btn-sm btn-primary" href="/createapplicationservicepage/' + data + '">Edit</a> ' +
+                        '<button type="button" class="btn btn-sm btn-danger" onclick="deleteApplicationPage(\'' + data + '\')">Delete</button>';
+                    }
+                  }
+                ]
+              });
+            });
+
+            function deleteApplicationPage(id) {
+              if (confirm('Delete this application page?')) {
+                window.location.href = '/deleteapplicationservicepage/' + id;
+              }
+            }
+          </script>

@@ -1,0 +1,863 @@
+{{>adminhead}}
+
+<body>
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+
+      {{>adminsidebar}}
+      <!-- / Menu -->
+
+      <!-- Layout container -->
+      <div class="layout-page">
+        <!-- Navbar -->
+
+        <!-- / Navbar -->
+
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="py-3 mb-4">
+              <span class="text-muted fw-light">Dashboard/</span>
+              Create Dynamic Service
+            </h4>
+            <div class="row">
+              <div class="col-xl">
+                <div class="card mb-4">
+                  <div class="card-body">
+                    <form action="/storedynamicservice" method="post" enctype="multipart/form-data">
+                    {{#if team._id}}
+                    <input type="hidden" name="id" value="{{team._id}}">
+                    {{/if}}
+                   
+                      <div class="mb-3">
+                        <label class="form-label" for="basic-default-fullname">Title</label>
+                        <input type="text" name="title" class="form-control" value="{{team.title}}" id="basic-default-fullname"
+                          placeholder="Title" />
+                      </div>
+                     <div class="mb-3">
+  <label class="form-label" for="basic-default-fullname">Select Category</label>
+  <select class="form-control" id="category" name="category">
+   
+
+    <!-- Static categories -->
+    <option value="hiperf" {{#if (eq team.category 'hiperf')}}selected{{/if}}>Hi-Perfomance Organization</option>
+    <option value="leadership" {{#if (eq team.category 'leadership')}}selected{{/if}}>Leadership Exelence</option>
+    <option value="stratagic" {{#if (eq team.category 'stratagic')}}selected{{/if}}>Stratagic HR</option>
+
+  </select>
+</div>
+                      <div class="mb-3">
+                        <label class="form-label" for="basic-default-company">Image</label>
+                        <input type="file" name="image" class="form-control">
+                         {{#if team.image}}
+                                                            <a href="javascript:void(0)" image-path="{{team.image}}"
+                                                                class="openimage ">View
+                                                                Image</a>
+                                                            {{/if}}
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label" for="basic-default-company">Main Image</label>
+                        <input type="file" name="main_image" class="form-control">
+                         {{#if team.main_image}}
+                                                            <a href="javascript:void(0)" image-path="{{team.main_image}}"
+                                                                class="openimage ">View
+                                                                Image</a>
+                                                            {{/if}}
+                      </div>
+                     
+                      
+                      {{!--<div class="mb-3">--}}
+                      {{!--  <label class="form-label" for="basic-default-message">Description</label>--}}
+                      {{!--  <textarea  class="form-control" name="description" placeholder="Description">{{team.description}}</textarea>--}}
+                      {{!--</div>--}}
+                      
+                      <!-- Background Image -->
+<div class="mb-3">
+  <label class="form-label">Background Image</label>
+  <input type="file" name="bg_image" class="form-control">
+  {{#if team.bg_image}}
+    <a href="javascript:void(0)" image-path="{{team.bg_image}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<!-- Section 1 -->
+<div class="mb-3">
+  <label class="form-label">Section 1 Title</label>
+  <input type="text" name="section_1_title" class="form-control" value="{{team.section_1_title}}" placeholder="Section 1 Title">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Section 1 PDF</label>
+  <input type="file" name="section_1_pdf" class="form-control">
+  {{#if team.section_1_pdf}}
+    <a href="{{team.section_1_pdf}}" target="_blank">View PDF</a>
+  {{/if}}
+</div>
+
+<!-- Section 2 -->
+<div class="mb-3">
+  <label class="form-label">Section 2 Title</label>
+  <input type="text" name="section_2_title" class="form-control" value="{{team.section_2_title}}" placeholder="Section 2 Title">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Section 2 Image</label>
+  <input type="file" name="section_2_image" class="form-control">
+  {{#if team.section_2_image}}
+    <a href="javascript:void(0)" image-path="{{team.section_2_image}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Section 2 Description</label>
+  <textarea class="form-control" name="section_2_description" placeholder="Section 2 Description">{{team.section_2_description}}</textarea>
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Section 2 PDF</label>
+  <input type="file" name="section_2_pdf" class="form-control">
+  {{#if team.section_2_pdf}}
+    <a href="{{team.section_2_pdf}}" target="_blank">View PDF</a>
+  {{/if}}
+</div>
+
+<!-- Client Title -->
+<div class="mb-3">
+  <label class="form-label">Client Title</label>
+  <input type="text" name="client_title" class="form-control" value="{{team.client_title}}" placeholder="Client Title">
+</div>
+
+<!-- Edge Section -->
+<div class="mb-3">
+  <label class="form-label">Edge Title</label>
+  <input type="text" name="edge_title" class="form-control" value="{{team.edge_title}}" placeholder="Edge Title">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Edge 1 Count</label>
+  <input type="text" name="edge_1_count" class="form-control" value="{{team.edge_1_count}}" placeholder="Edge 1 Count">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Edge 1 Title</label>
+  <input type="text" name="edge_1_title" class="form-control" value="{{team.edge_1_title}}" placeholder="Edge 1 Title">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Edge 2 Count</label>
+  <input type="text" name="edge_2_count" class="form-control" value="{{team.edge_2_count}}" placeholder="Edge 2 Count">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Edge 2 Title</label>
+  <input type="text" name="edge_2_title" class="form-control" value="{{team.edge_2_title}}" placeholder="Edge 2 Title">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Edge 3 Count</label>
+  <input type="text" name="edge_3_count" class="form-control" value="{{team.edge_3_count}}" placeholder="Edge 3 Count">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Edge 3 Title</label>
+  <input type="text" name="edge_3_title" class="form-control" value="{{team.edge_3_title}}" placeholder="Edge 3 Title">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Edge 1 Unit</label>
+  <input type="text" name="edge_1_unit" class="form-control" value="{{team.edge_1_unit}}" placeholder="Edge 1 Unit">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Edge 2 Unit</label>
+  <input type="text" name="edge_2_unit" class="form-control" value="{{team.edge_2_unit}}" placeholder="Edge 2 Unit">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Edge 3 Unit</label>
+  <input type="text" name="edge_3_unit" class="form-control" value="{{team.edge_3_unit}}" placeholder="Edge 3 Unit">
+</div>
+
+<!-- Section 3 - Item 1 -->
+<div class="mb-3">
+  <label class="form-label">Section 3 Title 1</label>
+  <input type="text" name="section_3_title_1" class="form-control" value="{{team.section_3_title_1}}" placeholder="Section 3 Title 1">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Section 3 Image 1</label>
+  <input type="file" name="section_3_image_1" class="form-control">
+  {{#if team.section_3_image_1}}
+    <a href="javascript:void(0)" image-path="{{team.section_3_image_1}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Section 3 Description 1</label>
+  <textarea class="form-control" name="section_3_description_1" placeholder="Section 3 Description 1">{{team.section_3_description_1}}</textarea>
+</div>
+
+<!-- Section 3 - Item 2 -->
+<div class="mb-3">
+  <label class="form-label">Section 3 Title 2</label>
+  <input type="text" name="section_3_title_2" class="form-control" value="{{team.section_3_title_2}}" placeholder="Section 3 Title 2">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Section 3 Image 2</label>
+  <input type="file" name="section_3_image_2" class="form-control">
+  {{#if team.section_3_image_2}}
+    <a href="javascript:void(0)" image-path="{{team.section_3_image_2}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Section 3 Description 2</label>
+  <textarea class="form-control" name="section_3_description_2" placeholder="Section 3 Description 2">{{team.section_3_description_2}}</textarea>
+</div>
+
+<!-- Section 3 - Item 3 -->
+<div class="mb-3">
+  <label class="form-label">Section 3 Title 3</label>
+  <input type="text" name="section_3_title_3" class="form-control" value="{{team.section_3_title_3}}" placeholder="Section 3 Title 3">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Section 3 Image 3</label>
+  <input type="file" name="section_3_image_3" class="form-control">
+  {{#if team.section_3_image_3}}
+    <a href="javascript:void(0)" image-path="{{team.section_3_image_3}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Section 3 Description 3</label>
+  <textarea class="form-control" name="section_3_description_3" placeholder="Section 3 Description 3">{{team.section_3_description_3}}</textarea>
+</div>
+
+<!-- Section 4 -->
+<div class="mb-3">
+  <label class="form-label">Section 4 Title</label>
+  <input type="text" name="section_4_title" class="form-control" value="{{team.section_4_title}}" placeholder="Section 4 Title">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Section 4 Description</label>
+  <textarea class="form-control" name="section_4_description" placeholder="Section 4 Description">{{team.section_4_description}}</textarea>
+</div>
+
+
+<!-- Benchmark Section Title -->
+<div class="mb-3">
+  <label class="form-label">Benchmark Title</label>
+  <input type="text" name="benchmark_title" class="form-control" value="{{team.benchmark_title}}" placeholder="Benchmark Title">
+</div>
+
+<!-- Benchmark 1 -->
+<div class="mb-3">
+  <label class="form-label">Benchmark 1 Title</label>
+  <input type="text" name="benchmark_1_title" class="form-control" value="{{team.benchmark_1_title}}" placeholder="Benchmark 1 Title">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Benchmark 1 Image</label>
+  <input type="file" name="benchmark_1_image" class="form-control">
+  {{#if team.benchmark_1_image}}
+    <a href="javascript:void(0)" image-path="{{team.benchmark_1_image}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Benchmark 1 Description</label>
+  <textarea class="form-control" name="benchmark_1_description" placeholder="Benchmark 1 Description">{{team.benchmark_1_description}}</textarea>
+</div>
+
+<!-- Benchmark 2 -->
+<div class="mb-3">
+  <label class="form-label">Benchmark 2 Title</label>
+  <input type="text" name="benchmark_2_title" class="form-control" value="{{team.benchmark_2_title}}" placeholder="Benchmark 2 Title">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Benchmark 2 Image</label>
+  <input type="file" name="benchmark_2_image" class="form-control">
+  {{#if team.benchmark_2_image}}
+    <a href="javascript:void(0)" image-path="{{team.benchmark_2_image}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Benchmark 2 Description</label>
+  <textarea class="form-control" name="benchmark_2_description" placeholder="Benchmark 2 Description">{{team.benchmark_2_description}}</textarea>
+</div>
+
+<!-- Benchmark 3 -->
+<div class="mb-3">
+  <label class="form-label">Benchmark 3 Title</label>
+  <input type="text" name="benchmark_3_title" class="form-control" value="{{team.benchmark_3_title}}" placeholder="Benchmark 3 Title">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Benchmark 3 Image</label>
+  <input type="file" name="benchmark_3_image" class="form-control">
+  {{#if team.benchmark_3_image}}
+    <a href="javascript:void(0)" image-path="{{team.benchmark_3_image}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Benchmark 3 Description</label>
+  <textarea class="form-control" name="benchmark_3_description" placeholder="Benchmark 3 Description">{{team.benchmark_3_description}}</textarea>
+</div>
+
+<!-- Benchmark 4 -->
+<div class="mb-3">
+  <label class="form-label">Benchmark 4 Title</label>
+  <input type="text" name="benchmark_4_title" class="form-control" value="{{team.benchmark_4_title}}" placeholder="Benchmark 4 Title">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Benchmark 4 Image</label>
+  <input type="file" name="benchmark_4_image" class="form-control">
+  {{#if team.benchmark_4_image}}
+    <a href="javascript:void(0)" image-path="{{team.benchmark_4_image}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Benchmark 4 Description</label>
+  <textarea class="form-control" name="benchmark_4_description" placeholder="Benchmark 4 Description">{{team.benchmark_4_description}}</textarea>
+</div>
+
+
+<!-- Download Title -->
+<div class="mb-3">
+  <label class="form-label">Download Title</label>
+  <input type="text" name="download_title" class="form-control" value="{{team.download_title}}" placeholder="Download Title">
+</div>
+
+<!-- Variant Section Title -->
+<div class="mb-3">
+  <label class="form-label">Variant Section Title</label>
+  <input type="text" name="variant_title" class="form-control" value="{{team.variant_title}}" placeholder="Variant Section Title">
+</div>
+
+<!-- Variant 1 -->
+<div class="mb-3">
+  <label class="form-label">Variant 1 Title</label>
+  <input type="text" name="variant_1_title" class="form-control" value="{{team.variant_1_title}}" placeholder="Variant 1 Title">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Variant 1 Description</label>
+  <textarea class="form-control" name="variant_1_description" placeholder="Variant 1 Description">{{team.variant_1_description}}</textarea>
+</div>
+<div class="mb-3">
+  <label class="form-label">Variant 1 Full Description</label>
+  <textarea class="form-control ed1" name="variant_1_full_description" placeholder="Variant 1 Description">{{team.variant_1_full_description}}</textarea>
+</div>
+
+<!-- Variant 2 -->
+<div class="mb-3">
+  <label class="form-label">Variant 2 Title</label>
+  <input type="text" name="variant_2_title" class="form-control" value="{{team.variant_2_title}}" placeholder="Variant 2 Title">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Variant 2 Description</label>
+  <textarea class="form-control" name="variant_2_description" placeholder="Variant 2 Description">{{team.variant_2_description}}</textarea>
+</div>
+<div class="mb-3">
+  <label class="form-label">Variant 2 Full Description</label>
+  <textarea class="form-control ed2" name="variant_2_full_description" placeholder="Variant 2 Description">{{team.variant_2_full_description}}</textarea>
+</div>
+<!-- Variant 3 -->
+<div class="mb-3">
+  <label class="form-label">Variant 3 Title</label>
+  <input type="text" name="variant_3_title" class="form-control" value="{{team.variant_3_title}}" placeholder="Variant 3 Title">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Variant 3 Description</label>
+  <textarea class="form-control" name="variant_3_description" placeholder="Variant 3 Description">{{team.variant_3_description}}</textarea>
+</div>
+<div class="mb-3">
+  <label class="form-label">Variant 3 Full Description</label>
+  <textarea class="form-control ed3" name="variant_3_full_description" placeholder="Variant 2 Description">{{team.variant_3_full_description}}</textarea>
+</div>
+<!-- Variant 4 -->
+<div class="mb-3">
+  <label class="form-label">Variant 4 Title</label>
+  <input type="text" name="variant_4_title" class="form-control" value="{{team.variant_4_title}}" placeholder="Variant 4 Title">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Variant 4 Description</label>
+  <textarea class="form-control" name="variant_4_description" placeholder="Variant 4 Description">{{team.variant_4_description}}</textarea>
+</div>
+<div class="mb-3">
+  <label class="form-label">Variant 4 Full Description</label>
+  <textarea class="form-control ed4" name="variant_4_full_description" placeholder="Variant 4 Description">{{team.variant_4_full_description}}</textarea>
+</div>
+
+<!-- Deliverable Title -->
+<div class="mb-3">
+  <label class="form-label">Deliverable Title</label>
+  <input type="text" name="deliverable_title" class="form-control" value="{{team.deliverable_title}}" placeholder="Deliverable Title">
+</div>
+<div class="mb-3">
+  <label class="form-label">Deliverable 1 Title</label>
+  <input type="text" name="deliverable_1_title" class="form-control" value="{{team.deliverable_1_title}}" placeholder="Deliverable 1 Title">
+</div>
+<div class="mb-3">
+  <label class="form-label">Deliverable 1 Description</label>
+  <textarea class="form-control" name="deliverable_1_description" placeholder="Deliverable 1 Description">{{team.deliverable_1_description}}</textarea>
+</div>
+<!-- Deliverable 1 Image -->
+<div class="mb-3">
+  <label class="form-label">Deliverable 1 Image</label>
+  <input type="file" name="deliverable_1_image" class="form-control">
+  {{#if team.deliverable_1_image}}
+    <a href="javascript:void(0)" image-path="{{team.deliverable_1_image}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<!-- Deliverable 2 -->
+<div class="mb-3">
+  <label class="form-label">Deliverable 2 Title</label>
+  <input type="text" name="deliverable_2_title" class="form-control" value="{{team.deliverable_2_title}}" placeholder="Deliverable 2 Title">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Deliverable 2 Image</label>
+  <input type="file" name="deliverable_2_image" class="form-control">
+  {{#if team.deliverable_2_image}}
+    <a href="javascript:void(0)" image-path="{{team.deliverable_2_image}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Deliverable 2 Description</label>
+  <textarea class="form-control" name="deliverable_2_description" placeholder="Deliverable 2 Description">{{team.deliverable_2_description}}</textarea>
+</div>
+
+<!-- Deliverable 3 -->
+<div class="mb-3">
+  <label class="form-label">Deliverable 3 Title</label>
+  <input type="text" name="deliverable_3_title" class="form-control" value="{{team.deliverable_3_title}}" placeholder="Deliverable 3 Title">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Deliverable 3 Image</label>
+  <input type="file" name="deliverable_3_image" class="form-control">
+  {{#if team.deliverable_3_image}}
+    <a href="javascript:void(0)" image-path="{{team.deliverable_3_image}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Deliverable 3 Description</label>
+  <textarea class="form-control" name="deliverable_3_description" placeholder="Deliverable 3 Description">{{team.deliverable_3_description}}</textarea>
+</div>
+
+<!-- FAQ Title -->
+<div class="mb-3">
+  <label class="form-label">FAQ Title</label>
+  <input type="text" name="faq_title" class="form-control" value="{{team.faq_title}}" placeholder="FAQ Title">
+</div>
+<!-- CTA Title -->
+<div class="mb-3">
+  <label class="form-label">CTA Title</label>
+  <input type="text" name="cta_title" class="form-control" value="{{team.cta_title}}" placeholder="CTA Title">
+</div>
+
+<!-- CTA Description -->
+<div class="mb-3">
+  <label class="form-label">CTA Description</label>
+  <textarea class="form-control" name="cta_description" placeholder="CTA Description">{{team.cta_description}}</textarea>
+</div>
+
+<!-- CTA Button Name -->
+<div class="mb-3">
+  <label class="form-label">CTA Button Name</label>
+  <input type="text" name="cta_button_name" class="form-control" value="{{team.cta_button_name}}" placeholder="CTA Button Name">
+</div>
+
+<!-- CTA Button Link -->
+<div class="mb-3">
+  <label class="form-label">CTA Button Link</label>
+  <input type="text" name="cta_button_link" class="form-control" value="{{team.cta_button_link}}" placeholder="CTA Button Link">
+</div>
+<!-- Outcome Section -->
+<h4>Outcome</h4>
+
+<div class="mb-3">
+  <label class="form-label">Outcome Title</label>
+  <input type="text" name="outcome_title" class="form-control" value="{{team.outcome_title}}" placeholder="Outcome Title">
+</div>
+
+<!-- Outcome 1 -->
+<div class="mb-3">
+  <label class="form-label">Outcome Title 1</label>
+  <input type="text" name="outcome_title_1" class="form-control" value="{{team.outcome_title_1}}" placeholder="Outcome Title 1">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Outcome Image 1</label>
+  <input type="file" name="outcome_image_1" class="form-control">
+  {{#if team.outcome_image_1}}
+    <a href="javascript:void(0)" image-path="{{team.outcome_image_1}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Outcome Description 1</label>
+  <textarea class="form-control" name="outcome_description_1" placeholder="Outcome Description 1">{{team.outcome_description_1}}</textarea>
+</div>
+
+<!-- Outcome 2 -->
+<div class="mb-3">
+  <label class="form-label">Outcome Title 2</label>
+  <input type="text" name="outcome_title_2" class="form-control" value="{{team.outcome_title_2}}" placeholder="Outcome Title 2">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Outcome Image 2</label>
+  <input type="file" name="outcome_image_2" class="form-control">
+  {{#if team.outcome_image_2}}
+    <a href="javascript:void(0)" image-path="{{team.outcome_image_2}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Outcome Description 2</label>
+  <textarea class="form-control" name="outcome_description_2" placeholder="Outcome Description 2">{{team.outcome_description_2}}</textarea>
+</div>
+
+<!-- Outcome 3 -->
+<div class="mb-3">
+  <label class="form-label">Outcome Title 3</label>
+  <input type="text" name="outcome_title_3" class="form-control" value="{{team.outcome_title_3}}" placeholder="Outcome Title 3">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Outcome Image 3</label>
+  <input type="file" name="outcome_image_3" class="form-control">
+  {{#if team.outcome_image_3}}
+    <a href="javascript:void(0)" image-path="{{team.outcome_image_3}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Outcome Description 3</label>
+  <textarea class="form-control" name="outcome_description_3" placeholder="Outcome Description 3">{{team.outcome_description_3}}</textarea>
+</div>
+
+<!-- Methodology Section -->
+<h4>Methodology</h4>
+
+
+
+<div class="mb-3">
+  <label class="form-label">Methodology Title 1</label>
+  <input type="text" name="methodology_title_1" class="form-control" value="{{team.methodology_title_1}}" placeholder="Methodology Title 1">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Methodology Image 1</label>
+  <input type="file" name="methodology_image_1" class="form-control">
+  {{#if team.methodology_image_1}}
+    <a href="javascript:void(0)" image-path="{{team.methodology_image_1}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Methodology Description 1</label>
+  <textarea class="form-control" name="methodology_description_1" placeholder="Methodology Description 1">{{team.methodology_description_1}}</textarea>
+</div>
+
+<!-- Journey Section -->
+<h4>Journey</h4>
+
+<div class="mb-3">
+  <label class="form-label">Journey Title</label>
+  <input type="text" name="journey_title" class="form-control" value="{{team.journey_title}}" placeholder="Journey Title">
+</div>
+
+<!-- Journey 1 -->
+<div class="mb-3">
+  <label class="form-label">Journey Title 1</label>
+  <input type="text" name="journey_title_1" class="form-control" value="{{team.journey_title_1}}" placeholder="Journey Title 1">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Journey Image 1</label>
+  <input type="file" name="journey_image_1" class="form-control">
+  {{#if team.journey_image_1}}
+    <a href="javascript:void(0)" image-path="{{team.journey_image_1}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+
+
+<!-- Journey 2 -->
+<div class="mb-3">
+  <label class="form-label">Journey Title 2</label>
+  <input type="text" name="journey_title_2" class="form-control" value="{{team.journey_title_2}}" placeholder="Journey Title 2">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Journey Image 2</label>
+  <input type="file" name="journey_image_2" class="form-control">
+  {{#if team.journey_image_2}}
+    <a href="javascript:void(0)" image-path="{{team.journey_image_2}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<!-- Journey 3 -->
+<div class="mb-3">
+  <label class="form-label">Journey Title 3</label>
+  <input type="text" name="journey_title_3" class="form-control" value="{{team.journey_title_3}}" placeholder="Journey Title 3">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Journey Image 3</label>
+  <input type="file" name="journey_image_3" class="form-control">
+  {{#if team.journey_image_3}}
+    <a href="javascript:void(0)" image-path="{{team.journey_image_3}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+
+
+<!-- Journey 4 -->
+<div class="mb-3">
+  <label class="form-label">Journey Title 4</label>
+  <input type="text" name="journey_title_4" class="form-control" value="{{team.journey_title_4}}" placeholder="Journey Title 4">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Journey Image 4</label>
+  <input type="file" name="journey_image_4" class="form-control">
+  {{#if team.journey_image_4}}
+    <a href="javascript:void(0)" image-path="{{team.journey_image_4}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+
+<!-- Journey 5 -->
+<div class="mb-3">
+  <label class="form-label">Journey Title 5</label>
+  <input type="text" name="journey_title_5" class="form-control" value="{{team.journey_title_5}}" placeholder="Journey Title 5">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Journey Image 5</label>
+  <input type="file" name="journey_image_5" class="form-control">
+  {{#if team.journey_image_5}}
+    <a href="javascript:void(0)" image-path="{{team.journey_image_5}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<!-- Journey 6 -->
+<div class="mb-3">
+  <label class="form-label">Journey Title 6</label>
+  <input type="text" name="journey_title_6" class="form-control" value="{{team.journey_title_6}}" placeholder="Journey Title 6">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Journey Image 6</label>
+  <input type="file" name="journey_image_6" class="form-control">
+  {{#if team.journey_image_6}}
+    <a href="javascript:void(0)" image-path="{{team.journey_image_6}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+
+
+<!-- Journey 7 -->
+<div class="mb-3">
+  <label class="form-label">Journey Title 7</label>
+  <input type="text" name="journey_title_7" class="form-control" value="{{team.journey_title_7}}" placeholder="Journey Title 7">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Journey Image 7</label>
+  <input type="file" name="journey_image_7" class="form-control">
+  {{#if team.journey_image_7}}
+    <a href="javascript:void(0)" image-path="{{team.journey_image_7}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+
+
+<!-- Journey 8 -->
+<div class="mb-3">
+  <label class="form-label">Journey Title 8</label>
+  <input type="text" name="journey_title_8" class="form-control" value="{{team.journey_title_8}}" placeholder="Journey Title 8">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Journey Image 8</label>
+  <input type="file" name="journey_image_8" class="form-control">
+  {{#if team.journey_image_8}}
+    <a href="javascript:void(0)" image-path="{{team.journey_image_8}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+
+<!-- Experience Section -->
+<h4>Experience</h4>
+
+<div class="mb-3">
+  <label class="form-label">Experience Title</label>
+  <input type="text" name="experince_title" class="form-control" value="{{team.experince_title}}" placeholder="Experience Title">
+</div>
+
+<!-- Experience 1 -->
+<div class="mb-3">
+  <label class="form-label">Experience Title 1</label>
+  <input type="text" name="experince_title_1" class="form-control" value="{{team.experince_title_1}}" placeholder="Experience Title 1">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Experience Image 1</label>
+  <input type="file" name="experince_image_1" class="form-control">
+  {{#if team.experince_image_1}}
+    <a href="javascript:void(0)" image-path="{{team.experince_image_1}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Experience Description 1</label>
+  <textarea class="form-control" name="experince_description_1" placeholder="Experience Description 1">{{team.experince_description_1}}</textarea>
+</div>
+
+<!-- Experience 2 -->
+<div class="mb-3">
+  <label class="form-label">Experience Title 2</label>
+  <input type="text" name="experince_title_2" class="form-control" value="{{team.experince_title_2}}" placeholder="Experience Title 2">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Experience Image 2</label>
+  <input type="file" name="experince_image_2" class="form-control">
+  {{#if team.experince_image_2}}
+    <a href="javascript:void(0)" image-path="{{team.experince_image_2}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Experience Description 2</label>
+  <textarea class="form-control" name="experince_description_2" placeholder="Experience Description 2">{{team.experince_description_2}}</textarea>
+</div>
+
+<!-- Experience 3 -->
+<div class="mb-3">
+  <label class="form-label">Experience Title 3</label>
+  <input type="text" name="experince_title_3" class="form-control" value="{{team.experince_title_3}}" placeholder="Experience Title 3">
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Experience Image 3</label>
+  <input type="file" name="experince_image_3" class="form-control">
+  {{#if team.experince_image_3}}
+    <a href="javascript:void(0)" image-path="{{team.experince_image_3}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Experience Description 3</label>
+  <textarea class="form-control" name="experince_description_3" placeholder="Experience Description 3">{{team.experince_description_3}}</textarea>
+</div>
+
+ <div class="mb-3">
+                        <label class="form-label">Select Clients</label>
+                        <select id="select2-dropdown" class="form-control" name="clients[]" style="width: 100%;" multiple>
+                          {{#each client}}
+                          
+  <option value="{{this._id}}" data-image="{{url}}{{this.image}}" {{#if (contains this._id ../team.clients)}}selected{{/if}}>{{this.name}}</option>
+                          {{/each}}
+</select>
+                      </div>
+                       <div class="mb-3">
+                        <label class="form-label">Select Testimonials</label>
+                        <select id="select2-dropdowns" class="form-control" name="testimonials[]" style="width: 100%;" multiple>
+                          {{#each testimonial}}
+                          
+  <option value="{{this._id}}" data-image="{{url}}{{this.image}}" {{#if (contains this._id ../team.testimonials)}}selected{{/if}}>{{this.name}}</option>
+                          {{/each}}
+</select>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                      <a href="/dashboard" class="btn btn-danger">Cancel</a>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {{>adminfooter}}
+          <script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              ClassicEditor
+                .create(document.querySelector('.ed4'), {
+                  autoGrow: false, // Disable auto grow
+                  // Your other CKEditor configuration options...
+                })
+                .then(editor => {
+                  editor.ui.view.editable.element.style.height = '400px';
+                  console.log(editor);
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+            });
+            document.addEventListener("DOMContentLoaded", function () {
+              ClassicEditor
+                .create(document.querySelector('.ed1'), {
+                  autoGrow: false, // Disable auto grow
+                  // Your other CKEditor configuration options...
+                })
+                .then(editor => {
+                  editor.ui.view.editable.element.style.height = '400px';
+                  console.log(editor);
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+            });
+            document.addEventListener("DOMContentLoaded", function () {
+              ClassicEditor
+                .create(document.querySelector('.ed2'), {
+                  autoGrow: false, // Disable auto grow
+                  // Your other CKEditor configuration options...
+                })
+                .then(editor => {
+                  editor.ui.view.editable.element.style.height = '400px';
+                  console.log(editor);
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+            });
+            document.addEventListener("DOMContentLoaded", function () {
+              ClassicEditor
+                .create(document.querySelector('.ed3'), {
+                  autoGrow: false, // Disable auto grow
+                  // Your other CKEditor configuration options...
+                })
+                .then(editor => {
+                  editor.ui.view.editable.element.style.height = '400px';
+                  console.log(editor);
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+            });
+          </script>

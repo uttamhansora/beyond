@@ -1,0 +1,138 @@
+{{> adminhead}}
+
+<body>
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+      {{> adminsidebar}}
+      <!-- / Menu -->
+
+      <!-- Layout container -->
+      <div class="layout-page">
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="py-3 mb-4">
+              <span class="text-muted fw-light">Dashboard/</span>
+              Create Feedback Center
+            </h4>
+            <div class="row">
+              <div class="col-xl">
+                <div class="card mb-4">
+                  <div class="card-body">
+                    <form action="/service9store" method="post" enctype="multipart/form-data">
+                      {{#if team._id}}
+                      <input type="hidden" name="id" value="{{team._id}}">
+                      {{/if}}
+<div class="mb-3">
+        <label class="form-label" for="section_1_image">Background Image</label>
+        <input type="file" name="bg_image" class="form-control" id="bg_image" />
+        {{#if team.bg_image}}
+        <a href="{{team.bg_image}}" target="_blank" class="openimage">View Image</a>
+        {{/if}}
+    </div>
+                      <!-- Name Field -->
+                      <div class="mb-3">
+                        <label class="form-label" for="basic-default-fullname">Name</label>
+                        <input type="text" name="name" class="form-control" value="{{team.name}}" id="basic-default-fullname"
+                          placeholder="Enter Name" oninput="generateSlug()" />
+                      </div>
+
+                      <!-- Main Title Field -->
+                      <div class="mb-3">
+                        <label class="form-label" for="basic-default-main-title">Main Title</label>
+                        <input type="text" name="main_title" value="{{team.main_title}}" class="form-control"
+                          id="basic-default-main-title" placeholder="Enter Main Title" />
+                      </div>
+<div class="mb-3">
+  <label class="form-label" for="ns_title">Sub Section Title</label>
+  <input type="text" name="ns_title" value="{{team.ns_title}}" class="form-control" id="ns_title" placeholder="Sub Section Title" />
+</div>
+
+<div class="mb-3">
+  <label class="form-label" for="ns_image">Sub Section Image</label>
+  <input type="file" name="ns_image" class="form-control" id="ns_image">
+  {{#if team.ns_image}}
+    <a href="javascript:void(0)" image-path="{{team.ns_image}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <label class="form-label" for="ns_description">Sub Section Description</label>
+  <textarea id="ns_description" class="form-control" name="ns_description" placeholder="Sub Section Description">{{team.ns_description}}</textarea>
+</div>
+                      <!-- Description Field -->
+                      <div class="mb-3">
+                        <label class="form-label" for="basic-default-description">Description</label>
+                        <textarea name="description" class="form-control" id="basic-default-description" placeholder="Enter Description">{{team.description}}</textarea>
+                      </div>
+
+                      <!-- Slug Field (auto-generated) -->
+                      <div class="mb-3">
+                        <label class="form-label" for="basic-default-slug">Slug</label>
+                        <input type="text" name="slug" class="form-control" value="{{team.slug}}" id="basic-default-slug" readonly />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label">Select Clients</label>
+                        <select id="select2-dropdown" class="form-control" name="clients[]" style="width: 100%;" multiple>
+                          {{#each client}}
+                          
+  <option value="{{this._id}}" data-image="{{url}}{{this.image}}" {{#if (contains this._id ../team.clients)}}selected{{/if}}>{{this.name}}</option>
+                          {{/each}}
+</select>
+                      </div>
+<div class="mb-3">
+                        <label class="form-label">Select Case Study</label>
+                        <select id="select2-dropdowncs" class="form-control" name="service_casestudy[]" style="width: 100%;" multiple>
+                          {{#each casestudy}}
+                          
+  <option value="{{this._id}}" data-image="{{url}}{{this.image}}" {{#if (contains this._id ../team.service_casestudy)}}selected{{/if}}>{{this.name}}</option>
+                          {{/each}}
+</select>
+                      </div>
+                      <!-- Submit Button -->
+                      <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {{> adminfooter}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript for auto-generating the slug -->
+  <script>
+    function generateSlug() {
+      var name = document.querySelector('input[name="name"]').value;
+      var slugField = document.querySelector('input[name="slug"]');
+      
+      // Generate slug by converting name to lowercase and replacing spaces with hyphens
+      var slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+      
+      // Set the generated slug in the slug field
+      slugField.value = slug;
+    }
+  </script>
+  <script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              ClassicEditor
+                .create(document.querySelector('#ns_description'), {
+                  autoGrow: false, // Disable auto grow
+                  // Your other CKEditor configuration options...
+                })
+                .then(editor => {
+                  editor.ui.view.editable.element.style.height = '400px';
+                  console.log(editor);
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+            });
+          </script>
+</body>

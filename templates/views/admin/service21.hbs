@@ -1,0 +1,244 @@
+{{>adminhead}}
+
+<body>
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+      {{>adminsidebar}}
+      <!-- / Menu -->
+
+      <!-- Layout container -->
+      <div class="layout-page">
+        <!-- Navbar -->
+
+        <!-- / Navbar -->
+
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="py-3 mb-4">
+              <span class="text-muted fw-light">Dashboard /</span> Create Talent Assessment
+            </h4>
+            <div class="row">
+              <div class="col-xl">
+                <div class="card mb-4">
+                  <div class="card-body">
+                    <form action="/service21store" method="post" enctype="multipart/form-data">
+                      {{#if team._id}}
+                      <input type="hidden" name="id" value="{{team._id}}">
+                      {{/if}}
+<div class="mb-3">
+        <label class="form-label" for="section_1_image">Background Image</label>
+        <input type="file" name="bg_image" class="form-control" id="bg_image" />
+        {{#if team.bg_image}}
+        <a href="{{team.bg_image}}" target="_blank" class="openimage">View Image</a>
+        {{/if}}
+    </div>
+     <div class="mb-3">
+                        <label class="form-label"
+                          for="practice_section_1_image">Broucher PDF</label>
+                        <input type="file" name="br_pdf"
+                          class="form-control">
+                        {{#if team.br_pdf}}
+                        <a href="javascript:void(0)"
+                          image-path="{{team.br_pdf}}"
+                          class="openimage">View Image</a>
+                        {{/if}}
+                      </div>
+                      <!-- Name -->
+                      <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input type="text" name="name" class="form-control" value="{{team.name}}" placeholder="Name" />
+                      </div>
+
+                      <!-- Main Title -->
+                      <div class="mb-3">
+                        <label class="form-label">Main Title</label>
+                        <input type="text" name="main_title" class="form-control" value="{{team.main_title}}" placeholder="Main Title" />
+                      </div>
+
+                      <!-- Description -->
+                      <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" name="description" placeholder="Description">{{team.description}}</textarea>
+                      </div>
+
+                      <!-- Development Center Title -->
+                      <div class="mb-3">
+                        <label class="form-label">Development Center Title</label>
+                        <input type="text" name="developmentcenter_title" class="form-control" value="{{team.developmentcenter_title}}" placeholder="Development Center Title" />
+                      </div>
+
+                      <!-- Section 1 Title -->
+                      <div class="mb-3">
+                        <label class="form-label">Section 1 Title</label>
+                        <input type="text" name="section_1_title" class="form-control" value="{{team.section_1_title}}" placeholder="Section 1 Title" />
+                      </div>
+
+                      <!-- Section 1 Heading -->
+                      <div class="mb-3">
+                        <label class="form-label">Section 1 Heading</label>
+                        <input type="text" name="section_1_heading" class="form-control" value="{{team.section_1_heading}}" placeholder="Section 1 Heading" />
+                      </div>
+
+                      <!-- Section 1 Image -->
+                      <div class="mb-3">
+                        <label class="form-label">Section 1 Image</label>
+                        <input type="file" name="section_1_image" class="form-control">
+                        {{#if team.section_1_image}}
+                        <a href="javascript:void(0)" image-path="{{team.section_1_image}}" class="openimage">View Image</a>
+                        {{/if}}
+                      </div>
+
+                      <!-- Section 1 Description -->
+                      <div class="mb-3">
+                        <label class="form-label">Section 1 Description</label>
+                        <textarea class="form-control" name="section_1_description" placeholder="Section 1 Description">{{team.section_1_description}}</textarea>
+                      </div>
+
+                      <!-- Application Title -->
+                      <div class="mb-3">
+                        <label class="form-label">Application Title</label>
+                        <input type="text" name="application_title" class="form-control" value="{{team.application_title}}" placeholder="Application Title" />
+                      </div>
+
+                      <!-- Section 2 Title -->
+                      <div class="mb-3">
+                        <label class="form-label">Section 2 Title</label>
+                        <input type="text" name="section_2_title" class="form-control" value="{{team.section_2_title}}" placeholder="Section 2 Title" />
+                      </div>
+
+                      <!-- Section 2 Image -->
+                      <div class="mb-3">
+                        <label class="form-label">Section 2 Image</label>
+                        <input type="file" name="section_2_image" class="form-control">
+                        {{#if team.section_2_image}}
+                        <a href="javascript:void(0)" image-path="{{team.section_2_image}}" class="openimage">View Image</a>
+                        {{/if}}
+                      </div>
+
+                      <!-- Section 2 Description -->
+                      <div class="mb-3">
+                        <label class="form-label">Section 2 Description</label>
+                        <textarea class="form-control" name="section_2_description" placeholder="Section 2 Description">{{team.section_2_description}}</textarea>
+                      </div>
+
+                      <!-- Deliverable Title -->
+                      <div class="mb-3">
+                        <label class="form-label">Deliverable Title</label>
+                        <input type="text" name="deliverable_title" class="form-control" value="{{team.deliverable_title}}" placeholder="Deliverable Title" />
+                      </div>
+
+                      <!-- Deliverable 1 -->
+                      <div class="mb-3">
+                        <label class="form-label">Deliverable Title 1</label>
+                        <input type="text" name="deliverable_title_1" class="form-control" value="{{team.deliverable_title_1}}" placeholder="Deliverable Title 1" />
+                        <label class="form-label mt-2">Deliverable Image 1</label>
+                        <input type="file" name="deliverable_image_1" class="form-control">
+                        {{#if team.deliverable_image_1}}
+                        <a href="javascript:void(0)" image-path="{{team.deliverable_image_1}}" class="openimage">View Image</a>
+                        {{/if}}
+                        <label class="form-label mt-2">Deliverable Description 1</label>
+                        <textarea class="form-control" name="deliverable_description_1" placeholder="Deliverable Description 1">{{team.deliverable_description_1}}</textarea>
+                      </div>
+
+                      <!-- Deliverable 2 -->
+                      <div class="mb-3">
+                        <label class="form-label">Deliverable Title 2</label>
+                        <input type="text" name="deliverable_title_2" class="form-control" value="{{team.deliverable_title_2}}" placeholder="Deliverable Title 2" />
+                        <label class="form-label mt-2">Deliverable Image 2</label>
+                        <input type="file" name="deliverable_image_2" class="form-control">
+                        {{#if team.deliverable_image_2}}
+                        <a href="javascript:void(0)" image-path="{{team.deliverable_image_2}}" class="openimage">View Image</a>
+                        {{/if}}
+                        <label class="form-label mt-2">Deliverable Description 2</label>
+                        <textarea class="form-control" name="deliverable_description_2" placeholder="Deliverable Description 2">{{team.deliverable_description_2}}</textarea>
+                      </div>
+
+                      <!-- Deliverable 3 -->
+                      <div class="mb-3">
+                        <label class="form-label">Deliverable Title 3</label>
+                        <input type="text" name="deliverable_title_3" class="form-control" value="{{team.deliverable_title_3}}" placeholder="Deliverable Title 3" />
+                        <label class="form-label mt-2">Deliverable Image 3</label>
+                        <input type="file" name="deliverable_image_3" class="form-control">
+                        {{#if team.deliverable_image_3}}
+                        <a href="javascript:void(0)" image-path="{{team.deliverable_image_3}}" class="openimage">View Image</a>
+                        {{/if}}
+                        <label class="form-label mt-2">Deliverable Description 3</label>
+                        <textarea class="form-control" name="deliverable_description_3" placeholder="Deliverable Description 3">{{team.deliverable_description_3}}</textarea>
+                      </div>
+
+                      <!-- Benchmark Title -->
+                      <div class="mb-3">
+                        <label class="form-label">Benchmark Title</label>
+                        <input type="text" name="benchmark_title" class="form-control" value="{{team.benchmark_title}}" placeholder="Benchmark Title" />
+                      </div>
+                        <div class="mb-3">
+                        <label class="form-label" for="basic-default-main-title">Development Center Title</label>
+                        <input type="text" name="development_center_title" value="{{team.development_center_title}}" class="form-control"
+                          id="basic-default-main-title" placeholder="Development Center Title" />
+                      </div>
+                      
+                      <div class="mb-3">
+                        <label class="form-label" for="basic-default-main-title">Development Center Heading</label>
+                        <input type="text" name="development_center_heading" value="{{team.development_center_heading}}" class="form-control"
+                          id="basic-default-main-title" placeholder="Development Center Heading" />
+                      </div>
+                       <div class="mb-3">
+                        <label class="form-label">Select Clients</label>
+                        <select id="select2-dropdown" class="form-control" name="clients[]" style="width: 100%;" multiple>
+                          {{#each client}}
+                          
+  <option value="{{this._id}}" data-image="{{url}}{{this.image}}" {{#if (contains this._id ../team.clients)}}selected{{/if}}>{{this.name}}</option>
+                          {{/each}}
+</select>
+                      </div>
+                       <div class="mb-3">
+                        <label class="form-label">Select Testimonials</label>
+                        <select id="select2-dropdowns" class="form-control" name="testimonials[]" style="width: 100%;" multiple>
+                          {{#each testimonial}}
+                          
+  <option value="{{this._id}}" data-image="{{url}}{{this.image}}" {{#if (contains this._id ../team.testimonials)}}selected{{/if}}>{{this.name}}</option>
+                          {{/each}}
+</select>
+                      </div>
+<div class="mb-3">
+                        <label class="form-label">Select Case Study</label>
+                        <select id="select2-dropdowncs" class="form-control" name="service_casestudy[]" style="width: 100%;" multiple>
+                          {{#each casestudy}}
+                          
+  <option value="{{this._id}}" data-image="{{url}}{{this.image}}" {{#if (contains this._id ../team.service_casestudy)}}selected{{/if}}>{{this.name}}</option>
+                          {{/each}}
+</select>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {{>adminfooter}}
+          <script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              ClassicEditor
+                .create(document.querySelector('#editor'), {
+                  autoGrow: false,
+                })
+                .then(editor => {
+                  editor.ui.view.editable.element.style.height = '400px';
+                  console.log(editor);
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+            });
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

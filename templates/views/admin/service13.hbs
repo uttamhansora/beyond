@@ -1,0 +1,241 @@
+{{>adminhead}}
+
+<body>
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+      {{>adminsidebar}}
+      <!-- / Menu -->
+
+      <!-- Layout container -->
+      <div class="layout-page">
+        <!-- Navbar -->
+        <!-- / Navbar -->
+
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="py-3 mb-4">
+              <span class="text-muted fw-light">Dashboard/</span> Hi-Performance Conversations
+            </h4>
+            <div class="row">
+              <div class="col-xl">
+                <div class="card mb-4">
+                  <div class="card-body">
+                    <form action="/service13store" method="post" enctype="multipart/form-data">
+                      {{#if team._id}}
+                      <input type="hidden" name="id" value="{{team._id}}">
+                      {{/if}}
+                      <div class="mb-3">
+        <label class="form-label" for="section_1_image">Background Image</label>
+        <input type="file" name="bg_image" class="form-control" id="bg_image" />
+        {{#if team.bg_image}}
+        <a href="{{team.bg_image}}" target="_blank" class="openimage">View Image</a>
+        {{/if}}
+    </div>
+     <div class="mb-3">
+                        <label class="form-label"
+                          for="practice_section_1_image">Broucher PDF</label>
+                        <input type="file" name="br_pdf"
+                          class="form-control">
+                        {{#if team.br_pdf}}
+                        <a href="javascript:void(0)"
+                          image-path="{{team.br_pdf}}"
+                          class="openimage">View Image</a>
+                        {{/if}}
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input type="text" name="name" class="form-control" value="{{team.name}}" placeholder="Name" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Main Title</label>
+                        <input type="text" name="main_title" class="form-control" value="{{team.main_title}}" placeholder="Main Title" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" class="form-control">{{team.description}}</textarea>
+                      </div>
+
+
+                      <!-- Productivity Section -->
+                      <div class="mb-3">
+                        <label class="form-label">Productivity 1 Title</label>
+                        <input type="text" name="productivity_1_title" class="form-control" value="{{team.productivity_1_title}}" placeholder="Productivity 1 Title" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Productivity 1 Percentage</label>
+                        <input type="text" name="productivity_1_percentage" class="form-control" value="{{team.productivity_1_percentage}}" placeholder="Productivity 1 Percentage" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Productivity 1 Description</label>
+                        <textarea name="productivity_1_descriptiion" class="form-control" >{{team.productivity_1_descriptiion}}</textarea>
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Productivity 2 Title</label>
+                        <input type="text" name="productivity_2_title" class="form-control" value="{{team.productivity_2_title}}" placeholder="Productivity 2 Title" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Productivity 2 Percentage</label>
+                        <input type="text" name="productivity_2_percentage" class="form-control" value="{{team.productivity_2_percentage}}" placeholder="Productivity 2 Percentage" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Productivity 2 Description</label>
+                        <textarea name="productivity_2_descriptiion" class="form-control">{{team.productivity_2_descriptiion}}</textarea>
+                      </div>
+
+                      <!-- Advantage Section -->
+                      <div class="mb-3">
+                        <label class="form-label">Advantage Title</label>
+                        <input type="text" name="advantage_title" class="form-control" value="{{team.advantage_title}}" placeholder="Advantage Title" />
+                      </div>
+
+                      <!-- Advantage Image Fields -->
+                      {{#each advantage as |index|}}
+                      <div class="mb-3">
+                        <label class="form-label">Advantage Image {{index}}</label>
+                        <input type="file" name="advantage_image_{{index}}" class="form-control" />
+                      
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Advantage Title {{index}}</label>
+                        <input type="text" name="advantage_title_{{index}}" class="form-control" value="{{getDynamicValues ../team 'advantage_title' index }}" placeholder="Advantage Title {{index}}" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Advantage Description {{index}}</label>
+                        <textarea name="advantage_description_{{index}}" class="form-control">{{getDynamicValues ../team 'advantage_description' index }}</textarea>
+                      </div>
+                      {{/each}}
+
+                      <!-- Variant Section -->
+                      <div class="mb-3">
+                        <label class="form-label">Variant Title</label>
+                        <input type="text" name="variant_title" class="form-control" value="{{team.variant_title}}" placeholder="Variant Title" />
+                      </div>
+
+                      {{#each vari as |index|}}
+                      <div class="mb-3">
+                        <label class="form-label">Variant Title {{index}}</label>
+                        <input type="text" name="variant_title_{{index}}" class="form-control" value="{{getDynamicValues ../team 'variant_title' index }}" placeholder="Variant Title {{index}}" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Use For (Variant {{index}})</label>
+                        <input type="text" name="variant_use_for_{{index}}" class="form-control" value="{{getDynamicValues ../team 'variant_use_for' index }}" placeholder="Use For" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Price (Variant {{index}})</label>
+                        <input type="text" name="variant_price_{{index}}" class="form-control" value="{{getDynamicValues ../team 'variant_price' index }}" placeholder="Price" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Participant Title (Variant {{index}})</label>
+                        <input type="text" name="variant_partipant_title_{{index}}" class="form-control" value="{{getDynamicValues ../team 'variant_partipant_title' index }}" placeholder="Participant Title" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Description (Variant {{index}})</label>
+                        <textarea name="variant_description_{{index}}" class="form-control edit{{index}}">{{getDynamicValues ../team 'variant_description' index }}</textarea>
+                      </div>
+                      {{/each}}
+                        <div class="mb-3">
+                        <label class="form-label">Select Clients</label>
+                        <select id="select2-dropdown" class="form-control" name="clients[]" style="width: 100%;" multiple>
+                          {{#each client}}
+                          
+  <option value="{{this._id}}" data-image="{{url}}{{this.image}}" {{#if (contains this._id ../team.clients)}}selected{{/if}}>{{this.name}}</option>
+                          {{/each}}
+</select>
+                      </div>
+                       <div class="mb-3">
+                        <label class="form-label">Select Testimonials</label>
+                        <select id="select2-dropdowns" class="form-control" name="testimonials[]" style="width: 100%;" multiple>
+                          {{#each testimonial}}
+                          
+  <option value="{{this._id}}" data-image="{{url}}{{this.image}}" {{#if (contains this._id ../team.testimonials)}}selected{{/if}}>{{this.name}}</option>
+                          {{/each}}
+</select>
+                      </div>
+ <div class="mb-3">
+                        <label class="form-label">Select Case Study</label>
+                        <select id="select2-dropdowncs" class="form-control" name="service_casestudy[]" style="width: 100%;" multiple>
+                          {{#each casestudy}}
+                          
+  <option value="{{this._id}}" data-image="{{url}}{{this.image}}" {{#if (contains this._id ../team.service_casestudy)}}selected{{/if}}>{{this.name}}</option>
+                          {{/each}}
+</select>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {{>adminfooter}}
+           <script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              ClassicEditor
+                .create(document.querySelector('.editor'), {
+                  autoGrow: false,
+                })
+                .then(editor => {
+                  editor.ui.view.editable.element.style.height = '400px';
+                  console.log(editor);
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+                 ClassicEditor
+                .create(document.querySelector('.edit1'), {
+                  autoGrow: false,
+                })
+                .then(editor => {
+                  editor.ui.view.editable.element.style.height = '400px';
+                  console.log(editor);
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+                 ClassicEditor
+                .create(document.querySelector('.edit2'), {
+                  autoGrow: false,
+                })
+                .then(editor => {
+                  editor.ui.view.editable.element.style.height = '400px';
+                  console.log(editor);
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+                 ClassicEditor
+                .create(document.querySelector('.edit3'), {
+                  autoGrow: false,
+                })
+                .then(editor => {
+                  editor.ui.view.editable.element.style.height = '400px';
+                  console.log(editor);
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+            });
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

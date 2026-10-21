@@ -1,0 +1,650 @@
+{{>adminhead}}
+
+<body>
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      {{>adminsidebar}}
+      <div class="layout-page">
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="py-3 mb-4">
+              <span class="text-muted fw-light">Dashboard / <a href="/securityservicepage">Service Pages</a> /</span>
+              {{#if page._id}}Edit{{else}}Create{{/if}} Service Page
+            </h4>
+            {{#if message}}
+            <div class="alert alert-warning">{{message}}</div>
+            {{/if}}
+            <p class="text-muted">Fields follow the Network Security Assessment page, section by section. Lists take one item per line. Images are uploaded as files.</p>
+
+            <form action="/storesecurityservicepage" method="post" enctype="multipart/form-data">
+              {{#if page._id}}
+              <input type="hidden" name="id" value="{{page._id}}">
+              {{/if}}
+              <input type="hidden" name="layout" value="network">
+
+              <div class="card mb-4">
+                <div class="card-header"><h5 class="mb-0">Page</h5></div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Title</label>
+                      <input type="text" name="title" class="form-control" value="{{page.title}}" placeholder="Network Security Assessment" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Slug</label>
+                      <input type="text" name="slug" class="form-control" value="{{page.slug}}" placeholder="network-security-assessment">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label class="form-label">Category</label>
+                      <select name="category" class="form-control">
+                        <option value="Application" {{#if (eq page.category 'Application')}}selected{{/if}}>Application</option>
+                        <option value="Infrastructure" {{#unless page.category}}selected{{/unless}}{{#if (eq page.category 'Infrastructure')}}selected{{/if}}>Infrastructure</option>
+                        <option value="Advanced" {{#if (eq page.category 'Advanced')}}selected{{/if}}>Advanced</option>
+                      </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label class="form-label">Status</label>
+                      <select name="status" class="form-control">
+                        <option value="draft" {{#unless page.status}}selected{{/unless}}{{#if (eq page.status 'draft')}}selected{{/if}}>Draft</option>
+                        <option value="published" {{#if (eq page.status 'published')}}selected{{/if}}>Published</option>
+                      </select>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                      <label class="form-label">Meta title</label>
+                      <input type="text" name="meta_title" class="form-control" value="{{page.meta_title}}" placeholder="Network Security Assessment | Whitenet">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                      <label class="form-label">Meta description</label>
+                      <textarea name="meta_description" class="form-control" rows="2" placeholder="Short description for search results">{{page.meta_description}}</textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card mb-4">
+                <div class="card-header"><h5 class="mb-0">Hero</h5></div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Breadcrumb label</label>
+                      <input type="text" name="hero[breadcrumb_label]" class="form-control" value="{{page.hero.breadcrumb_label}}" placeholder="Services">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Breadcrumb link</label>
+                      <input type="text" name="hero[breadcrumb_link]" class="form-control" value="{{page.hero.breadcrumb_link}}" placeholder="/services">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Breadcrumb current page</label>
+                      <input type="text" name="hero[breadcrumb_current]" class="form-control" value="{{page.hero.breadcrumb_current}}" placeholder="Network Security Assessment">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Heading</label>
+                      <input type="text" name="hero[heading]" class="form-control" value="{{page.hero.heading}}" placeholder="Network Security Assessment">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Summary</label>
+                      <input type="text" name="hero[summary]" class="form-control" value="{{page.hero.summary}}" placeholder="Find Network Weaknesses Before Attackers Do">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                      <label class="form-label">Description</label>
+                      <textarea name="hero[description]" class="form-control" rows="4" placeholder="Once an attacker gets a foothold in your network...">{{page.hero.description}}</textarea>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Button text</label>
+                      <input type="text" name="hero[cta_text]" class="form-control" value="{{page.hero.cta_text}}" placeholder="Secure Your Web Applications Today">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Button link</label>
+                      <input type="text" name="hero[cta_link]" class="form-control" value="{{page.hero.cta_link}}" placeholder="/contact-us">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Background image</label>
+                      {{#if page.hero.bg_image}}
+                        <div class="mb-2"><img src="/{{page.hero.bg_image}}" alt="" style="max-height:72px;max-width:100%;object-fit:contain"></div>
+                      {{/if}}
+                      <input type="hidden" name="hero[bg_image]" value="{{page.hero.bg_image}}">
+                      <input type="file" name="hero_bg_file" class="form-control" accept="image/*,.gif,.svg,.webp">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card mb-4">
+                <div class="card-header"><h5 class="mb-0">What We Test</h5></div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Heading</label>
+                      <input type="text" name="what_we_test[heading]" class="form-control" value="{{page.what_we_test.heading}}" placeholder="What We Test">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Card heading</label>
+                      <input type="text" name="what_we_test[card_heading]" class="form-control" value="{{page.what_we_test.card_heading}}" placeholder="Web Application Assessment">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                      <label class="form-label">Subheading</label>
+                      <textarea name="what_we_test[subheading]" class="form-control" rows="2" placeholder="Our security specialists perform comprehensive assessments...">{{page.what_we_test.subheading}}</textarea>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Preview items (shown before expand, one per line)</label>
+                      <textarea name="what_we_test[preview_items]" class="form-control" rows="4" placeholder="Authentication & Authorization&#10;Session Management&#10;User Access Controls">{{previewItems}}</textarea>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">All test items (one per line)</label>
+                      <textarea name="what_we_test[items]" class="form-control" rows="8" placeholder="Authentication & Authorization&#10;Session Management&#10;Input Validation">{{testItems}}</textarea>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Button text</label>
+                      <input type="text" name="what_we_test[cta_text]" class="form-control" value="{{page.what_we_test.cta_text}}" placeholder="Learn more">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Button link</label>
+                      <input type="text" name="what_we_test[cta_link]" class="form-control" value="{{page.what_we_test.cta_link}}" placeholder="/contact-us">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card mb-4">
+                <div class="card-header"><h5 class="mb-0">Secure banner</h5></div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Title</label>
+                      <input type="text" name="secure_cta[title]" class="form-control" value="{{page.secure_cta.title}}" placeholder="Secure Your Web Applications Today">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Button text</label>
+                      <input type="text" name="secure_cta[button_text]" class="form-control" value="{{page.secure_cta.button_text}}" placeholder="Get in touch">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                      <label class="form-label">Description</label>
+                      <textarea name="secure_cta[description]" class="form-control" rows="3" placeholder="Cyber threats continue to evolve...">{{page.secure_cta.description}}</textarea>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Button link</label>
+                      <input type="text" name="secure_cta[button_link]" class="form-control" value="{{page.secure_cta.button_link}}" placeholder="/contact-us">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Background image</label>
+                      {{#if page.secure_cta.bg_image}}
+                        <div class="mb-2"><img src="/{{page.secure_cta.bg_image}}" alt="" style="max-height:72px;max-width:100%;object-fit:contain"></div>
+                      {{/if}}
+                      <input type="hidden" name="secure_cta[bg_image]" value="{{page.secure_cta.bg_image}}">
+                      <input type="file" name="secure_cta_bg_file" class="form-control" accept="image/*,.gif,.svg,.webp">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <h5 class="mb-0">Primary threats</h5>
+                  <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRow('threat-rows','threat-template')">Add threat</button>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Heading</label>
+                      <input type="text" name="threats[title]" class="form-control" value="{{page.threats.title}}" placeholder="Primary Threats to Web Applications">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                      <label class="form-label">Description</label>
+                      <textarea name="threats[description]" class="form-control" rows="2" placeholder="Continuous assessment across critical risk areas.">{{page.threats.description}}</textarea>
+                    </div>
+                  </div>
+                  <div id="threat-rows" data-next="{{#if page.threats.items.length}}{{page.threats.items.length}}{{else}}1{{/if}}">
+                    {{#if page.threats.items.length}}
+                      {{#each page.threats.items}}
+                      <div class="border rounded p-3 mb-3 repeater-row">
+                        <div class="row">
+                          <div class="col-md-5 mb-2">
+                            <label class="form-label">Label</label>
+                            <input type="text" name="threats[items][{{@index}}][label]" class="form-control" value="{{label}}" placeholder="Injection Attacks">
+                          </div>
+                          <div class="col-md-5 mb-2">
+                            <label class="form-label">Icon</label>
+                            {{#if icon}}
+                              <div class="mb-2"><img src="/{{icon}}" alt="" style="height:40px;width:40px;object-fit:contain"></div>
+                            {{/if}}
+                            <input type="hidden" name="threats[items][{{@index}}][icon]" value="{{icon}}">
+                            <input type="file" name="threats[items][{{@index}}][icon_file]" class="form-control" accept="image/*,.gif,.svg,.webp">
+                          </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeRow(this)">Remove</button>
+                      </div>
+                      {{/each}}
+                    {{else}}
+                      <div class="border rounded p-3 mb-3 repeater-row">
+                        <div class="row">
+                          <div class="col-md-5 mb-2">
+                            <label class="form-label">Label</label>
+                            <input type="text" name="threats[items][0][label]" class="form-control" placeholder="Injection Attacks">
+                          </div>
+                          <div class="col-md-5 mb-2">
+                            <label class="form-label">Icon</label>
+                            <input type="file" name="threats[items][0][icon_file]" class="form-control" accept="image/*,.gif,.svg,.webp">
+                          </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeRow(this)">Remove</button>
+                      </div>
+                    {{/if}}
+                  </div>
+                </div>
+              </div>
+
+              <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <h5 class="mb-0">Our approach</h5>
+                  <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRow('approach-rows','approach-template')">Add step</button>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-4 mb-3">
+                      <label class="form-label">Eyebrow</label>
+                      <input type="text" name="approach[eyebrow]" class="form-control" value="{{page.approach.eyebrow}}" placeholder="Our Approach">
+                    </div>
+                    <div class="col-md-8 mb-3">
+                      <label class="form-label">Heading</label>
+                      <input type="text" name="approach[title]" class="form-control" value="{{page.approach.title}}" placeholder="How we work together">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                      <label class="form-label">Intro</label>
+                      <textarea name="approach[lede]" class="form-control" rows="2" placeholder="We follow a structured security methodology...">{{page.approach.lede}}</textarea>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Button text</label>
+                      <input type="text" name="approach[cta_text]" class="form-control" value="{{page.approach.cta_text}}" placeholder="Discuss your project">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Button link</label>
+                      <input type="text" name="approach[cta_link]" class="form-control" value="{{page.approach.cta_link}}" placeholder="/contact-us">
+                    </div>
+                  </div>
+                  <div id="approach-rows" data-next="{{#if page.approach.steps.length}}{{page.approach.steps.length}}{{else}}1{{/if}}">
+                    {{#if page.approach.steps.length}}
+                      {{#each page.approach.steps}}
+                      <div class="border rounded p-3 mb-3 repeater-row">
+                        <div class="row">
+                          <div class="col-md-4 mb-2">
+                            <label class="form-label">Step title</label>
+                            <input type="text" name="approach[steps][{{@index}}][title]" class="form-control" value="{{title}}" placeholder="Assess">
+                          </div>
+                          <div class="col-md-8 mb-2">
+                            <label class="form-label">Step text</label>
+                            <textarea name="approach[steps][{{@index}}][text]" class="form-control" rows="2" placeholder="We identify vulnerabilities...">{{text}}</textarea>
+                          </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeRow(this)">Remove</button>
+                      </div>
+                      {{/each}}
+                    {{else}}
+                      <div class="border rounded p-3 mb-3 repeater-row">
+                        <div class="row">
+                          <div class="col-md-4 mb-2">
+                            <label class="form-label">Step title</label>
+                            <input type="text" name="approach[steps][0][title]" class="form-control" placeholder="Assess">
+                          </div>
+                          <div class="col-md-8 mb-2">
+                            <label class="form-label">Step text</label>
+                            <textarea name="approach[steps][0][text]" class="form-control" rows="2" placeholder="We identify vulnerabilities..."></textarea>
+                          </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeRow(this)">Remove</button>
+                      </div>
+                    {{/if}}
+                  </div>
+                </div>
+              </div>
+
+              <div class="card mb-4">
+                <div class="card-header"><h5 class="mb-0">Why it matters</h5></div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Heading</label>
+                      <input type="text" name="why[title]" class="form-control" value="{{page.why.title}}" placeholder="Why Web Application Security Matters">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Button text</label>
+                      <input type="text" name="why[cta_text]" class="form-control" value="{{page.why.cta_text}}" placeholder="Know More">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                      <label class="form-label">Description</label>
+                      <textarea name="why[description]" class="form-control" rows="2" placeholder="Even a single vulnerability can result in:">{{page.why.description}}</textarea>
+                    </div>
+                    <div class="col-md-8 mb-3">
+                      <label class="form-label">Outcome cells (one per line)</label>
+                      <textarea name="why[items]" class="form-control" rows="6" placeholder="Data breaches&#10;Account compromise&#10;Financial loss">{{whyItems}}</textarea>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label class="form-label">Button link</label>
+                      <input type="text" name="why[cta_link]" class="form-control" value="{{page.why.cta_link}}" placeholder="/contact-us">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <h5 class="mb-0">Trusted brands</h5>
+                  <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRow('logo-rows','logo-template')">Add logo</button>
+                </div>
+                <div class="card-body">
+                  <div class="mb-3">
+                    <label class="form-label">Label</label>
+                    <input type="text" name="clients[label]" class="form-control" value="{{page.clients.label}}" placeholder="Trusted by leading brands">
+                  </div>
+                  <div id="logo-rows" data-next="{{#if page.clients.logos.length}}{{page.clients.logos.length}}{{else}}1{{/if}}">
+                    {{#if page.clients.logos.length}}
+                      {{#each page.clients.logos}}
+                      <div class="border rounded p-3 mb-3 repeater-row">
+                        <div class="row">
+                          <div class="col-md-4 mb-2">
+                            <label class="form-label">Alt text</label>
+                            <input type="text" name="clients[logos][{{@index}}][alt]" class="form-control" value="{{alt}}" placeholder="Google">
+                          </div>
+                          <div class="col-md-6 mb-2">
+                            <label class="form-label">Logo</label>
+                            {{#if image}}
+                              <div class="mb-2"><img src="/{{image}}" alt="" style="height:40px;max-width:140px;object-fit:contain"></div>
+                            {{/if}}
+                            <input type="hidden" name="clients[logos][{{@index}}][image]" value="{{image}}">
+                            <input type="file" name="clients[logos][{{@index}}][image_file]" class="form-control" accept="image/*,.gif,.svg,.webp">
+                          </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeRow(this)">Remove</button>
+                      </div>
+                      {{/each}}
+                    {{else}}
+                      <div class="border rounded p-3 mb-3 repeater-row">
+                        <div class="row">
+                          <div class="col-md-4 mb-2">
+                            <label class="form-label">Alt text</label>
+                            <input type="text" name="clients[logos][0][alt]" class="form-control" placeholder="Google">
+                          </div>
+                          <div class="col-md-6 mb-2">
+                            <label class="form-label">Logo</label>
+                            <input type="file" name="clients[logos][0][image_file]" class="form-control" accept="image/*,.gif,.svg,.webp">
+                          </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeRow(this)">Remove</button>
+                      </div>
+                    {{/if}}
+                  </div>
+                </div>
+              </div>
+
+              <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <h5 class="mb-0">Methodology cards</h5>
+                  <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRow('method-rows','method-template')">Add card</button>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Heading</label>
+                      <input type="text" name="methodology[heading]" class="form-control" value="{{page.methodology.heading}}" placeholder="Our Web Application Penetration Testing Services">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                      <label class="form-label">Subheading</label>
+                      <textarea name="methodology[subheading]" class="form-control" rows="2" placeholder="We follow a structured, industry-aligned methodology...">{{page.methodology.subheading}}</textarea>
+                    </div>
+                  </div>
+                  <div id="method-rows" data-next="{{#if page.methodology.cards.length}}{{page.methodology.cards.length}}{{else}}1{{/if}}">
+                    {{#if page.methodology.cards.length}}
+                      {{#each page.methodology.cards}}
+                      <div class="border rounded p-3 mb-3 repeater-row">
+                        <div class="row">
+                          <div class="col-md-4 mb-2">
+                            <label class="form-label">Title</label>
+                            <input type="text" name="methodology[cards][{{@index}}][title]" class="form-control" value="{{title}}" placeholder="Scoping & Planning">
+                          </div>
+                          <div class="col-md-8 mb-2">
+                            <label class="form-label">Text</label>
+                            <textarea name="methodology[cards][{{@index}}][text]" class="form-control" rows="2">{{text}}</textarea>
+                          </div>
+                          <div class="col-md-6 mb-2">
+                            <label class="form-label">Icon</label>
+                            {{#if icon}}
+                              <div class="mb-2"><img src="/{{icon}}" alt="" style="height:40px;width:40px;object-fit:contain"></div>
+                            {{/if}}
+                            <input type="hidden" name="methodology[cards][{{@index}}][icon]" value="{{icon}}">
+                            <input type="file" name="methodology[cards][{{@index}}][icon_file]" class="form-control" accept="image/*,.gif,.svg,.webp">
+                          </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeRow(this)">Remove</button>
+                      </div>
+                      {{/each}}
+                    {{else}}
+                      <div class="border rounded p-3 mb-3 repeater-row">
+                        <div class="row">
+                          <div class="col-md-4 mb-2">
+                            <label class="form-label">Title</label>
+                            <input type="text" name="methodology[cards][0][title]" class="form-control" placeholder="Scoping & Planning">
+                          </div>
+                          <div class="col-md-8 mb-2">
+                            <label class="form-label">Text</label>
+                            <textarea name="methodology[cards][0][text]" class="form-control" rows="2" placeholder="We define the scope, objectives, testing methodology, and engagement rules."></textarea>
+                          </div>
+                          <div class="col-md-6 mb-2">
+                            <label class="form-label">Icon</label>
+                            <input type="file" name="methodology[cards][0][icon_file]" class="form-control" accept="image/*,.gif,.svg,.webp">
+                          </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeRow(this)">Remove</button>
+                      </div>
+                    {{/if}}
+                  </div>
+                </div>
+              </div>
+
+              <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <h5 class="mb-0">Features timeline</h5>
+                  <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRow('feature-rows','feature-template')">Add feature</button>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-4 mb-3">
+                      <label class="form-label">Badge</label>
+                      <input type="text" name="features[badge]" class="form-control" value="{{page.features.badge}}" placeholder="Features">
+                    </div>
+                    <div class="col-md-8 mb-3">
+                      <label class="form-label">Heading</label>
+                      <input type="text" name="features[title]" class="form-control" value="{{page.features.title}}" placeholder="See How Our Features Work For Your Business">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                      <label class="form-label">Intro</label>
+                      <textarea name="features[intro]" class="form-control" rows="2">{{page.features.intro}}</textarea>
+                    </div>
+                  </div>
+                  <div id="feature-rows" data-next="{{#if page.features.steps.length}}{{page.features.steps.length}}{{else}}1{{/if}}">
+                    {{#if page.features.steps.length}}
+                      {{#each page.features.steps}}
+                      <div class="border rounded p-3 mb-3 repeater-row">
+                        <div class="row">
+                          <div class="col-md-4 mb-2">
+                            <label class="form-label">Label</label>
+                            <input type="text" name="features[steps][{{@index}}][label]" class="form-control" value="{{label}}" placeholder="Discovery">
+                          </div>
+                          <div class="col-md-8 mb-2">
+                            <label class="form-label">Detail</label>
+                            <textarea name="features[steps][{{@index}}][body]" class="form-control" rows="2">{{body}}</textarea>
+                          </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeRow(this)">Remove</button>
+                      </div>
+                      {{/each}}
+                    {{else}}
+                      <div class="border rounded p-3 mb-3 repeater-row">
+                        <div class="row">
+                          <div class="col-md-4 mb-2">
+                            <label class="form-label">Label</label>
+                            <input type="text" name="features[steps][0][label]" class="form-control" placeholder="Discovery">
+                          </div>
+                          <div class="col-md-8 mb-2">
+                            <label class="form-label">Detail</label>
+                            <textarea name="features[steps][0][body]" class="form-control" rows="2"></textarea>
+                          </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeRow(this)">Remove</button>
+                      </div>
+                    {{/if}}
+                  </div>
+                </div>
+              </div>
+
+              <div class="card mb-4">
+                <div class="card-header"><h5 class="mb-0">Get started</h5></div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Heading</label>
+                      <input type="text" name="get_started[heading]" class="form-control" value="{{page.get_started.heading}}" placeholder="Get started">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Subheading</label>
+                      <input type="text" name="get_started[subheading]" class="form-control" value="{{page.get_started.subheading}}" placeholder="Secure your web applications before attackers strike">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                      <label class="form-label">Text</label>
+                      <textarea name="get_started[text]" class="form-control" rows="3" placeholder="Request a demo of WhiteNet...">{{page.get_started.text}}</textarea>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label class="form-label">Submit button</label>
+                      <input type="text" name="get_started[button_text]" class="form-control" value="{{page.get_started.button_text}}" placeholder="Book a Call">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label class="form-label">First name label</label>
+                      <input type="text" name="get_started[first_name_label]" class="form-control" value="{{page.get_started.first_name_label}}" placeholder="First Name">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label class="form-label">Last name label</label>
+                      <input type="text" name="get_started[last_name_label]" class="form-control" value="{{page.get_started.last_name_label}}" placeholder="Last Name">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label class="form-label">Email label</label>
+                      <input type="text" name="get_started[email_label]" class="form-control" value="{{page.get_started.email_label}}" placeholder="Company Email">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label class="form-label">Company label</label>
+                      <input type="text" name="get_started[company_label]" class="form-control" value="{{page.get_started.company_label}}" placeholder="Company">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label class="form-label">Country label</label>
+                      <input type="text" name="get_started[country_label]" class="form-control" value="{{page.get_started.country_label}}" placeholder="Country (HQ)">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">How did you hear label</label>
+                      <input type="text" name="get_started[hear_label]" class="form-control" value="{{page.get_started.hear_label}}" placeholder="How did you hear about us?">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Privacy checkbox label</label>
+                      <input type="text" name="get_started[privacy_label]" class="form-control" value="{{page.get_started.privacy_label}}" placeholder="I agree to WhiteNet's Privacy Policy">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                      <label class="form-label">Privacy note</label>
+                      <textarea name="get_started[privacy_text]" class="form-control" rows="2" placeholder="WhiteNet uses the contact information you provide...">{{page.get_started.privacy_text}}</textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Save service page</button>
+              <a href="/securityservicepage" class="btn btn-outline-secondary">Cancel</a>
+            </form>
+          </div>
+          {{>adminfooter}}
+          <template id="threat-template">
+            <div class="border rounded p-3 mb-3 repeater-row">
+              <div class="row">
+                <div class="col-md-5 mb-2">
+                  <label class="form-label">Label</label>
+                  <input type="text" name="threats[items][__i__][label]" class="form-control" placeholder="Injection Attacks">
+                </div>
+                <div class="col-md-5 mb-2">
+                  <label class="form-label">Icon</label>
+                  <input type="file" name="threats[items][__i__][icon_file]" class="form-control" accept="image/*,.gif,.svg,.webp">
+                </div>
+              </div>
+              <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeRow(this)">Remove</button>
+            </div>
+          </template>
+          <template id="approach-template">
+            <div class="border rounded p-3 mb-3 repeater-row">
+              <div class="row">
+                <div class="col-md-4 mb-2">
+                  <label class="form-label">Step title</label>
+                  <input type="text" name="approach[steps][__i__][title]" class="form-control" placeholder="Assess">
+                </div>
+                <div class="col-md-8 mb-2">
+                  <label class="form-label">Step text</label>
+                  <textarea name="approach[steps][__i__][text]" class="form-control" rows="2"></textarea>
+                </div>
+              </div>
+              <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeRow(this)">Remove</button>
+            </div>
+          </template>
+          <template id="logo-template">
+            <div class="border rounded p-3 mb-3 repeater-row">
+              <div class="row">
+                <div class="col-md-4 mb-2">
+                  <label class="form-label">Alt text</label>
+                  <input type="text" name="clients[logos][__i__][alt]" class="form-control" placeholder="Google">
+                </div>
+                <div class="col-md-6 mb-2">
+                  <label class="form-label">Logo</label>
+                  <input type="file" name="clients[logos][__i__][image_file]" class="form-control" accept="image/*,.gif,.svg,.webp">
+                </div>
+              </div>
+              <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeRow(this)">Remove</button>
+            </div>
+          </template>
+          <template id="method-template">
+            <div class="border rounded p-3 mb-3 repeater-row">
+              <div class="row">
+                <div class="col-md-4 mb-2">
+                  <label class="form-label">Title</label>
+                  <input type="text" name="methodology[cards][__i__][title]" class="form-control" placeholder="Scoping & Planning">
+                </div>
+                <div class="col-md-8 mb-2">
+                  <label class="form-label">Text</label>
+                  <textarea name="methodology[cards][__i__][text]" class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-md-6 mb-2">
+                  <label class="form-label">Icon</label>
+                  <input type="file" name="methodology[cards][__i__][icon_file]" class="form-control" accept="image/*,.gif,.svg,.webp">
+                </div>
+              </div>
+              <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeRow(this)">Remove</button>
+            </div>
+          </template>
+          <template id="feature-template">
+            <div class="border rounded p-3 mb-3 repeater-row">
+              <div class="row">
+                <div class="col-md-4 mb-2">
+                  <label class="form-label">Label</label>
+                  <input type="text" name="features[steps][__i__][label]" class="form-control" placeholder="Discovery">
+                </div>
+                <div class="col-md-8 mb-2">
+                  <label class="form-label">Detail</label>
+                  <textarea name="features[steps][__i__][body]" class="form-control" rows="2"></textarea>
+                </div>
+              </div>
+              <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeRow(this)">Remove</button>
+            </div>
+          </template>
+          <script>
+            function addRow(containerId, templateId) {
+              var box = document.getElementById(containerId);
+              var index = box.dataset.next || '0';
+              box.dataset.next = String(Number(index) + 1);
+              var html = document.getElementById(templateId).innerHTML.split('__i__').join(index);
+              box.insertAdjacentHTML('beforeend', html);
+            }
+            function removeRow(button) {
+              var row = button.closest('.repeater-row');
+              if (row) row.remove();
+            }
+          </script>

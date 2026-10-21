@@ -1,0 +1,276 @@
+{{>adminhead}}
+
+<body>
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+      {{>adminsidebar}}
+      <!-- / Menu -->
+
+      <!-- Layout container -->
+      <div class="layout-page">
+        <!-- Navbar -->
+        <!-- / Navbar -->
+
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="py-3 mb-4">
+              <span class="text-muted fw-light">Dashboard/</span>
+              Create Vision
+            </h4>
+            <div class="row">
+              <div class="col-xl">
+                <div class="card mb-4">
+                  <div class="card-body">
+                    <form action="/storevision" method="post" enctype="multipart/form-data">
+                      {{#if vision._id}}
+                      <input type="hidden" name="id" value="{{vision._id}}">
+                      {{/if}}
+<div class="mb-3">
+        <label class="form-label" for="section_1_image">Background Image</label>
+        <input type="file" name="bg_image" class="form-control" id="bg_image" />
+        {{#if vision.bg_image}}
+        <a href="{{vision.bg_image}}" target="_blank" class="openimage">View Image</a>
+        {{/if}}
+    </div>
+                      <!-- Vision Form Fields -->
+                      <div class="mb-3">
+                        <label class="form-label">Main Title</label>
+                        <input type="text" name="main_title" value="{{vision.main_title}}" class="form-control" placeholder="Main Title" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" class="form-control" placeholder="Description">{{vision.description}}</textarea>
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Stock Performance Title</label>
+                        <input type="text" name="stock_performance_title" value="{{vision.stock_performance_title}}" class="form-control" placeholder="Stock Performance Title" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Stock Performance Image</label>
+                        <input type="file" name="stock_performance_image" class="form-control" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Stock Performance Percentage</label>
+                        <input type="text" name="stock_performance_percentage" value="{{vision.stock_performance_percentage}}" class="form-control" placeholder="Stock Performance Percentage" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Stock Performance Small Description</label>
+                        <textarea name="stock_performance_small_description" class="form-control" placeholder="Stock Performance Small Description">{{vision.stock_performance_small_description}}</textarea>
+                      </div>
+
+                      <!-- Profitability Section -->
+                      <div class="mb-3">
+                        <label class="form-label">Profitability Title</label>
+                        <input type="text" name="profitability_title" value="{{vision.profitability_title}}" class="form-control" placeholder="Profitability Title" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Profitability Image</label>
+                        <input type="file" name="profitability_image" class="form-control" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Profitability Percentage</label>
+                        <input type="text" name="profitability_percentage" value="{{vision.profitability_percentage}}" class="form-control" placeholder="Profitability Percentage" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Profitability Small Description</label>
+                        <textarea name="profitability_small_description" class="form-control" placeholder="Profitability Small Description">{{vision.profitability_small_description}}</textarea>
+                      </div>
+
+                      <!-- Future Section -->
+                      <div class="mb-3">
+                        <label class="form-label">Future Title</label>
+                        <input type="text" name="future_title" value="{{vision.future_title}}" class="form-control" placeholder="Future Title" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Future Description</label>
+                        <textarea name="future_description" class="form-control" placeholder="Future Description">{{vision.future_description}}</textarea>
+                      </div>
+
+                      <!-- Vision Section -->
+                      <div class="mb-3">
+                        <label class="form-label">Vision Title</label>
+                        <input type="text" name="vision_title" value="{{vision.vision_title}}" class="form-control" placeholder="Vision Title" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Vision Image</label>
+                        <input type="file" name="vision_image" class="form-control" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Vision Description</label>
+                        <textarea name="vision_description" class="form-control" placeholder="Vision Description">{{vision.vision_description}}</textarea>
+                      </div>
+
+                      <!-- Experience Section -->
+                      <div class="mb-3">
+                        <label class="form-label">Experience Title</label>
+                        <input type="text" name="experince_title" value="{{vision.experince_title}}" class="form-control" placeholder="Experience Title" />
+                      </div>
+
+                      {{#each experienceNumbers as |n|}}
+                      <div class="mb-3">
+                        <label class="form-label">Experience {{n}} Title</label>
+                        <input type="text" name="experince_{{n}}_title" value="{{getDynamicValue ../vision 'experince' n 'title'}}"  class="form-control" placeholder="Experience {{n}} Title" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Experience {{n}} Image</label>
+                        <input type="file" name="experince_{{n}}_image" class="form-control" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Experience {{n}} Description</label>
+                        <textarea name="experince_{{n}}_description" class="form-control" placeholder="Experience {{n}} Description">{{getDynamicValue ../vision 'experince' n 'description'}}</textarea>
+                      </div>
+                      {{/each}}
+
+                      <!-- Outcome Section -->
+                      <div class="mb-3">
+                        <label class="form-label">Outcome Title</label>
+                        <input type="text" name="outcome_title" value="{{vision.outcome_title}}" class="form-control" placeholder="Outcome Title" />
+                      </div>
+
+                      {{#each outcome as |n|}}
+                      <div class="mb-3">
+                        <label class="form-label">Outcome {{n}} Title</label>
+                        <input type="text" name="outcome_{{n}}_title"  class="form-control" value="{{getDynamicValue ../vision 'outcome' n 'title'}}" placeholder="Outcome {{n}} Title" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Outcome {{n}} Image</label>
+                        <input type="file" name="outcome_{{n}}_image" class="form-control" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Outcome {{n}} Description</label>
+                        <textarea name="outcome_{{n}}_description" class="form-control" placeholder="Outcome {{n}} Description">{{getDynamicValue ../vision 'outcome' n 'description'}}</textarea>
+                      </div>
+                      {{/each}}
+
+                      <div class="mb-3">
+                        <label class="form-label">KeyStep Title</label>
+                        <input type="text" name="keystep_title" value="{{vision.keystep_title}}"  class="form-control" placeholder="KeyStep Title" />
+                      </div>
+
+                     
+
+                      <div class="mb-3">
+                        <label class="form-label">KeyStep Description</label>
+                        <textarea name="keystep_description" class="form-control" placeholder="KeyStep Description">{{vision.keystep_description}}</textarea>
+                      </div>
+
+                      
+                      <!-- Key Steps and Edge -->
+                      {{#each keystep as |n|}}
+                      <div class="mb-3">
+                        <label class="form-label">Key Step {{n}} Title</label>
+                        <input type="text" name="keystep_{{n}}_title"  class="form-control" value="{{getDynamicValue ../vision 'keystep' n 'title'}}" placeholder="Key Step {{n}} Title" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Key Step {{n}} Description</label>
+                        <textarea name="keystep_{{n}}_description" class="form-control" placeholder="Key Step {{n}} Description">{{getDynamicValue ../vision 'keystep' n 'description'}}</textarea>
+                      </div>
+                      {{/each}}
+<div class="mb-3">
+                        <label class="form-label">Edge  Title</label>
+                        <input type="text" name="edge_title"  class="form-control" value="{{vision.edge_title}}" placeholder="Edge  Title" />
+                      </div>
+                      {{#each edge as |n|}}
+                      <div class="mb-3">
+                        <label class="form-label">Edge {{n}} Title</label>
+                        <input type="text" name="edge_{{n}}_title"  class="form-control" value="{{getDynamicValue ../vision 'edge' n 'title'}}" placeholder="Edge {{n}} Title" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Edge {{n}} Image</label>
+                        <input type="file" name="edge_{{n}}_image" class="form-control" />
+                      </div>
+                      {{/each}}
+
+                      <!-- Journey Title -->
+                      <div class="mb-3">
+                        <label class="form-label">Journey Title</label>
+                        <input type="text" name="journey_title" value="{{vision.journey_title}}" class="form-control" placeholder="Journey Title" />
+                      </div>
+
+                      {{#each journey as |n|}}
+                      <div class="mb-3">
+                        <label class="form-label">journey {{n}} Title</label>
+                        <input type="text" name="journey_{{n}}_title" value="{{getDynamicValue ../vision 'journey' n 'title'}}"  class="form-control" placeholder="journey {{n}} Title" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">journey {{n}} Image</label>
+                        <input type="file" name="journey_{{n}}_image" class="form-control" />
+                      </div>
+                      {{/each}}
+                       <div class="mb-3">
+                        <label class="form-label">Select Clients</label>
+                        <select id="select2-dropdown" class="form-control" name="clients[]" style="width: 100%;" multiple>
+                          {{#each client}}
+                          
+  <option value="{{this._id}}" data-image="{{url}}{{this.image}}" {{#if (contains this._id ../team.clients)}}selected{{/if}}>{{this.name}}</option>
+                          {{/each}}
+</select>
+                      </div>
+                       <div class="mb-3">
+                        <label class="form-label">Select Testimonials</label>
+                        <select id="select2-dropdowns" class="form-control" name="testimonials[]" style="width: 100%;" multiple>
+                          {{#each testimonial}}
+                          
+  <option value="{{this._id}}" data-image="{{url}}{{this.image}}" {{#if (contains this._id ../team.testimonials)}}selected{{/if}}>{{this.name}}</option>
+                          {{/each}}
+</select>
+                      </div>
+<div class="mb-3">
+                        <label class="form-label">Select Case Study</label>
+                        <select id="select2-dropdowncs" class="form-control" name="service_casestudy[]" style="width: 100%;" multiple>
+                          {{#each casestudy}}
+                          
+  <option value="{{this._id}}" data-image="{{url}}{{this.image}}" {{#if (contains this._id ../team.service_casestudy)}}selected{{/if}}>{{this.name}}</option>
+                          {{/each}}
+</select>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {{>adminfooter}}
+          <script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              ClassicEditor
+                .create(document.querySelector('#editor'), {
+                  autoGrow: false,
+                })
+                .then(editor => {
+                  editor.ui.view.editable.element.style.height = '400px';
+                  console.log(editor);
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+            });
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

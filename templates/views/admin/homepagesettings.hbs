@@ -1,0 +1,278 @@
+{{>adminhead}}
+
+<body>
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+
+      {{>adminsidebar}}
+      <!-- / Menu -->
+
+      <!-- Layout container -->
+      <div class="layout-page">
+        <!-- Navbar -->
+
+        <!-- / Navbar -->
+
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="py-3 mb-4">
+              <span class="text-muted fw-light">Dashboard/</span>
+              Home Page Settings
+            </h4>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card mb-4">
+                  <div class="card-body">
+                    <form action="/homepagestore" method="POST" enctype="multipart/form-data">
+                      <input type="hidden" name="id" value="66fb7e2d419c8a43da4967cc">
+
+                      <!-- Video -->
+<div class="mb-3">
+  <label class="form-label" for="video"><strong>Video</strong></label>
+  <input type="file" name="video" class="form-control" accept="video/*" {{#if home.video}}{{else}}required{{/if}} />
+  {{#if home.video}}
+    <a href="{{home.video}}" target="_blank">View Video</a>
+  {{/if}}
+</div>
+
+<!-- Title -->
+<div class="mb-3">
+  <label class="form-label" for="title"><strong>Title</strong></label>
+  <input type="text" name="title" class="form-control" value="{{home.title}}" placeholder="Enter Title" required />
+</div>
+
+<!-- Small Title -->
+<div class="mb-3">
+  <label class="form-label" for="small_title"><strong>Small Title</strong></label>
+  <input type="text" name="small_title" class="form-control" value="{{home.small_title}}" placeholder="Enter Small Title" required />
+</div>
+
+<div class="mb-3">
+  <label class="form-label" for="small_description">
+    <strong>Small Description</strong>
+  </label>
+  <textarea
+    name="small_description"
+    class="form-control"
+    rows="3"
+    placeholder="Enter Small Description"
+  >{{home.small_description}}</textarea>
+</div>
+<!-- Link 1 Title -->
+<div class="mb-3">
+  <label class="form-label" for="link_1_title">
+    <strong>Link 1 Title</strong>
+  </label>
+  <input
+    type="text"
+    name="link_1_title"
+    class="form-control"
+    value="{{home.link_1_title}}"
+    placeholder="Enter Link 1 Title"
+  />
+</div>
+
+<!-- Link 1 URL -->
+<div class="mb-3">
+  <label class="form-label" for="link_1_link">
+    <strong>Link 1 URL</strong>
+  </label>
+  <input
+    type="url"
+    name="link_1_link"
+    class="form-control"
+    value="{{home.link_1_link}}"
+    placeholder="https://example.com"
+  />
+</div>
+
+<!-- Link 2 Title -->
+<div class="mb-3">
+  <label class="form-label" for="link_2_title">
+    <strong>Link 2 Title</strong>
+  </label>
+  <input
+    type="text"
+    name="link_2_title"
+    class="form-control"
+    value="{{home.link_2_title}}"
+    placeholder="Enter Link 2 Title"
+  />
+</div>
+
+<!-- Link 2 URL -->
+<div class="mb-3">
+  <label class="form-label" for="link_2_link">
+    <strong>Link 2 URL</strong>
+  </label>
+  <input
+    type="url"
+    name="link_2_link"
+    class="form-control"
+    value="{{home.link_2_link}}"
+    placeholder="https://example.com"
+  />
+</div>
+
+                      <!-- Section 1 Heading -->
+                      <div class="mb-3">
+                        <label class="form-label" for="sec_1_heading"><strong>Section 1 Heading</strong></label>
+                        <input type="text" name="sec_1_heading" class="form-control" value="{{home.sec_1_heading}}" placeholder="Enter Section 1 Heading" required />
+                      </div>
+
+                      <!-- Section 1 Title -->
+                      <div class="mb-3">
+                        <label class="form-label" for="sec_1_title"><strong>Section 1 Title</strong></label>
+                        <input type="text" name="sec_1_title" class="form-control" value="{{home.sec_1_title}}" placeholder="Enter Section 1 Title" required />
+                      </div>
+
+                      <!-- Section 1 Image -->
+                      <div class="mb-3">
+                        <label class="form-label" for="sec_1_image"><strong>Section 1 Image</strong></label>
+                        <input type="file" name="sec_1_image" class="form-control" {{#if home.sec_1_image}}{{else}}required{{/if}} />
+                        {{#if home.sec_1_image}}
+                          <a href="javascript:void(0)" image-path="{{home.sec_1_image}}" class="openimage">View Image</a>
+                        {{/if}}
+                      </div>
+                       <!-- Title 1 -->
+  <div class="mb-3">
+    <label class="form-label" for="title_1"><strong>Title 1</strong></label>
+    <input type="text" name="title_1" class="form-control" value="{{home.title_1}}" placeholder="Enter Title 1"  />
+  </div>
+
+  <!-- Image 1 -->
+  <div class="mb-3">
+    <label class="form-label" for="image_1"><strong>Image 1</strong></label>
+    <input type="file" name="image_1" class="form-control" {{#if home.image_1}}{{else}}{{/if}} />
+    {{#if home.image_1}}
+      <a href="javascript:void(0)" image-path="{{home.image_1}}" class="openimage">View Image</a>
+    {{/if}}
+  </div>
+
+  <!-- Description 1 -->
+  <div class="mb-3">
+    <label class="form-label" for="description_1"><strong>Description 1</strong></label>
+    <textarea name="description_1" class="form-control" rows="3" placeholder="Enter Description 1" >{{home.description_1}}</textarea>
+  </div>
+                      <!-- Title 2 -->
+  <div class="mb-3">
+    <label class="form-label" for="title_2"><strong>Title 2</strong></label>
+    <input type="text" name="title_2" class="form-control" value="{{home.title_2}}" placeholder="Enter Title 2"  />
+  </div>
+
+  <!-- Image 2 -->
+  <div class="mb-3">
+    <label class="form-label" for="image_2"><strong>Image 2</strong></label>
+    <input type="file" name="image_2" class="form-control" {{#if home.image_2}}{{else}}{{/if}} />
+    {{#if home.image_2}}
+      <a href="javascript:void(0)" image-path="{{home.image_2}}" class="openimage">View Image</a>
+    {{/if}}
+  </div>
+
+  <!-- Description 2 -->
+  <div class="mb-3">
+    <label class="form-label" for="description_2"><strong>Description 2</strong></label>
+    <textarea name="description_2" class="form-control" rows="3" placeholder="Enter Description 2" >{{home.description_2}}</textarea>
+  </div>
+<!-- Title 3 -->
+  <div class="mb-3">
+    <label class="form-label" for="title_3"><strong>Title 3</strong></label>
+    <input type="text" name="title_3" class="form-control" value="{{home.title_3}}" placeholder="Enter Title 3"  />
+  </div>
+
+  <!-- Image 3 -->
+  <div class="mb-3">
+    <label class="form-label" for="image_3"><strong>Image 3</strong></label>
+    <input type="file" name="image_3" class="form-control" {{#if home.image_3}}{{else}}{{/if}} />
+    {{#if home.image_3}}
+      <a href="javascript:void(0)" image-path="{{home.image_3}}" class="openimage">View Image</a>
+    {{/if}}
+  </div>
+
+  <!-- Description 3 -->
+  <div class="mb-3">
+    <label class="form-label" for="description_3"><strong>Description 3</strong></label>
+    <textarea name="description_3" class="form-control" rows="3" placeholder="Enter Description 3" >{{home.description_3}}</textarea>
+  </div>
+  <!-- Main Different Title -->
+<div class="mb-3">
+  <label class="form-label" for="diffrent_title"><strong>Different Title</strong></label>
+  <input type="text" name="diffrent_title" class="form-control" value="{{home.diffrent_title}}" placeholder="Enter Different Title"  />
+</div>
+
+<!-- Item 1 -->
+<div class="mb-3">
+  <label class="form-label" for="diffrent_title_1"><strong>Different Title 1</strong></label>
+  <input type="text" name="diffrent_title_1" class="form-control" value="{{home.diffrent_title_1}}" placeholder="Enter Title 1"  />
+</div>
+<div class="mb-3">
+  <label class="form-label" for="diffrent_image_1"><strong>Different Image 1</strong></label>
+  <input type="file" name="diffrent_image_1" class="form-control" {{#if home.diffrent_image_1}}{{else}}{{/if}} />
+  {{#if home.diffrent_image_1}}
+    <a href="javascript:void(0)" image-path="{{home.diffrent_image_1}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<!-- Item 2 -->
+<div class="mb-3">
+  <label class="form-label" for="diffrent_title_2"><strong>Different Title 2</strong></label>
+  <input type="text" name="diffrent_title_2" class="form-control" value="{{home.diffrent_title_2}}" placeholder="Enter Title 2"  />
+</div>
+<div class="mb-3">
+  <label class="form-label" for="diffrent_image_2"><strong>Different Image 2</strong></label>
+  <input type="file" name="diffrent_image_2" class="form-control" {{#if home.diffrent_image_2}}{{else}}{{/if}} />
+  {{#if home.diffrent_image_2}}
+    <a href="javascript:void(0)" image-path="{{home.diffrent_image_2}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<!-- Item 3 -->
+<div class="mb-3">
+  <label class="form-label" for="diffrent_title_3"><strong>Different Title 3</strong></label>
+  <input type="text" name="diffrent_title_3" class="form-control" value="{{home.diffrent_title_3}}" placeholder="Enter Title 3"  />
+</div>
+<div class="mb-3">
+  <label class="form-label" for="diffrent_image_3"><strong>Different Image 3</strong></label>
+  <input type="file" name="diffrent_image_3" class="form-control" {{#if home.diffrent_image_3}}{{else}}{{/if}} />
+  {{#if home.diffrent_image_3}}
+    <a href="javascript:void(0)" image-path="{{home.diffrent_image_3}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+<!-- Item 4 -->
+<div class="mb-3">
+  <label class="form-label" for="diffrent_title_4"><strong>Different Title 4</strong></label>
+  <input type="text" name="diffrent_title_4" class="form-control" value="{{home.diffrent_title_4}}" placeholder="Enter Title 4"  />
+</div>
+<div class="mb-3">
+  <label class="form-label" for="diffrent_image_4"><strong>Different Image 4</strong></label>
+  <input type="file" name="diffrent_image_4" class="form-control" {{#if home.diffrent_image_4}}{{else}}{{/if}} />
+  {{#if home.diffrent_image_4}}
+    <a href="javascript:void(0)" image-path="{{home.diffrent_image_4}}" class="openimage">View Image</a>
+  {{/if}}
+</div>
+
+                   
+
+                      <!-- Submit button -->
+                      <div class="float-right">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                        <a href="/dashboard" class="btn btn-danger">Cancel</a>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {{>adminfooter}}
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

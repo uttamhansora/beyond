@@ -1,0 +1,379 @@
+{{>adminhead}}
+
+<body>
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+
+      {{>adminsidebar}}
+      <!-- / Menu -->
+
+      <!-- Layout container -->
+      <div class="layout-page">
+        <!-- Navbar -->
+
+        <!-- / Navbar -->
+
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="py-3 mb-4">
+              <span class="text-muted fw-light">Dashboard/</span>
+              About Page Settings
+            </h4>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card mb-4">
+                  <div class="card-body">
+                    <form action="/aboutpagestore" method="POST" enctype="multipart/form-data">
+                      <input type="hidden" name="id"
+                        value="66fb7e47419c8a43da4967cf">
+ <div class="mb-3">
+        <label class="form-label" for="about_page_title">About Page Title</label>
+        <input type="text" name="about_page_title" class="form-control" id="about_page_title" placeholder="About Page Title" value="{{about.about_page_title}}" />
+    </div>
+                      <!-- Section 1 Title -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="sec_1_title"><strong>Section 1
+                            Title</strong></label>
+                        <input type="text" name="sec_1_title"
+                          class="form-control" value="{{about.sec_1_title}}"
+                          placeholder="Enter Section 1 Title" required />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="practice_section_1_image">Broucher PDF</label>
+                        <input type="file" name="br_pdf"
+                          class="form-control">
+                        {{#if about.br_pdf}}
+                        <a href="javascript:void(0)"
+                          image-path="{{about.br_pdf}}"
+                          class="openimage">View Image</a>
+                        {{/if}}
+                      </div>
+
+                      <!-- Mission Title -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="mission_title"><strong>Mission
+                            Title</strong></label>
+                        <input type="text" name="mission_title"
+                          class="form-control" value="{{about.mission_title}}"
+                          placeholder="Enter Mission Title" required />
+                      </div>
+
+                      <!-- Mission Description -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="mission_description"><strong>Mission
+                            Description</strong></label>
+                        <textarea class="form-control summernote"
+                          name="mission_description" cols="30" rows="10"
+                          placeholder="Enter Mission Description">{{about.mission_description}}</textarea>
+                      </div>
+   <!-- Section 2 Title -->
+                      <div class="mb-3">
+                        <label class="form-label" for="sec_2_title"><strong>Section 2 Title</strong></label>
+                        <input type="text" name="sec_2_title" class="form-control" value="{{about.sec_2_title}}" placeholder="Enter Section 2 Title" required />
+                      </div>
+
+                      <!-- Section 2 Description -->
+                      <div class="mb-3">
+                        <label class="form-label" for="sec_2_description"><strong>Section 2 Description</strong></label>
+                        <textarea class="form-control summernote" name="sec_2_description" cols="30" rows="10">{{about.sec_2_description}}</textarea>
+                      </div>
+                      <!-- Vision Title -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="vision_title"><strong>Vision
+                            Title</strong></label>
+                        <input type="text" name="vision_title"
+                          class="form-control" value="{{about.vision_title}}"
+                          placeholder="Enter Vision Title" required />
+                      </div>
+
+                      <!-- Vision Description -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="vision_description"><strong>Vision
+                            Description</strong></label>
+                        <textarea class="form-control summernote"
+                          name="vision_description" cols="30" rows="10"
+                          placeholder="Enter Vision Description">{{about.vision_description}}</textarea>
+                      </div>
+                      <div id="coreValuesContainer">
+                        {{#each about.core_values}}
+                        <div class="core-value-container">
+                          <input type="text" name="core_values[]"
+                            class="form-control" value="{{this}}"
+                            placeholder="Enter Core Value">
+                          <button type="button"
+                            class="removeCoreValueBtn btn btn-danger btn-sm mt-2 mb-2"><i
+                              class="tf-icons ti ti-trash"></i></button>
+
+                        </div>
+                        {{/each}}
+                      </div>
+
+                      <!-- Button to add new core value fields -->
+                      <button type="button" id="addCoreValueBtn"
+                        class="btn btn-primary btn-sm mb-3">Add Core
+                        Value</button>
+                      <br />
+                      <input type="hidden" id="principlesCount"
+                        value="{{about.principles.length}}">
+                      <h3>Principles</h3>
+                      <div id="principlesContainer">
+                        <div class="principle-container">
+                          {{#each about.principles}}
+                          <input type="text"
+                            name="principles[{{@index}}][title]"
+                            class="form-control mb-1" value="{{this.title}}"
+                            placeholder="Enter Principle Title">
+                          <textarea name="principles[{{@index}}][description]"
+                            class="form-control mb-1"
+                            placeholder="Enter Principle Description">{{this.description}}</textarea>
+                          <button type="button"
+                            class="removePrincipleBtn btn btn-danger btn-sm mt-2 mb-2">Remove</button>
+                          {{/each}}
+                        </div>
+                      </div>
+                      <button id="addPrincipleBtn" type="button"
+                        class="btn btn-primary btn-sm mb-2">Add
+                        Principle</button>
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="practice_area_title">Practice Area Title</label>
+                        <input type="text" name="practice_area_title"
+                          class="form-control" id="practice_area_title"
+                          placeholder="Practice Area Title"
+                          value="{{about.practice_area_title}}" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="practice_area_description">Practice Area
+                          Description</label>
+                        <textarea name="practice_area_description"
+                          class="form-control" id="practice_area_description"
+                          placeholder="Practice Area Description">{{about.practice_area_description}}</textarea>
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="practice_section_1_title">Practice Section 1
+                          Title</label>
+                        <input type="text" name="practice_section_1_title"
+                          class="form-control" id="practice_section_1_title"
+                          placeholder="Practice Section 1 Title"
+                          value="{{about.practice_section_1_title}}" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="practice_section_1_image">Practice Section 1
+                          Image</label>
+                        <input type="file" name="practice_section_1_image"
+                          class="form-control">
+                        {{#if about.practice_section_1_image}}
+                        <a href="javascript:void(0)"
+                          image-path="{{about.practice_section_1_image}}"
+                          class="openimage">View Image</a>
+                        {{/if}}
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="practice_section_1_description">Practice Section
+                          1 Description</label>
+                        <textarea name="practice_section_1_description"
+                          class="form-control"
+                          id="practice_section_1_description"
+                          placeholder="Practice Section 1 Description">{{about.practice_section_1_description}}</textarea>
+                      </div>
+
+                      <!-- Section 2 -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="practice_section_2_title">Practice Section 2
+                          Title</label>
+                        <input type="text" name="practice_section_2_title"
+                          class="form-control" id="practice_section_2_title"
+                          placeholder="Practice Section 2 Title"
+                          value="{{about.practice_section_2_title}}" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="practice_section_2_image">Practice Section 2
+                          Image</label>
+                        <input type="file" name="practice_section_2_image"
+                          class="form-control">
+                        {{#if about.practice_section_2_image}}
+                        <a href="javascript:void(0)"
+                          image-path="{{about.practice_section_2_image}}"
+                          class="openimage">View Image</a>
+                        {{/if}}
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="practice_section_2_description">Practice Section
+                          2 Description</label>
+                        <textarea name="practice_section_2_description"
+                          class="form-control"
+                          id="practice_section_2_description"
+                          placeholder="Practice Section 2 Description">{{about.practice_section_2_description}}</textarea>
+                      </div>
+
+                      <!-- Section 3 -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="practice_section_3_title">Practice Section 3
+                          Title</label>
+                        <input type="text" name="practice_section_3_title"
+                          class="form-control" id="practice_section_3_title"
+                          placeholder="Practice Section 3 Title"
+                          value="{{about.practice_section_3_title}}" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="practice_section_3_image">Practice Section 3
+                          Image</label>
+                        <input type="file" name="practice_section_3_image"
+                          class="form-control">
+                        {{#if about.practice_section_3_image}}
+                        <a href="javascript:void(0)"
+                          image-path="{{about.practice_section_3_image}}"
+                          class="openimage">View Image</a>
+                        {{/if}}
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="practice_section_3_description">Practice Section
+                          3 Description</label>
+                        <textarea name="practice_section_3_description"
+                          class="form-control"
+                          id="practice_section_3_description"
+                          placeholder="Practice Section 3 Description">{{about.practice_section_3_description}}</textarea>
+                      </div>
+
+                      <!-- Principle Section -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="principle_title">Principle Title</label>
+                        <input type="text" name="principle_title"
+                          class="form-control" id="principle_title"
+                          placeholder="Principle Title"
+                          value="{{about.principle_title}}" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="principle_description">Principle
+                          Description</label>
+                        <textarea name="principle_description"
+                          class="form-control" id="principle_description"
+                          placeholder="Principle Description">{{about.principle_description}}</textarea>
+                      </div>
+
+                      <!-- Submit button -->
+                      <div class="float-right">
+                        <button type="submit"
+                          class="btn btn-success">Submit</button>
+                        <a href="/dashboard" class="btn btn-danger">Cancel</a>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {{>adminfooter}}
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+        $(document).ready(function () {
+            // Add new core value input field with a remove button
+            $('#addCoreValueBtn').click(function () {
+                $('#coreValuesContainer').append(`
+                
+                    <div class="core-value-container">
+                      <br/>
+                        <input type="text" name="core_values[]" class="form-control" placeholder="Enter Core Value">
+                        <button type="button" class="removeCoreValueBtn btn btn-danger btn-sm mt-2 mb-2"><i class="tf-icons ti ti-trash"></i></button>
+                    </div>
+                `);
+            });
+
+            // Event delegation for removing a core value field
+            $('#coreValuesContainer').on('click', '.removeCoreValueBtn', function () {
+                $(this).parent('.core-value-container').remove();
+            });
+
+            // Submit the core values (this will send data to the server)
+            $('#submitCoreValuesBtn').click(function () {
+                // Gather the core values
+                var coreValues = $('input[name="core_values[]"]').map(function(){
+                    return $(this).val();
+                }).get();
+
+                // For now, just log it (this is where an AJAX call can be made)
+                console.log('Core Values Submitted:', coreValues);
+
+                // Example of how you'd make an AJAX call (uncomment if needed)
+                /*
+                $.post('/submit-core-values', { core_values: coreValues }, function(response) {
+                    console.log('Server Response:', response);
+                });
+                */
+            });
+            $('#addCoreValueBtn').click(function () {
+                $('#coreValuesContainer').append(`
+                    <div class="core-value-container">
+                        <input type="text" name="core_values[]" class="form-control" placeholder="Enter Core Value">
+                        <button type="button" class="removeCoreValueBtn btn btn-danger btn-sm">Remove</button>
+                    </div>
+                `);
+            });
+
+            // Remove a core value field
+            $('#coreValuesContainer').on('click', '.removeCoreValueBtn', function () {
+                $(this).parent('.core-value-container').remove();
+            });
+            var val=$("#principlesCount").val();
+
+           var attr;
+
+    // Check if val is 0, if so set attr to 1; otherwise, set attr to val
+    if (val == 0) {
+        attr = 1;
+    } else {
+        attr = val; // Use the value of val if it is not 0
+    }
+            // Add a new principle field dynamically
+            $('#addPrincipleBtn').click(function () {
+                $('#principlesContainer').append(`
+                    <div class="principle-container">
+                        <input type="text" name="principles[`+attr+`][title]" class="form-control mb-1" placeholder="Enter Principle Title">
+                        <textarea name="principles[`+attr+`][description]" class="form-control mb-1" placeholder="Enter Principle Description"></textarea>
+                        <button type="button" class="removePrincipleBtn btn btn-danger btn-sm mb-1 ">Remove</button>
+                    </div>
+                `);
+            });
+
+            // Remove a principle field
+            $('#principlesContainer').on('click', '.removePrincipleBtn', function () {
+                $(this).parent('.principle-container').remove();
+            });
+        });
+    </script>

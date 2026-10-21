@@ -1,0 +1,224 @@
+{{>adminhead}}
+
+<body>
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+
+      {{>adminsidebar}}
+      <!-- / Menu -->
+
+      <!-- Layout container -->
+      <div class="layout-page">
+        <!-- Navbar -->
+
+        <!-- / Navbar -->
+
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="py-3 mb-4">
+              <span class="text-muted fw-light">Dashboard/</span>
+              Create Blog
+            </h4>
+            <div class="row">
+              <div class="col-xl">
+                <div class="card mb-4">
+                  <div class="card-body">
+                    <form action="/service12store" method="post"
+                      enctype="multipart/form-data">
+                      {{#if team._id}}
+                      <input type="hidden" name="id" value="{{team._id}}">
+                      {{/if}}
+<div class="mb-3">
+        <label class="form-label" for="section_1_image">Background Image</label>
+        <input type="file" name="bg_image" class="form-control" id="bg_image" />
+        {{#if team.bg_image}}
+        <a href="{{team.bg_image}}" target="_blank" class="openimage">View Image</a>
+        {{/if}}
+    </div>
+                      <!-- Basic Fields -->
+                      <div class="mb-3">
+                        <label class="form-label" for="name">Name</label>
+                        <input type="text" name="name" class="form-control"
+                          value="{{team.name}}" id="name" placeholder="Name" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label" for="main_title">Main
+                          Title</label>
+                        <input type="text" name="main_title"
+                          class="form-control" value="{{team.main_title}}"
+                          id="main_title" placeholder="Main Title" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="description">Description</label>
+                        <textarea name="description" class="form-control"
+                          id="description"
+                          placeholder="Description">{{team.description}}</textarea>
+                      </div>
+
+                      <!-- Outcome Fields -->
+                      <div class="mb-3">
+                        <label class="form-label" for="outcome_title">Outcome
+                          Title</label>
+                        <input type="text" name="outcome_title"
+                          class="form-control" value="{{team.outcome_title}}"
+                          id="outcome_title" placeholder="Outcome Title" />
+                      </div>
+
+                      {{#each outcome as |n|}}
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="outcome_{{n}}_title">Outcome {{n}} Title</label>
+                        <input type="text" name="outcome_{{n}}_title"
+                          class="form-control"
+                          value="{{getDynamicValue ../team 'outcome' n 'title'}}"
+                          id="outcome_{{n}}_title"
+                          placeholder="Outcome {{n}} Title" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="outcome_{{n}}_image">Outcome {{n}}
+                          Image</label>
+                        <input type="file" name="outcome_{{n}}_image"
+                          class="form-control" />
+                        {{#if team.[`outcome_${n}_image`]}}
+                        <a href="/{{team.[`outcome_${n}_image`]}}"
+                          target="_blank">View Current Image</a>
+                        {{/if}}
+                      </div>
+                      {{/each}}
+
+                      <!-- Deliverable Fields -->
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="deliverible_title">Deliverable Title</label>
+                        <input type="text" name="deliverible_title"
+                          class="form-control"
+                          value="{{team.deliverible_title}}"
+                          id="deliverible_title"
+                          placeholder="Deliverable Title" />
+                      </div>
+
+                      {{#each delive as |n|}}
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="deliverables_{{n}}_title">Deliverable {{n}}
+                          Title</label>
+                        <input type="text" name="deliverables_{{n}}_title"
+                          class="form-control"
+                          value="{{getDynamicValue ../team 'deliverables' n 'title'}}"
+                          id="deliverables_{{n}}_title"
+                          placeholder="Deliverable {{n}} Title" />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="deliverables_{{n}}_image">Deliverable {{n}}
+                          Image</label>
+                        <input type="file" name="deliverables_{{n}}_image"
+                          class="form-control" />
+                        {{#if team.[`deliverables_${n}_image`]}}
+                        <a href="/{{team.[`deliverables_${n}_image`]}}"
+                          target="_blank">View Current Image</a>
+                        {{/if}}
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label"
+                          for="deliverables_{{n}}_description">Deliverable {{n}}
+                          Description</label>
+                        <textarea name="deliverables_{{n}}_description"
+                          class="form-control"
+                          id="deliverables_{{n}}_description"
+                          placeholder="Deliverable {{n}} Description">{{getDynamicValue ../team 'deliverables' n 'description'}}</textarea>
+                      </div>
+                      {{/each}}
+
+                      <div class="mb-3">
+  <label class="form-label">Objective Title</label>
+  <input type="text" name="objective_title" class="form-control" value="{{team.objective_title}}" placeholder="Objective Title" />
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Objective Description</label>
+  <textarea name="objective_description" class="form-control" placeholder="Objective Description">{{team.objective_description}}</textarea>
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Objective Finance Title</label>
+  <input type="text" name="object_finance_title" class="form-control" value="{{team.object_finance_title}}" placeholder="Objective Finance Title" />
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Objective Customer Title</label>
+  <input type="text" name="object_customer_title" class="form-control" value="{{team.object_customer_title}}" placeholder="Objective Customer Title" />
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Objective Managerial Title</label>
+  <input type="text" name="object_managerial_title" class="form-control" value="{{team.object_managerial_title}}" placeholder="Objective Managerial Title" />
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Objective Employee Title</label>
+  <input type="text" name="object_employee_title" class="form-control" value="{{team.object_employee_title}}" placeholder="Objective Employee Title" />
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Objective Perdomin Title</label>
+  <input type="text" name="object_perdomin_title" class="form-control" value="{{team.object_perdomin_title}}" placeholder="Objective Perdomin Title" />
+</div>
+  <div class="mb-3">
+                        <label class="form-label">Select Clients</label>
+                        <select id="select2-dropdown" class="form-control" name="clients[]" style="width: 100%;" multiple>
+                          {{#each client}}
+                          
+  <option value="{{this._id}}" data-image="{{url}}{{this.image}}" {{#if (contains this._id ../team.clients)}}selected{{/if}}>{{this.name}}</option>
+                          {{/each}}
+</select>
+                      </div>
+ <div class="mb-3">
+                        <label class="form-label">Select Case Study</label>
+                        <select id="select2-dropdowncs" class="form-control" name="service_casestudy[]" style="width: 100%;" multiple>
+                          {{#each casestudy}}
+                          
+  <option value="{{this._id}}" data-image="{{url}}{{this.image}}" {{#if (contains this._id ../team.service_casestudy)}}selected{{/if}}>{{this.name}}</option>
+                          {{/each}}
+</select>
+                      </div>
+
+                      <button type="submit"
+                        class="btn btn-primary">Submit</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {{>adminfooter}}
+          <script
+            src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              ClassicEditor
+                .create(document.querySelector('#editor'), {
+                  autoGrow: false, // Disable auto grow
+                  // Your other CKEditor configuration options...
+                })
+                .then(editor => {
+                  editor.ui.view.editable.element.style.height = '400px';
+                  console.log(editor);
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+            });
+          </script>
