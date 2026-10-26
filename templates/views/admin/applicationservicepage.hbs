@@ -19,7 +19,8 @@
                     <tr>
                       <th>Title</th>
                       <th>Slug</th>
-                      <th>Category</th>
+                      <th>Main category</th>
+                      <th>Subcategory</th>
                       <th>Status</th>
                       <th>Action</th>
                     </tr>
@@ -38,7 +39,8 @@
                 columns: [
                   { data: 'title' },
                   { data: 'slug' },
-                  { data: 'category' },
+                  { data: 'main_category', defaultContent: '' },
+                  { data: 'subcategory', defaultContent: '' },
                   { data: 'status' },
                   {
                     data: '_id',

@@ -2,6 +2,21 @@
 const mongoose = require('mongoose');
 const SecurityServicePage = require('../models/SecurityServicePage');
 
+const CATEGORY_GROUPS = {
+    'Penetration Testing': ['Application Security', 'Infrastructure and Cloud', 'Advanced'],
+    'Security Assessment': ['Technical Assessments', 'Compliance and Risk Assessments'],
+};
+
+function categoryFields(body) {
+    const main = String(body.main_category || '').trim();
+    const sub = String(body.subcategory || '').trim();
+    const options = CATEGORY_GROUPS[main] || [];
+    if (!options.includes(sub)) {
+        return { main_category: '', subcategory: '', category: '' };
+    }
+    return { main_category: main, subcategory: sub, category: sub };
+}
+
 function generateSlug(name) {
     return String(name || '')
         .toLowerCase()
@@ -63,7 +78,7 @@ function buildPayload(body, files) {
     return {
         title: String(body.title || '').trim(),
         slug: generateSlug(body.slug || body.title),
-        category: body.category || (body.layout === 'application' ? 'Application' : 'Infrastructure'),
+        ...categoryFields(body),
         layout: body.layout === 'application' ? 'application' : 'network',
         status: body.status === 'published' ? 'published' : 'draft',
         meta_title: body.meta_title || '',
@@ -261,6 +276,10 @@ const storesecurityservicepage = async (req, res) => {
             req.session.message = 'Title is required.';
             return res.redirect(back);
         }
+        if (!payload.main_category || !payload.subcategory) {
+            req.session.message = 'Choose a main category and a matching subcategory.';
+            return res.redirect(back);
+        }
 
         const duplicate = await SecurityServicePage.findOne({
             slug: payload.slug,
@@ -393,7 +412,15 @@ async function saveFromApi(req, res, existing) {
         });
         if (body.title === undefined) payload.title = current.title;
         if (body.slug === undefined) payload.slug = current.slug;
-        if (body.category === undefined) payload.category = current.category;
+        if (body.main_category === undefined && body.subcategory === undefined) {
+            payload.main_category = current.main_category || '';
+            payload.subcategory = current.subcategory || '';
+            payload.category = current.category || current.subcategory || '';
+        }
+        if ((body.main_category !== undefined || body.subcategory !== undefined) && (!payload.main_category || !payload.subcategory)) {
+            return res.status(400).json({ success: false, message: 'Choose a main category and a matching subcategory.' });
+        }
+        if (body.category === undefined && body.subcategory === undefined) payload.category = current.category;
         if (body.layout === undefined) payload.layout = current.layout;
         if (body.status === undefined) payload.status = current.status;
         if (body.meta_title === undefined) payload.meta_title = current.meta_title;
@@ -401,6 +428,9 @@ async function saveFromApi(req, res, existing) {
     }
     if (!payload.title || !payload.slug) {
         return res.status(400).json({ success: false, message: 'Title is required.' });
+    }
+    if (!current && (!payload.main_category || !payload.subcategory)) {
+        return res.status(400).json({ success: false, message: 'Choose a main category and a matching subcategory.' });
     }
     const duplicate = await SecurityServicePage.findOne({
         slug: payload.slug,

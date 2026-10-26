@@ -35,11 +35,20 @@
                       <input type="text" name="slug" class="form-control" value="{{page.slug}}" placeholder="web-app-penetration-testing">
                     </div>
                     <div class="col-md-4 mb-3">
-                      <label class="form-label">Category</label>
-                      <select name="category" class="form-control">
-                        <option value="Application" {{#unless page.category}}selected{{/unless}}{{#if (eq page.category 'Application')}}selected{{/if}}>Application</option>
-                        <option value="Infrastructure" {{#if (eq page.category 'Infrastructure')}}selected{{/if}}>Infrastructure</option>
-                        <option value="Advanced" {{#if (eq page.category 'Advanced')}}selected{{/if}}>Advanced</option>
+                      <label class="form-label">Main category</label>
+                      <select name="main_category" id="main-category" class="form-control" required>
+                        <option value="Penetration Testing" {{#if (eq page.main_category 'Penetration Testing')}}selected{{/if}}{{#unless page.main_category}}selected{{/unless}}>Penetration Testing</option>
+                        <option value="Security Assessment" {{#if (eq page.main_category 'Security Assessment')}}selected{{/if}}>Security Assessment</option>
+                      </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label class="form-label">Subcategory</label>
+                      <select name="subcategory" id="subcategory" class="form-control" required>
+                        <option value="Application Security" data-main="Penetration Testing" {{#if (eq page.subcategory 'Application Security')}}selected{{/if}}{{#unless page.subcategory}}selected{{/unless}}>Application Security</option>
+                        <option value="Infrastructure and Cloud" data-main="Penetration Testing" {{#if (eq page.subcategory 'Infrastructure and Cloud')}}selected{{/if}}>Infrastructure and Cloud</option>
+                        <option value="Advanced" data-main="Penetration Testing" {{#if (eq page.subcategory 'Advanced')}}selected{{/if}}>Advanced</option>
+                        <option value="Technical Assessments" data-main="Security Assessment" {{#if (eq page.subcategory 'Technical Assessments')}}selected{{/if}}>Technical Assessments</option>
+                        <option value="Compliance and Risk Assessments" data-main="Security Assessment" {{#if (eq page.subcategory 'Compliance and Risk Assessments')}}selected{{/if}}>Compliance and Risk Assessments</option>
                       </select>
                     </div>
                     <div class="col-md-4 mb-3">
@@ -431,5 +440,23 @@
             function removeRow(button) {
               var row = button.closest('.repeater-row');
               if (row) row.remove();
+            }
+            function syncSubcategories() {
+              var main = document.getElementById('main-category');
+              var sub = document.getElementById('subcategory');
+              if (!main || !sub) return;
+              var first = '';
+              Array.prototype.forEach.call(sub.options, function (option) {
+                var show = option.getAttribute('data-main') === main.value;
+                option.hidden = !show;
+                option.disabled = !show;
+                if (show && !first) first = option.value;
+              });
+              if (sub.selectedOptions.length && sub.selectedOptions[0].disabled) sub.value = first;
+            }
+            var mainCategory = document.getElementById('main-category');
+            if (mainCategory) {
+              mainCategory.addEventListener('change', syncSubcategories);
+              syncSubcategories();
             }
           </script>

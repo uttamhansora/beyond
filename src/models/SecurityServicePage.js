@@ -31,7 +31,9 @@ const logoItem = new Schema({
 const SecurityServicePage = new Schema({
     title: String,
     slug: { type: String, unique: true, index: true },
-    category: { type: String, default: 'Infrastructure' },
+    main_category: { type: String, default: '' },
+    subcategory: { type: String, default: '' },
+    category: { type: String, default: '' },
     layout: { type: String, default: 'network' },
     status: { type: String, default: 'draft' },
     meta_title: String,
