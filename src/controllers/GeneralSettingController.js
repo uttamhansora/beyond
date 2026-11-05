@@ -27,29 +27,23 @@ const generalsettingstore =async (req,res)=>{
       }
 };
 const contactdata =async (req,res)=>{
-  const draw = req.query.draw;
-const start = parseInt(req.query.start, 10);
-const length = parseInt(req.query.length, 10);
-const searchValue = req.query.search.value || '';
-
-// Count total documents
-const totalRecords = await Contact.countDocuments();
-
-// Count documents that match the search value
-const filteredRecords = await Contact.countDocuments({});
-
-// Fetch the actual data with pagination and search
-const coupons = await Contact.find({})
-.sort({ _id: -1 })
-  .skip(start)
-  .limit(length);
-
-res.json({
-  draw: draw,
-  recordsTotal: totalRecords,
-  recordsFiltered: filteredRecords,
-  data: coupons
-});
+  try {
+    const draw = Number.parseInt(req.query.draw, 10) || 0;
+    const start = Math.max(0, Number.parseInt(req.query.start, 10) || 0);
+    const requestedLength = Number.parseInt(req.query.length, 10);
+    const length = Math.min(100, requestedLength > 0 ? requestedLength : 10);
+    const searchValue = String((req.query.search && req.query.search.value) || '').trim();
+    const escaped = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const filter = escaped ? { $or: ['firstName', 'lastName', 'name', 'email', 'phone', 'company', 'country', 'message'].map(field => ({ [field]: { $regex: escaped, $options: 'i' } })) } : {};
+    const [recordsTotal, recordsFiltered, data] = await Promise.all([
+      Contact.countDocuments(),
+      Contact.countDocuments(filter),
+      Contact.find(filter).sort({ createdAt: -1, _id: -1 }).skip(start).limit(length).lean()
+    ]);
+    res.json({ draw, recordsTotal, recordsFiltered, data });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Unable to load contact forms.' });
+  }
 };
 const contact =async (req,res)=>{
   res.render('admin/contact');

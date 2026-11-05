@@ -201,8 +201,34 @@ function success(data, message, statusCode = 200, token) {
 
 const storecontactapi = async (req,res)=>{
   try {
-        const { category,name,email,phone,company,message } = req.body;
-        const newContact = new Contact({ category,name,email,phone,company,message });
+        const body = req.body || {};
+        const clean = value => typeof value === 'string' ? value.trim() : '';
+        const firstName = clean(body.firstName);
+        const lastName = clean(body.lastName);
+        const country = clean(body.country);
+        const email = clean(body.email);
+        const phone = clean(body.phone);
+        const company = clean(body.company);
+        const message = clean(body.message);
+        const privacyAccepted = body.privacyAccepted === true || body.privacyAccepted === 'true';
+        const isNewForm = ['firstName', 'lastName', 'country', 'privacyAccepted'].some(field => Object.prototype.hasOwnProperty.call(body, field));
+
+        if (isNewForm) {
+          const missing = ['firstName', 'lastName', 'email', 'phone', 'company', 'country'].filter(field => !clean(body[field]));
+          if (!privacyAccepted) missing.push('privacyAccepted');
+          if (missing.length) return res.status(400).json({ success: false, message: 'Required fields are missing or invalid.', fields: missing });
+        } else if (!clean(body.name) || !email) {
+          return res.status(400).json({ success: false, message: 'Name and email are required.' });
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          return res.status(400).json({ success: false, message: 'A valid email is required.', fields: ['email'] });
+        }
+
+        const newContact = new Contact({
+          firstName, lastName, name: isNewForm ? `${firstName} ${lastName}` : clean(body.name),
+          email, phone, company, country, message, privacyAccepted,
+          category: clean(body.category)
+        });
         await newContact.save();
         
     //      const emailContent = `

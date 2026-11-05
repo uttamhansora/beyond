@@ -8,18 +8,20 @@
         <div class="content-wrapper">
           <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="py-3 mb-4"><span class="text-muted fw-light">Dashboard /</span> Contact Forms</h4>
-            <!-- Add Coupon Button -->
-            
-            <!-- Coupon Table -->
             <div class="card">
-              <div class="card-datatable text-nowrap">
-                <table id="contact" class="coupons table responsive" data-url="contactdata">
+              <div class="card-datatable table-responsive p-3">
+                <table id="contact" class="table" style="width:100%">
                   <thead>
                     <tr>
-                      <th>Name</th>
+                      <th>Received</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
                       <th>Email</th>
                       <th>Phone</th>
                       <th>Company</th>
+                      <th>Country (HQ)</th>
+                      <th>Inquiry</th>
+                      <th>Privacy Consent</th>
                     </tr>
                   </thead>
                 </table>
@@ -27,26 +29,27 @@
             </div>
           </div>
           {{>adminfooter}}
-          
           <script>
-  
-
-$(document).ready(function() {
-    $('#contact').DataTable({
-        "processing": true,
-        "serverSide": true,
-        "ajax": {
-            "url": $('#contact').data('url'),
-            "type": "GET"
-        },
-        "columns": [
-            { "data": "name" },
-            { "data": "email" },
-            { "data": "phone" },
-            { "data": "company" }
-        ]
-    });
-});
-
- 
-</script>
+            $(function () {
+              function escapeHtml(value) {
+                return $('<div>').text(value == null ? '' : String(value)).html();
+              }
+              $('#contact').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: { url: '/contactdata', type: 'GET' },
+                order: [],
+                columns: [
+                  { data: 'createdAt', render: function (value) { return value ? escapeHtml(new Date(value).toLocaleString()) : ''; } },
+                  { data: 'firstName', defaultContent: '', render: function (value, type, row) { return escapeHtml(value || (!row.lastName ? row.name : '')); } },
+                  { data: 'lastName', defaultContent: '', render: escapeHtml },
+                  { data: 'email', render: escapeHtml },
+                  { data: 'phone', render: escapeHtml },
+                  { data: 'company', render: escapeHtml },
+                  { data: 'country', defaultContent: '', render: escapeHtml },
+                  { data: 'message', defaultContent: '', render: escapeHtml },
+                  { data: 'privacyAccepted', defaultContent: '', render: function (value) { return value ? 'Yes' : 'No'; } }
+                ]
+              });
+            });
+          </script>
