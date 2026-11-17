@@ -1,14 +1,4 @@
 'use strict';
-const jwt = require('jsonwebtoken');
-const JWTKEY = process.env.JWTKEY || 'vernalis';
-const nodemailer = require('nodemailer');
-const bcrypt = require('bcrypt');
-
-const randomstring = require('randomstring');
-const blacklistedTokens = new Set();
-const { v4: uuidv4 } = require('uuid');
-const Razorpay = require('razorpay');
-const paypal = require('@paypal/checkout-server-sdk');
 const axios = require('axios');
 const Home = require('../models/Home');
 const CaseCategory = require('../models/CaseCategory');
@@ -146,24 +136,6 @@ async function createShipment(order,shiprocketToken) {
 }
 
 
-const payPalClient = new paypal.core.PayPalHttpClient(new paypal.core.SandboxEnvironment(
-  'AZhTMwX7pZQdl7neO6qIO6a2gjsvYyjK57UT9pZZKjo2J5AwcZmPD5LHTHkQXBa4QXIWbZthzadnws91',
-  'EM4-OlUUPyQtfn5zIEXJlnzwwZ_F7Y7eXvf3CvD3KdSUEIG3QT-F3gpsyh1c4Eqo_jExhhy_7re5piCw'
-));
-
-// Initialize Razorpay instance
-const razorpay = new Razorpay({
-  key_id: 'rzp_test_ZbgRSZq38XO7o6',
-  key_secret: 'wlKz8I0EfdGXe19vbptaicgu'
-});
-
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'odemo134@gmail.com',
-    pass: 'dejbxrnhuvsbcevc',
-  },
-});
 function success(data, message, statusCode = 200, token) {
     return {
       success: true,
@@ -181,35 +153,30 @@ function success(data, message, statusCode = 200, token) {
   
   
   });
-  function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-    if (token == null) return res.sendStatus(401);
-  
-    // Check if the token is blacklisted
-    if (blacklistedTokens.has(token)) {
-      return res.sendStatus(403);
-    }
-  
-    jwt.verify(token, SECRET_KEY, (err, user) => {
-      if (err) return res.sendStatus(403);
-      req.user = user;
-      next();
-    });
-  }
+function textField(value, max) {
+  if (typeof value !== 'string') return '';
+  return value.trim().slice(0, max);
+}
 
+function validEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function publicFail(res, status = 400) {
+  return res.status(status).json({ success: false, message: 'Request failed' });
+}
 
 const storecontactapi = async (req,res)=>{
   try {
         const body = req.body || {};
-        const clean = value => typeof value === 'string' ? value.trim() : '';
-        const firstName = clean(body.firstName);
-        const lastName = clean(body.lastName);
-        const country = clean(body.country);
-        const email = clean(body.email);
-        const phone = clean(body.phone);
-        const company = clean(body.company);
-        const message = clean(body.message);
+        const clean = value => textField(value, 4000);
+        const firstName = textField(body.firstName, 80);
+        const lastName = textField(body.lastName, 80);
+        const country = textField(body.country, 80);
+        const email = textField(body.email, 254).toLowerCase();
+        const phone = textField(body.phone, 30);
+        const company = textField(body.company, 120);
+        const message = textField(body.message, 4000);
         const privacyAccepted = body.privacyAccepted === true || body.privacyAccepted === 'true';
         const isNewForm = ['firstName', 'lastName', 'country', 'privacyAccepted'].some(field => Object.prototype.hasOwnProperty.call(body, field));
 
@@ -225,9 +192,9 @@ const storecontactapi = async (req,res)=>{
         }
 
         const newContact = new Contact({
-          firstName, lastName, name: isNewForm ? `${firstName} ${lastName}` : clean(body.name),
+          firstName, lastName,           name: isNewForm ? `${firstName} ${lastName}` : textField(body.name, 160),
           email, phone, company, country, message, privacyAccepted,
-          category: clean(body.category)
+          category: textField(body.category, 80)
         });
         await newContact.save();
         
@@ -255,34 +222,46 @@ const storecontactapi = async (req,res)=>{
         
         return res.status(200).json(success([], "Contact Stored successfully"));
     } catch (err) {
-        res.status(400).json({ error: err.message });
+        console.error('Contact form failed');
+        return publicFail(res);
     }
 }
 
 const applycareerform = async (req, res) => {
     try {
-    req.body.cv = req.file.path;
-            let body = req.body;
-            const team = new Careerform(req.body);
-            let response = await Careerform(body);
-            await team.save();
-  
-  return res.status(200).json(success([], "Career Form stored successfully"));
-      
+      const body = req.body || {};
+      const f_name = textField(body.f_name, 80);
+      const l_name = textField(body.l_name, 80);
+      const number = textField(body.number, 30);
+      const email = textField(body.email, 254).toLowerCase();
+      const why_join = textField(body.why_join, 4000);
+      const career_id = textField(body.career_id, 40);
+      if (!f_name || !validEmail(email) || !req.file) {
+        return res.status(400).json({ success: false, message: 'Name, a valid email, and a PDF or Word CV are required.' });
+      }
+      await Careerform.create({
+        f_name,
+        l_name,
+        number,
+        email,
+        why_join,
+        career_id,
+        cv: req.file.path,
+      });
+      return res.status(200).json(success([], "Career Form stored successfully"));
     } catch (err) {
-      return res.status(400).json({ error: err.message });
+      console.error('Career form failed');
+      return publicFail(res);
     }
   };
 const storenewsapi = async (req,res)=>{
   try {
-      const { email } = req.body;
+      const email = textField(req.body && req.body.email, 254).toLowerCase();
 
-      // Validate the email
-      if (!email) {
+      if (!validEmail(email)) {
           return res.status(400).json({ message: 'Invalid email address' });
       }
 
-      // Check if the email already exists in the database
       const existingSubscription = await NewsLetter.findOne({ email });
       if (existingSubscription) {
           return res.status(409).json({ message: 'Email is already subscribed' });
@@ -294,17 +273,16 @@ const storenewsapi = async (req,res)=>{
 
       return res.status(200).json(success(newSubscription, "Subscribed successfully"));
   } catch (error) {
-      res.status(500).json({ message: 'An error occurred while subscribing', error: error.message });
+      return publicFail(res, 500);
   }
 }
 
 const getblogs = async (req, res) => {
   try {
       const category=await BlogCategory.find({});
-    const { category_id } = req.body; // Assuming you're getting category_id from the request query
+    const categoryId = textField(req.body && req.body.category_id, 40);
     const latestblogs=await Blog.find({is_latest:true})
-// Build the filter object
-const filter = category_id ? { category_id } : {};
+const filter = categoryId ? { category_id: categoryId } : {};
 
 // Fetch the blogs data with the filter applied
 const blogsdata = await Blog.find(filter);
@@ -315,13 +293,15 @@ const response={
 }
     res.json(success(response, 'Blogs Get SuccessFully.'));
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const blogdetails = async (req, res) => {
   try {
     // Fetch the primary blog data based on the slug
-    const blogData = await Blog.findOne({ slug: req.body.slug });
+    const slug = textField(req.body && req.body.slug, 200);
+    if (!slug) return res.status(404).json({ message: "Blog not found" });
+    const blogData = await Blog.findOne({ slug });
     if (!blogData) {
       return res.status(404).json({ message: "Blog not found" });
     }
@@ -341,7 +321,7 @@ const blogdetails = async (req, res) => {
     });
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const dynamicservice = async (req, res) => {
@@ -352,13 +332,15 @@ const blogsdata = await DynamicService.find({});
 
     res.json(success(blogsdata, 'Dynamic Service Get SuccessFully.'));
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const dynamicservicedetails = async (req, res) => {
   try {
     // Fetch the primary blog data based on the slug
-    const blogData = await DynamicService.findOne({ slug: req.body.slug }).populate(['clients', 'testimonials']);
+    const slug = textField(req.body && req.body.slug, 200);
+    if (!slug) return res.status(404).json({ message: "Dynamic Service not found" });
+    const blogData = await DynamicService.findOne({ slug }).populate(['clients', 'testimonials']);
     const download = await Download.find({}).sort({ order: 1 });
     const faq = await Dynamicfaq.find({}).sort({ order: 1 });
     const dynamiccenter = await Dynamiccenter.find({}).sort({ order: 1 });
@@ -377,7 +359,7 @@ const dynamicservicedetails = async (req, res) => {
     });
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const getcontactpage = async (req, res) => {
@@ -396,7 +378,7 @@ const getcontactpage = async (req, res) => {
     });
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const getcasestudies = async (req, res) => {
@@ -406,13 +388,12 @@ const getcasestudies = async (req, res) => {
     const category = await CaseCategory.find({});
 
     // Get category_id from request
-    const { category_id } = req.body;
+    const categoryId = textField(req.body && req.body.category_id, 40);
 
     // Latest case studies
     const latestcasestudies = await CaseStudy.find({ is_latest: true });
 
-    // Filter
-    const filter = category_id ? { category_id } : {};
+    const filter = categoryId ? { category_id: categoryId } : {};
 
     // Case studies data
     const casestudies = await CaseStudy.find(filter);
@@ -426,13 +407,15 @@ const getcasestudies = async (req, res) => {
     res.json(success(response, 'Case Studies Get SuccessFully.'));
     
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const casestudiesdetails = async (req, res) => {
   try {
     // Fetch the primary blog data based on the slug
-    const blogData = await CaseStudy.findOne({ slug: req.body.slug });
+    const slug = textField(req.body && req.body.slug, 200);
+    if (!slug) return res.status(404).json({ message: "Case Study not found" });
+    const blogData = await CaseStudy.findOne({ slug });
     if (!blogData) {
       return res.status(404).json({ message: "Case Study not found" });
     }
@@ -445,7 +428,7 @@ const casestudiesdetails = async (req, res) => {
     });
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const careerpage = async (req, res) => {
@@ -469,7 +452,7 @@ const careerpage = async (req, res) => {
     }
     res.json(success(response, 'Career Get SuccessFully.'));
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const getclients = async (req, res) => {
@@ -496,7 +479,7 @@ const getclients = async (req, res) => {
     }
     res.json(success(response, 'Client Get SuccessFully.'));
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const getteams = async (req, res) => {
@@ -522,7 +505,7 @@ const getteams = async (req, res) => {
     }
     res.json(success(response, 'Team Get SuccessFully.'));
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 
@@ -549,7 +532,7 @@ const getdownloads = async (req, res) => {
     }
     res.json(success(response, 'Download Get SuccessFully.'));
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 
@@ -571,7 +554,7 @@ const gethomepage = async (req, res) => {
     res.json(success(response, 'Home Details Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const getaboutpage = async (req, res) => {
@@ -588,7 +571,7 @@ const getaboutpage = async (req, res) => {
     res.json(success(response, 'About Details Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const gettestimonials = async (req, res) => {
@@ -632,7 +615,7 @@ const gettestimonials = async (req, res) => {
     res.json(success(response, 'Testimonials Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const hiperfomanceredic = async (req, res) => {
@@ -646,7 +629,7 @@ const hiperfomanceredic = async (req, res) => {
     res.json(success(response, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const restructuring = async (req, res) => {
@@ -656,7 +639,7 @@ const restructuring = async (req, res) => {
     res.json(success(blogsdata, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const energisinginnovation = async (req, res) => {
@@ -666,7 +649,7 @@ const energisinginnovation = async (req, res) => {
     res.json(success(blogsdata, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const vision = async (req, res) => {
@@ -684,7 +667,7 @@ const vision = async (req, res) => {
     res.json(success(response, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const futurereadiness = async (req, res) => {
@@ -698,7 +681,7 @@ const futurereadiness = async (req, res) => {
     res.json(success(response, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const strategichr = async (req, res) => {
@@ -712,7 +695,7 @@ const strategichr = async (req, res) => {
     res.json(success(response, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const competencymapping = async (req, res) => {
@@ -728,7 +711,7 @@ const competencymapping = async (req, res) => {
     res.json(success(response, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const competencybasedin = async (req, res) => {
@@ -744,7 +727,7 @@ const competencybasedin = async (req, res) => {
     res.json(success(response, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const hiperc = async (req, res) => {
@@ -760,7 +743,7 @@ const hiperc = async (req, res) => {
     res.json(success(response, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const developmentcenters = async (req, res) => {
@@ -782,7 +765,7 @@ const developmentcenters = async (req, res) => {
     res.json(success(response, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const competencebuilding = async (req, res) => {
@@ -804,7 +787,7 @@ const competencebuilding = async (req, res) => {
     res.json(success(response, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const hrexcellence = async (req, res) => {
@@ -816,18 +799,23 @@ const hrexcellence = async (req, res) => {
     res.json(success(response, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const storehrexeform = async (req, res) => {
   try {
-    const { name,email,company } = req.body;
-    const newContact = new HrExeForm({ name,email,company });
-    await newContact.save();
+    const body = req.body || {};
+    const name = textField(body.name, 120);
+    const email = textField(body.email, 254).toLowerCase();
+    const company = textField(body.company, 120);
+    if (!name || !validEmail(email)) {
+      return res.status(400).json({ success: false, message: 'Name and a valid email are required.' });
+    }
+    await HrExeForm.create({ name, email, company });
     res.json(success([], 'Form Submitted SuccessFully.'));
-
   } catch (error) {
-    res.status(400).send(error.message);
+    console.error('HR form failed');
+    return publicFail(res);
   }
 };
 const assesmentcenters = async (req, res) => {
@@ -849,7 +837,7 @@ const assesmentcenters = async (req, res) => {
     res.json(success(response, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const threesixtydegreefeedback = async (req, res) => {
@@ -874,7 +862,7 @@ const threesixtydegreefeedback = async (req, res) => {
     res.json(success(response, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const talentassessment = async (req, res) => {
@@ -900,7 +888,7 @@ const talentassessment = async (req, res) => {
     res.json(success(response, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 
@@ -922,7 +910,7 @@ const leadershipexcellence = async (req, res) => {
     res.json(success(response, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const futureleaders = async (req, res) => {
@@ -941,7 +929,7 @@ const futureleaders = async (req, res) => {
     res.json(success(response, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const executivecoaching = async (req, res) => {
@@ -951,7 +939,7 @@ const executivecoaching = async (req, res) => {
     res.json(success(blogsdata, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const leadershipdevelopment = async (req, res) => {
@@ -979,7 +967,7 @@ const leadershipdevelopment = async (req, res) => {
     res.json(success(response, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const cxoselections = async (req, res) => {
@@ -1003,7 +991,7 @@ const cxoselections = async (req, res) => {
     res.json(success(response, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const getserviceimages = async (req, res) => {
@@ -1062,7 +1050,7 @@ const response = {
     res.json(success(response, 'Service Page Images Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const getservicedes = async (req, res) => {
@@ -1123,7 +1111,7 @@ const getservicedes = async (req, res) => {
     );
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const leadershipbenchmarking = async (req, res) => {
@@ -1151,7 +1139,7 @@ const leadershipbenchmarking = async (req, res) => {
     res.json(success(response, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const dealerpersonnelexcellences = async (req, res) => {
@@ -1171,7 +1159,7 @@ const dealerpersonnelexcellences = async (req, res) => {
     res.json(success(response, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const hiperforg = async (req, res) => {
@@ -1181,7 +1169,7 @@ const hiperforg = async (req, res) => {
     res.json(success(blogsdata, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 const services = async (req, res) => {
@@ -1191,7 +1179,7 @@ const services = async (req, res) => {
     res.json(success(blogsdata, 'Service Page Get SuccessFully.'));
 
   } catch (error) {
-    res.status(400).send(error.message);
+    return publicFail(res);
   }
 };
 

@@ -1,0 +1,234 @@
+{{>adminhead}}
+
+<body>
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      {{>adminsidebar}}
+      <div class="layout-page">
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="py-3 mb-4">
+              <span class="text-muted fw-light">Dashboard /</span>
+              Home Sections
+            </h4>
+            {{#if saved}}
+            <div class="alert alert-success">Home sections saved. The website hero stays as it is. About Us, Resources, and Case Studies update from this page.</div>
+            {{/if}}
+            <p class="text-muted">The first section of the home page (hero) is fixed in the website. Use this page for the About Us block, the Resources cards, and the Case Studies cards.</p>
+
+            <form action="/homesections" method="post" enctype="multipart/form-data" id="home-sections-form">
+              <div class="card mb-4">
+                <div class="card-header"><h5 class="mb-0">About Us</h5></div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Heading</label>
+                      <input type="text" name="about[heading]" class="form-control" value="{{page.about.heading}}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Subheading</label>
+                      <input type="text" name="about[subheading]" class="form-control" value="{{page.about.subheading}}">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                      <label class="form-label">Description</label>
+                      <textarea name="about[description]" class="form-control" rows="5">{{page.about.description}}</textarea>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                      <label class="form-label">Trust line</label>
+                      <input type="text" name="about[trust_line]" class="form-control" value="{{page.about.trust_line}}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Button text</label>
+                      <input type="text" name="about[cta_text]" class="form-control" value="{{page.about.cta_text}}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Button link</label>
+                      <input type="text" name="about[cta_link]" class="form-control" value="{{page.about.cta_link}}" placeholder="/company">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                      <label class="form-label">Image</label>
+                      <input type="hidden" name="about[image]" value="{{page.about.image}}">
+                      <input type="file" name="about_image" class="form-control" accept="image/*">
+                      {{#if page.about.image}}
+                      <a href="{{page.about.image}}" target="_blank" rel="noopener">View current image</a>
+                      {{else}}
+                      <small class="text-muted">Leave empty to keep the image already on the website.</small>
+                      {{/if}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card mb-4" id="resources">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <h5 class="mb-0">Resources</h5>
+                  <button type="button" class="btn btn-sm btn-primary" data-add-row="resource-rows">Add resource</button>
+                </div>
+                <div class="card-body">
+                  <div class="mb-3">
+                    <label class="form-label">Section heading</label>
+                    <input type="text" name="resources_heading" class="form-control" value="{{page.resources.heading}}">
+                  </div>
+                  <div id="resource-rows" data-group="resources" data-file="resource_image">
+                    {{#each page.resources.items}}
+                    <div class="border rounded p-3 mb-3" data-row>
+                      <div class="row">
+                        <div class="col-md-4 mb-3">
+                          <label class="form-label">Label</label>
+                          <input type="text" data-field="eyebrow" class="form-control" value="{{eyebrow}}" placeholder="Blog">
+                        </div>
+                        <div class="col-md-8 mb-3">
+                          <label class="form-label">Title</label>
+                          <input type="text" data-field="title" class="form-control" value="{{title}}">
+                        </div>
+                        <div class="col-md-8 mb-3">
+                          <label class="form-label">Link</label>
+                          <input type="text" data-field="link" class="form-control" value="{{this.link}}" placeholder="/blog/article-slug">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                          <label class="form-label">Button text</label>
+                          <input type="text" data-field="cta" class="form-control" value="{{cta}}" placeholder="Read now">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                          <label class="form-label">Image</label>
+                          <input type="hidden" data-field="image" value="{{image}}">
+                          <input type="file" data-field="image-file" class="form-control" accept="image/*">
+                          {{#if image}}
+                          <a href="{{image}}" target="_blank" rel="noopener">View current image</a>
+                          {{/if}}
+                        </div>
+                      </div>
+                      <button type="button" class="btn btn-sm btn-outline-danger" data-remove-row>Remove</button>
+                    </div>
+                    {{/each}}
+                  </div>
+                </div>
+              </div>
+
+              <div class="card mb-4" id="case-studies">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <h5 class="mb-0">Case Studies</h5>
+                  <button type="button" class="btn btn-sm btn-primary" data-add-row="case-rows">Add case study</button>
+                </div>
+                <div class="card-body">
+                  <div class="mb-3">
+                    <label class="form-label">Section heading</label>
+                    <input type="text" name="case_studies_heading" class="form-control" value="{{page.case_studies.heading}}">
+                  </div>
+                  <div id="case-rows" data-group="case_studies" data-file="case_image">
+                    {{#each page.case_studies.items}}
+                    <div class="border rounded p-3 mb-3" data-row>
+                      <div class="row">
+                        <div class="col-md-4 mb-3">
+                          <label class="form-label">Label</label>
+                          <input type="text" data-field="eyebrow" class="form-control" value="{{eyebrow}}" placeholder="Case Study">
+                        </div>
+                        <div class="col-md-8 mb-3">
+                          <label class="form-label">Title</label>
+                          <input type="text" data-field="title" class="form-control" value="{{title}}">
+                        </div>
+                        <div class="col-md-8 mb-3">
+                          <label class="form-label">Link</label>
+                          <input type="text" data-field="link" class="form-control" value="{{this.link}}" placeholder="/case-studies">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                          <label class="form-label">Button text</label>
+                          <input type="text" data-field="cta" class="form-control" value="{{cta}}" placeholder="Read now">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                          <label class="form-label">Image</label>
+                          <input type="hidden" data-field="image" value="{{image}}">
+                          <input type="file" data-field="image-file" class="form-control" accept="image/*">
+                          {{#if image}}
+                          <a href="{{image}}" target="_blank" rel="noopener">View current image</a>
+                          {{/if}}
+                        </div>
+                      </div>
+                      <button type="button" class="btn btn-sm btn-outline-danger" data-remove-row>Remove</button>
+                    </div>
+                    {{/each}}
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-success">Save</button>
+              <a href="/dashboard" class="btn btn-danger">Cancel</a>
+            </form>
+          </div>
+          {{>adminfooter}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <template id="card-row-template">
+    <div class="border rounded p-3 mb-3" data-row>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Label</label>
+          <input type="text" data-field="eyebrow" class="form-control" placeholder="Blog">
+        </div>
+        <div class="col-md-8 mb-3">
+          <label class="form-label">Title</label>
+          <input type="text" data-field="title" class="form-control">
+        </div>
+        <div class="col-md-8 mb-3">
+          <label class="form-label">Link</label>
+          <input type="text" data-field="link" class="form-control" placeholder="/blog/article-slug">
+        </div>
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Button text</label>
+          <input type="text" data-field="cta" class="form-control" placeholder="Read now">
+        </div>
+        <div class="col-md-12 mb-3">
+          <label class="form-label">Image</label>
+          <input type="hidden" data-field="image" value="">
+          <input type="file" data-field="image-file" class="form-control" accept="image/*">
+        </div>
+      </div>
+      <button type="button" class="btn btn-sm btn-outline-danger" data-remove-row>Remove</button>
+    </div>
+  </template>
+
+  <script>
+    (function () {
+      function reindex(container) {
+        var group = container.getAttribute('data-group');
+        var file = container.getAttribute('data-file');
+        var rows = container.querySelectorAll('[data-row]');
+        Array.prototype.forEach.call(rows, function (row, index) {
+          Array.prototype.forEach.call(row.querySelectorAll('[data-field]'), function (input) {
+            var field = input.getAttribute('data-field');
+            input.name = field === 'image-file'
+              ? file + '_' + index
+              : group + '[' + index + '][' + field + ']';
+          });
+        });
+      }
+
+      function reindexAll() {
+        document.querySelectorAll('[data-group]').forEach(reindex);
+      }
+
+      document.querySelectorAll('[data-add-row]').forEach(function (button) {
+        button.addEventListener('click', function () {
+          var container = document.getElementById(button.getAttribute('data-add-row'));
+          var template = document.getElementById('card-row-template');
+          container.appendChild(template.content.cloneNode(true));
+          reindexAll();
+        });
+      });
+
+      document.addEventListener('click', function (event) {
+        var button = event.target.closest('[data-remove-row]');
+        if (!button) return;
+        var row = button.closest('[data-row]');
+        if (row) row.remove();
+        reindexAll();
+      });
+
+      document.getElementById('home-sections-form').addEventListener('submit', reindexAll);
+      reindexAll();
+    })();
+  </script>
+</body>

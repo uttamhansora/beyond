@@ -12,6 +12,10 @@ const User = new Schema({
     },
     email: {
         type: String,
+        required: true,
+        unique: true,
+        lowercase: true,
+        trim: true,
     },
     mobile: {
         type: String,
@@ -19,7 +23,8 @@ const User = new Schema({
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        select: false,
     },
     role: {
         type: String,
@@ -31,8 +36,16 @@ const User = new Schema({
     },
     otp:{
         type:String,
-       default:""
+       default:"",
+       select: false,
     }
-}, {timestamps: true});
+}, { timestamps: true, autoIndex: false });
+
+User.methods.toJSON = function () {
+    const obj = this.toObject();
+    delete obj.password;
+    delete obj.otp;
+    return obj;
+};
 
 module.exports = mongoose.model('User', User);

@@ -4,32 +4,27 @@ const ModelConfig = require('../src/models/ModelConfig');
 const modelCache = {};
 
 async function createDynamicModel(modelName) {
-    // Check if the model is already cached
-    if (modelCache[modelName]) return modelCache[modelName];
-  
-    // Check if the model already exists in Mongoose's model registry
-    if (mongoose.models[modelName]) {
-      console.log(`Model ${modelName} already exists.`);
-      return mongoose.models[modelName];  // Return the existing model
+    if (typeof modelName !== 'string' || !/^[A-Za-z][A-Za-z0-9_]{0,40}$/.test(modelName)) {
+      throw new Error('Invalid model name');
     }
-  
-    // Fetch the model configuration from the database
-    const config = await ModelConfig.findOne({ "modelName": modelName });
+    if (modelCache[modelName]) return modelCache[modelName];
+
+    const config = await ModelConfig.findOne({ modelName });
     if (!config) throw new Error(`No model configuration found for ${modelName}`);
   
     // Prepare the schema fields dynamically based on the configuration
     const schemaFields = {};
+    const allowedTypes = { String, Number, Boolean, Date };
     config.fields.forEach(field => {
-      // Check if the field type is valid in Mongoose's Schema.Types
-      let fieldType = mongoose.Schema.Types[field.type] || String;
-      schemaFields[field.name] = { type: fieldType, required: field.required || false }; // Default 'required' to false if not provided
+      if (!field || !/^[A-Za-z][A-Za-z0-9_]{0,40}$/.test(field.name || '')) return;
+      schemaFields[field.name] = {
+        type: allowedTypes[field.type] || String,
+        required: field.required === true,
+      };
     });
   
-    // Create the schema
-    const schema = new mongoose.Schema(schemaFields, { timestamps: true });
-  
-    // Create the model (only if it doesn't already exist)
-    const model = mongoose.model(modelName, schema);
+    const schema = new mongoose.Schema(schemaFields, { timestamps: true, autoIndex: false });
+    const model = mongoose.models[modelName] || mongoose.model(modelName, schema);
   
     // Cache the created model
     modelCache[modelName] = model;

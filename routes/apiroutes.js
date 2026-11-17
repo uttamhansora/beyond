@@ -2,15 +2,16 @@ const app = require('express').Router();
 const path = require('path');
 const multer = require('multer');
 const {verifyToken} =require('../middleware/auth.js');
+const { requireAdminSession, publicWriteLimit } = require('../middleware/adminAuth');
+const { safeUploadName, extensionAllowed } = require('../helpers/uploadName');
 
 const upload = multer({
     storage: multer.diskStorage({
         destination: (req, file, cb) => cb(null, 'public/files'),
-        filename: (req, file, cb) => {
-            cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname);
-        },
+        filename: (req, file, cb) => cb(null, safeUploadName(file.originalname)),
     }),
-    limits: { fileSize: 1024 * 1024 * 100 },
+    limits: { fileSize: 1024 * 1024 * 20 },
+    fileFilter: (req, file, cb) => cb(null, extensionAllowed(file.originalname)),
 });
 
 const {
@@ -29,8 +30,10 @@ const {
    hiperc,developmentcenters,competencebuilding,hrexcellence,storehrexeform,assesmentcenters,threesixtydegreefeedback,talentassessment,getcasestudies,casestudiesdetails,
    leadershipexcellence,futureleaders,executivecoaching,leadershipdevelopment,cxoselections,leadershipbenchmarking,dealerpersonnelexcellences,pagetitles,services
 } = require('../src/controllers/ApiController');
+const { apiHomeSections } = require('../src/controllers/HomeSectionController');
 
 app.get('/gethomepage',gethomepage);
+app.get('/homesections', apiHomeSections);
 app.post('/getblogs',getblogs);
 app.post('/blogdetails',blogdetails);
 
@@ -44,9 +47,9 @@ app.get('/applicationservicepages', apiapplicationservicepages);
 app.get('/applicationservicepage/:slug', apiapplicationservicepage);
 app.get('/securityservicepage/id/:id', apisecurityservicepagebyid);
 app.get('/securityservicepage/:slug', apisecurityservicepage);
-app.post('/securityservicepage', upload.any(), apicreatesecurityservicepage);
-app.put('/securityservicepage/:id', upload.any(), apiupdatesecurityservicepage);
-app.delete('/securityservicepage/:id', apideletesecurityservicepage);
+app.post('/securityservicepage', requireAdminSession, upload.any(), apicreatesecurityservicepage);
+app.put('/securityservicepage/:id', requireAdminSession, upload.any(), apiupdatesecurityservicepage);
+app.delete('/securityservicepage/:id', requireAdminSession, apideletesecurityservicepage);
 app.get('/getservicedes',getservicedes);
 app.get('/getserviceimages',getserviceimages);
 app.post('/dynamicservicedetails',dynamicservicedetails);
@@ -59,7 +62,7 @@ app.get('/getaboutpage',getaboutpage);
 app.get('/getteams',getteams);
 app.get('/gettestimonials',gettestimonials);
 
-app.post('/storecontactapi',storecontactapi);
+app.post('/storecontactapi', publicWriteLimit, storecontactapi);
 
 
 
@@ -77,7 +80,7 @@ app.get('/hi-perf_conversations',hiperc);
 app.get('/development_centers',developmentcenters);
 app.get('/competence_building',competencebuilding);
 app.get('/hr_excellence',hrexcellence);
-app.post('/storehrexeform',storehrexeform);
+app.post('/storehrexeform', publicWriteLimit, storehrexeform);
 app.get('/assesment_centers',assesmentcenters);
 app.get('/threesixty_degree_feedback',threesixtydegreefeedback);
 app.get('/talent_assessment',talentassessment);

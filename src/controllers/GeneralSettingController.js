@@ -32,8 +32,7 @@ const contactdata =async (req,res)=>{
     const start = Math.max(0, Number.parseInt(req.query.start, 10) || 0);
     const requestedLength = Number.parseInt(req.query.length, 10);
     const length = Math.min(100, requestedLength > 0 ? requestedLength : 10);
-    const searchValue = String((req.query.search && req.query.search.value) || '').trim();
-    const escaped = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const escaped = String((req.query.search && req.query.search.value) || '').trim();
     const filter = escaped ? { $or: ['firstName', 'lastName', 'name', 'email', 'phone', 'company', 'country', 'message'].map(field => ({ [field]: { $regex: escaped, $options: 'i' } })) } : {};
     const [recordsTotal, recordsFiltered, data] = await Promise.all([
       Contact.countDocuments(),

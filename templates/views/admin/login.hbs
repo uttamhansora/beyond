@@ -103,11 +103,14 @@
                 <div class="mb-3">
                   <label for="email" class="form-label">Email or Username</label>
                   <input
-                    type="text"
+                    type="email"
                     class="form-control"
                     id="email"
                     name="email"
-                    placeholder="Enter your email or username"
+                    placeholder="Enter your email"
+                    autocomplete="username"
+                    maxlength="254"
+                    required
                     autofocus />
                 </div>
                 <div class="mb-3 form-password-toggle">
@@ -121,7 +124,10 @@
                       class="form-control"
                       name="password"
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                      aria-describedby="password" />
+                      aria-describedby="password"
+                      autocomplete="current-password"
+                      maxlength="128"
+                      required />
                     <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
                   </div>
                 </div>

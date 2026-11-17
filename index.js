@@ -1,26 +1,35 @@
+require('dotenv').config();
+if (!process.env.SESSION_SECRET || process.env.SESSION_SECRET.length < 32) {
+    console.error('SESSION_SECRET must be set to a random string of at least 32 characters.');
+    process.exit(1);
+}
+if (!process.env.MONGODB_URI) {
+    console.error('MONGODB_URI must be set.');
+    process.exit(1);
+}
 const express = require('express');
 const session = require('express-session')
 const path = require('path');
 const hbs = require('hbs');
 const csv = require('csv-parser');
 var https = require("https");
-const ExcelJS = require('exceljs');
 var fs = require("fs");
 const {verifyToken} =require(path.join(__dirname, '/middleware/auth.js'));
+const { requireAdmin, loginRateLimit, publicWriteLimit, guardAdminRequests } = require(path.join(__dirname, '/middleware/adminAuth.js'));
+const { sanitizeRequest } = require(path.join(__dirname, '/helpers/requestGuard.js'));
+const { safeUploadName, extensionAllowed } = require(path.join(__dirname, '/helpers/uploadName.js'));
 const xlsxPopulate = require('xlsx-populate');
-const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const router = express.Router();
 const flash=require('connect-flash');
 const multer = require('multer');
-const { engine } = require('express-handlebars');
 const cookieParser = require('cookie-parser'),toastr = require('express-toastr');
 var busboy = require('connect-busboy');
 const indexs = require('./routes/apiroutes')
 const admin = require('./routes/admin')
 const dynamicCrud = require('./routes/dynamicCrud')
-const { userLogin,contactforms,users } = require(path.join(__dirname, 'src/controllers/userController'));
+const { userLogin, userLogout, users } = require(path.join(__dirname, 'src/controllers/userController'));
 const { blog,blogs,blogcreate,storeblog,deleteblog} = require(path.join(__dirname, 'src/controllers/BlogController'));
 const { smart360,smart360s,smart360create,storesmart360,deletesmart360} = require(path.join(__dirname, 'src/controllers/SmartController'));
 const { casestudy,casestudys,casestudycreate,storecasestudy,deletecasestudy} = require(path.join(__dirname, 'src/controllers/CaseStudyController'));
@@ -45,13 +54,14 @@ const { product,productcreate,storeproduct,attributecreate,attribute,deleteprodu
 const { categoriescreate,categories} = require(path.join(__dirname, 'src/controllers/CategoryController'));
 const { descriptioncreate,description} = require(path.join(__dirname, 'src/controllers/DescriptionController'));
 const { homeSettings,homepagestore,aboutSettings,aboutpagestore,pagetitle,pagetitlestore,careerpage,careerpagestore,contactpage,contactpagestore} = require(path.join(__dirname, 'src/controllers/HomeController'));
+const { homeSectionForm, homeSectionStore } = require(path.join(__dirname, 'src/controllers/HomeSectionController'));
 const { generalsetting,generalsettingstore,contact,contactdata} = require(path.join(__dirname, 'src/controllers/GeneralSettingController'));
 const { testimonial,testimonialcreate,storetestimonial,deletetestimonial,testimonials} = require(path.join(__dirname, 'src/controllers/TestimonialController'));
 const { list, view, createOrUpdate, deleteEntry } = require(path.join(__dirname, 'src/controllers/sDevelopmentCenterController'));
 const { llist, lview, lcreateOrUpdate, ldeleteEntry } = require(path.join(__dirname, 'src/controllers/lDevelopmentCenterController'));
 const { applycareerform } = require(path.join(__dirname, 'src/controllers/ApiController'));
 const {
-    process,
+    process: processPage,
     processCreate,
     faq,
     faqCreate,
@@ -67,58 +77,68 @@ const User = require(path.join(__dirname, 'src/models/User'));
 
 
 
-const multerS3 = require("multer-s3");
-const { S3Client } = require("@aws-sdk/client-s3");
-
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'public/files');
     },
     filename: (req, file, cb) => {
-        cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname);
+        cb(null, safeUploadName(file.originalname));
     }
-}); 
-  
+});
+
+const careerDir = path.join(__dirname, 'private', 'career-cvs');
+fs.mkdirSync(careerDir, { recursive: true });
+const careerStorage = multer.diskStorage({
+    destination: (req, file, cb) => cb(null, careerDir),
+    filename: (req, file, cb) => cb(null, safeUploadName(file.originalname)),
+});
+const careerUpload = multer({
+    storage: careerStorage,
+    limits: { fileSize: 8 * 1024 * 1024, files: 1 },
+    fileFilter: (req, file, cb) => {
+        cb(null, extensionAllowed(file.originalname, new Set(['.pdf', '.doc', '.docx'])));
+    },
+});
+
 const filefilter = (req, file, cb) => {
-    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype=='video/mp4'
-        || file.mimetype === 'image/jpeg') {
-        cb(null, true);
-    } else {
-        cb(null, false);
-    }
-}
-// const storage = multer.memoryStorage();
-const upload = multer({ storage: storage,limits: { fileSize: 1024 * 1024 * 100 }});
-
-const authMiddleware = (req, res, next) => {
-
-    // let token = req.session.userId;
-        let token =1;
-    if (token) {
-
-        next();
-    } else {
-        res.redirect('/admin-login');
-    }
-
+    cb(null, extensionAllowed(file.originalname));
 };
-router.use(authMiddleware);
+const upload = multer({ storage: storage, limits: { fileSize: 1024 * 1024 * 100 }, fileFilter: filefilter });
 
 const app = express();
 app.use(busboy());
-app.use(cookieParser('secret'));
-
-
-app.use(toastr());
-app.use(flash());
-app.use(bodyParser.json({limit: '100mb'}));
-app.use(bodyParser.urlencoded({ limit: '100mb',extended: true }));
-
-
+app.use(cookieParser(process.env.SESSION_SECRET));
+app.use((req, res, next) => {
+    const limit = (req.path || '').startsWith('/api') ? '300kb' : '20mb';
+    bodyParser.json({ limit })(req, res, next);
+});
+app.use((req, res, next) => {
+    const limit = (req.path || '').startsWith('/api') ? '300kb' : '20mb';
+    bodyParser.urlencoded({ limit, extended: true })(req, res, next);
+});
+app.use(sanitizeRequest);
 app.use(session({
-    secret: 'beyondbackend', resave: true, maxAge: new Date(Date.now() + 3600000), //1 Hour
-    expires: new Date(Date.now() + 3600000), saveUninitialized: true
+    name: 'beyond.sid',
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 60 * 60 * 1000,
+        path: '/',
+    },
 }));
+app.use(flash());
+app.use(toastr());
+app.use((req, res, next) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+    res.setHeader('Referrer-Policy', 'same-origin');
+    res.setHeader('X-Permitted-Cross-Domain-Policies', 'none');
+    next();
+});
 require('./db');
 app.set('view engine', 'hbs');
 
@@ -151,7 +171,7 @@ app.use('*/fonts', express.static('public/admin/assets/fonts'));
 
 app.use('*/admin', express.static('public/admin'));
 
-app.use(cors());
+app.use('/api', cors());
 // app.use(bodyParser.json());
 app.set('views', templatePath);
 hbs.registerHelper('dateFormat', require('handlebars-dateformat'));
@@ -218,8 +238,17 @@ app.use(async function  (req, res, next)
     next();
 });
 
-app.get('/admin-login', (req, res) => { res.render('admin/login',{error:flash('error')}) });
-app.post('/admin-login-post', userLogin);
+app.use(guardAdminRequests);
+app.use(requireAdmin);
+
+app.get('/admin-login', (req, res) => {
+    if (req.session && req.session.userId && req.session.role === 'admin') {
+        return res.redirect('/dashboard');
+    }
+    res.render('admin/login');
+});
+app.post('/admin-login-post', loginRateLimit, userLogin);
+app.post('/admin-logout', userLogout);
 router.get('/dashboard', (req, res, next) => {
     res.render('admin/dashboard');
 
@@ -352,6 +381,8 @@ app.get('/deleteteam/:id?', deleteteam);
 app.get('/homesettings/:id?', homeSettings);
 var multiplefileuploadhome=upload.fields([{name:'slide_image_1'},{name:'slide_image_2'},{name:'slide_image_3'},{name:'sec_1_image'},{name:'sec_2_image'},{name:'sec_3_image'},{name:'video'},{name:'image_1'},{name:'image_2'},{name:'image_3'},{name:'diffrent_image_1'},{name:'diffrent_image_2'},{name:'diffrent_image_3'},{name:'diffrent_image_4'}]);
 app.post('/homepagestore',multiplefileuploadhome, homepagestore);
+app.get('/homesections', homeSectionForm);
+app.post('/homesections', upload.any(), homeSectionStore);
 
 app.get('/aboutsettings/:id?', aboutSettings);
 app.post('/aboutpagestore',upload.any(), aboutpagestore);
@@ -488,7 +519,7 @@ app.get('/deleteservicecategory/:id?', deleteservicecategory);
 
 
 
-app.get('/process', process); // Endpoint for retrieving processes
+app.get('/process', processPage); // Endpoint for retrieving processes
 app.post('/process/create',upload.single('image'), processCreate); // Endpoint for creating processes
 
 app.get('/faq', faq); // Endpoint for retrieving FAQs
@@ -511,7 +542,29 @@ app.get('/contact', contact);
 app.get('/contactdata', contactdata);
 
 app.use('', router);
-app.post('/api/applycareerform',upload.single("cv"),applycareerform);
+app.post('/api/applycareerform', publicWriteLimit, (req, res, next) => {
+    careerUpload.single('cv')(req, res, (err) => {
+        if (err) return res.status(400).json({ success: false, message: 'CV must be a PDF or Word file under 8MB.' });
+        return next();
+    });
+}, applycareerform);
+app.get('/career-cv/:id', async (req, res) => {
+    if (!/^[a-f0-9]{24}$/i.test(req.params.id || '')) {
+        return res.status(404).send('Not found');
+    }
+    const Careerform = require('./src/models/Careerform');
+    const row = await Careerform.findById(req.params.id).select('cv');
+    if (!row || typeof row.cv !== 'string') return res.status(404).send('Not found');
+    const stored = row.cv.replace(/\\/g, '/');
+    const allowedRoots = [
+        path.resolve(careerDir),
+        path.resolve(path.join(__dirname, 'public', 'files')),
+    ];
+    const resolved = path.isAbsolute(stored) ? path.resolve(stored) : path.resolve(__dirname, stored);
+    const allowed = allowedRoots.some((root) => resolved === root || resolved.startsWith(root + path.sep));
+    if (!allowed) return res.status(404).send('Not found');
+    return res.download(resolved);
+});
 // app.post('/api/updateprofile',verifyToken,updateprofile);
 // app.post('/api/updateprofileimage',verifyToken,upload.single('profile'),updateprofileimage);
 // app.post('/api/submitassignment',upload.single("assignment"),verifyToken,submitassignment);

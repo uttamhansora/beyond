@@ -1,9 +1,14 @@
 'use strict';
 const mongoose = require('mongoose');
 
-const mongoUri = 'mongodb+srv://supagrownew:NGFfmQjfkpwyliNn@supagrow-new.yuhrg.mongodb.net/beyondbackend';
+const mongoUri = process.env.MONGODB_URI;
 
 function connectMongo() {
+    if (!mongoUri) {
+        console.error('MONGODB_URI is not set.');
+        process.exit(1);
+    }
+
     mongoose.connect(mongoUri, {}).then(() => {
         console.log('Connected to Mongodb........');
     }).catch((error) => {
@@ -13,5 +18,3 @@ function connectMongo() {
 }
 
 connectMongo();
-
-

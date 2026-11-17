@@ -2,6 +2,14 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
+const homeCard = new Schema({
+    eyebrow: { type: String, default: '' },
+    title: { type: String, default: '' },
+    link: { type: String, default: '' },
+    cta: { type: String, default: '' },
+    image: { type: String, default: '' },
+}, { _id: false });
+
 const Home = new Schema({
     video:String,
     title:String,
@@ -47,7 +55,26 @@ const Home = new Schema({
     },
     sec_1_image: {
         type: String
-    }
+    },
+
+    home_sections_ready: { type: Boolean, default: false },
+    about: {
+        heading: { type: String, default: '' },
+        subheading: { type: String, default: '' },
+        description: { type: String, default: '' },
+        trust_line: { type: String, default: '' },
+        cta_text: { type: String, default: '' },
+        cta_link: { type: String, default: '' },
+        image: { type: String, default: '' },
+    },
+    resources: {
+        heading: { type: String, default: '' },
+        items: [homeCard],
+    },
+    case_studies: {
+        heading: { type: String, default: '' },
+        items: [homeCard],
+    },
 }, {timestamps: true});
 
 module.exports = mongoose.model('Home', Home);
